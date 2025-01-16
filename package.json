@@ -1,8 +1,8 @@
 {
-  "name": "prueba",
+  "name": "app-diprovilm",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "https://ionicframework.com/",
+  "author": "7UG8 UNIANDES",
+  "homepage": "https://diproavilm.com/",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
