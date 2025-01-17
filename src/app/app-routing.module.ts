@@ -4,16 +4,28 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'signin',
+    redirectTo: 'inicio',
     pathMatch: 'full'
   },
   {
     path: 'signin',
-    loadChildren: () => import('./signin/signin.module').then( m => m.SigninPageModule)
+    loadChildren: () => import('./pages/signin/signin.module').then( m => m.SigninPageModule)
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
+  },
+  {
+    path: 'changepass',
+    loadChildren: () => import('./pages/changepass/changepass.module').then( m => m.ChangepassPageModule)
+  },
+  {
+    path: 'createpass',
+    loadChildren: () => import('./pages/createpass/createpass.module').then( m => m.CreatepassPageModule)
+  },
+  {
+    path: 'inicio',
+    loadChildren: () => import('./pages/inicio/inicio.module').then( m => m.InicioPageModule)
   }
 ];
 
