@@ -43,7 +43,7 @@ export class SigninPage implements OnInit {
     //   }
     // });
 
-    this.router.navigate(["/profile"]);
+    this.router.navigate(["/dashboard"]);
   }
   
   changeClave(){

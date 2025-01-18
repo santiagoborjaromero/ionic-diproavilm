@@ -1,4 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { MenuController } from '@ionic/angular';
+
+
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -6,16 +11,32 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
+  private readonly router = inject(Router);
+  private readonly menuCtrl = inject(MenuController)
+  
   public appPages = [
-    { title: 'Usuarios', url: '/folder/profile', icon: 'mail' },
-    { title: 'Productos', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Ingreso', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Egreso', url: '/folder/archived', icon: 'archive' },
-    { title: 'Stock', url: '/folder/trash', icon: 'trash' },
-    // { title: 'Spam', url: '/folder/spam', icon: 'warning' },
+    { title: 'Dashboard', url: '/dashboard', icon: 'stats-chart-outline' },
+    { title: 'Usuarios', url: '/usuarios', icon: 'person-circle-outline' },
+    { title: 'Beneficiarios', url: '/beneficiarios', icon: 'briefcase-outline' },
+    { title: 'Productos', url: '/productos', icon: 'cube-outline' },
+    { title: 'Movimientos', url: '/movimientos', icon: 'file-tray-full-outline' },
+    { title: 'Kardex', url: '/kardex', icon: 'layers-outline' },
+    // { title: 'Reporte', url: '/reporte', icon: 'reader-outline' },
   ];
   public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
   public nombre: string = "Santiago Borja Romero"
 
   constructor() {}
+
+  goLink(link:string){
+    this.menuCtrl.close();
+    this.router.navigate([`/${link}`])
+  }
+
+  logout(){
+    /* Limpieza de peferences */
+
+    this.menuCtrl.close();
+    this.goLink("signin");
+  }
 }
