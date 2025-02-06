@@ -3,9 +3,9 @@
     <div class="header">
       <img alt="Diproavilm Cia. Ltda." src="/assets/images/logo.png" />
       <span class="title">Gestión de Almacén</span>
-      <span>Cambio de contraseña</span>
+      <span>Ingrese usuario y contraseña</span>
     </div>
-
+    
     <div class="body">
       <ion-input
         type="text"
@@ -13,33 +13,17 @@
         [(ngModel)]="username"
         placeholder="Nombre de usuario"
       ></ion-input>
-
-      <ion-input
-        type="password"
-        labelPlacement="stacked"
-        [(ngModel)]="old_password"
-        placeholder="Contraseña anterior"
-      >
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
-
       <ion-input
         type="password"
         labelPlacement="stacked"
         [(ngModel)]="password"
-        placeholder="Contraseña nueva"
+        placeholder="Contraseña"
       >
         <ion-input-password-toggle slot="end"></ion-input-password-toggle>
       </ion-input>
 
-      <ion-input
-        type="password"
-        labelPlacement="stacked"
-        [(ngModel)]="confirm_password"
-        placeholder="Contraseña confirmación"
-      >
-        <ion-input-password-toggle slot="end"></ion-input-password-toggle>
-      </ion-input>
+      <br>
+      <br>
 
       <ion-button
         (click)="signin()"
@@ -47,26 +31,25 @@
         fill="solid"
         expand="block"
       >
-        Cambiar contraseña
+        Ingresar
       </ion-button>
 
-      <br />
-
-      <div className="btns">
+      <div class="btns">
         <ion-button
-          (click)="regresar()"
+          (click)="restablecerClave()"
           fill="clear"
           size="small"
-          color="medium"
-          class="iconos"
         >
-          Regresar
+          Establecer contraseña
+        </ion-button>
+        <ion-button
+          (click)="changeClave()"
+          fill="clear"
+          size="small"
+        >
+          Cambiar contraseña
         </ion-button>
       </div>
-
-      <br />
-
-      <small color="danger">{{seguridad_pass}}</small>
     </div>
   </div>
 </div>
@@ -75,7 +58,7 @@
   <ion-toolbar>
     <ion-title class="t11 center">
       Derechos de Copia ©, <strong>DIPROAVILM Cia. Ltda.</strong>,
-      {{current_year}}, v0.1
+      {{current_year}}, v0.0.1
     </ion-title>
   </ion-toolbar>
 </ion-footer>

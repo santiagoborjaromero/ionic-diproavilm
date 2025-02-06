@@ -1,26 +1,23 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EnvironmentInjector, Injectable, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Injectable, inject } from '@angular/core';
 import { Address } from '../helpers/address.helper';
 import { Observable } from 'rxjs';
+import { ToastController } from '@ionic/angular';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeneralService {
-  public base_url: string
+  private readonly http = inject(HttpClient);
+  private readonly toasCtrl = inject(ToastController);
+  
   public headers: any
   public token: any;
 
-  private readonly http = inject(HttpClient);
-  // private readonly injector = inject(EnvironmentInjector);
-  // private readonly encrpt = inject(Encryption);
-  // private readonly encrouterrpt = inject(Router);
-  private readonly headerHlp = inject(Headers);
-  private readonly addr = inject(Address);
+  public base_url = "http://192.168.1.169/apidiproavilm/?ruta=";
 
   constructor() { 
-    this.base_url = this.addr.getapiUrl();
   }
   
   login(data:any): Observable<any> {

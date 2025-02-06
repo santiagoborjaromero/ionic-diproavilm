@@ -2,6 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { Sessions } from '../../core/helpers/session.helper';
 import { GeneralService } from '../../core/services/general.service';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-changepass',
@@ -12,6 +13,7 @@ import { GeneralService } from '../../core/services/general.service';
 export class ChangepassPage implements OnInit {
   private readonly router = inject(Router);
   private readonly sess = inject(Sessions);
+  private readonly modalCtrl = inject(ModalController);
   // private readonly svc = inject(GeneralService)
 
 
@@ -50,7 +52,8 @@ export class ChangepassPage implements OnInit {
   }
   
   regresar(){
-    this.router.navigate(["/signin"]);
+    // this.router.navigate(["/signin"]);
+    return this.modalCtrl.dismiss(null, 'cancel');
   }
   
 

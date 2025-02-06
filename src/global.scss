@@ -58,3 +58,70 @@ body{
         margin-right: 15px;
     }
 }
+
+.contenido{
+    display: flex;
+    
+    height: 100vh;
+    vertical-align: middle;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background: linear-gradient(#0b7eb3e7, #0b7eb344), 
+              url('/assets/images/granja.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+}
+
+
+.t10{font-size: 10px;}
+.t11{font-size: 11px;}
+.t12{font-size: 12px;}
+.t14{font-size: 14px;}
+
+.screen{
+    background-color: #ffffffbe;
+    width: 95%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.header{
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 20px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+
+    img{
+        width: 150px;
+        margin-top: 20px;
+    }
+
+    .title{
+        font-size: 20px;
+        font-weight: 600;
+        margin-top: 10px;
+    }
+}
+
+.body{
+    width: 90%;
+    background: transparent;
+    .btns{
+        margin-top: 50px;
+        display: flex;
+    }
+    ion-button{
+        text-transform: capitalize;
+        font-size: 12px;
+        color: #000;
+    }
+}
+

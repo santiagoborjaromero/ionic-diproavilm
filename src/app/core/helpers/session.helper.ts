@@ -1,8 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Global } from '../config/global.config';
 import { Encryption } from './encryption.helper';
-// import {CookieService} from 'angular2-cookie/core';
-// import { CookieService } from 'ngx-cookie-service';
 import { Preferences } from '@capacitor/preferences';
 
 @Injectable({
@@ -10,52 +7,25 @@ import { Preferences } from '@capacitor/preferences';
 })
 export class Sessions {
   private readonly encryp = inject(Encryption);
-  // private readonly cookieService = inject(CookieService);
 
-  // constructor(
-  //   private encryp: Encryption,
-  //   private cookieService: CookieService
-  // ) {}
-
-  clear = () => {
-    Preferences.clear();
+  clear = async (): Promise<any> => {
+    await Preferences.clear();
   }
 
-  get = async (key:string) => {
-    key = Global.prefix_storage + key;
-    return await Preferences.get({key: key });
+  get  = async (key:string): Promise<any>  => {
+    const { value } = await Preferences.get({key});
+    if (value){
+      return JSON.parse(atob(value));
+    }
   }
 
-  set = (key:string, value:any) => {
-    key = Global.prefix_storage + key;
-    Preferences.set({key, value});
+  set = async (key:string, data:any): Promise<any>  => {
+    let value = btoa(JSON.stringify(data)); 
+    await Preferences.set({key, value});
   }
 
-  // get = (key:string) => {
-  //   let content: any ;
-  //   try {
-  //     content = this.encryp.decrypt(sessionStorage.getItem(`${Global.prefix_storage}${key}`));
-  //   } catch (ex) {
-  //     content = sessionStorage.getItem(key);
-  //   }
-  //   return content;
-  // };
+  async closeSession(){
+    sessionStorage.clear();
+  }
 
-  // getCookie = (key:any) => {
-  //   let content: string = '';
-  //   try {
-  //     content = this.encryp.decrypt(this.cookieService.get(`${Global.prefix_storage}${key}`));
-  //     // content = this.encryp.decrypt(sessionStorage.getItem(`${Global.prefix_storage}${key}`));
-  //   } catch (ex) {
-  //     content = this.cookieService.get(key);
-  //   }
-  //   return content;
-  // };
-
-  // set = (key:any, data:any): void => {
-  //   try {
-  //     sessionStorage.setItem(`${Global.prefix_storage}${key}`,this.encryp.encryp(data));
-  //     this.cookieService.set( `${Global.prefix_storage}${key}`, this.encryp.encryp(data)); // To Set Cookie
-  //   } catch (ex) {}
-  // };
 }

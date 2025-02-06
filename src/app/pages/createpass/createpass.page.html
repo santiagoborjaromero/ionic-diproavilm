@@ -1,12 +1,12 @@
-<div class="marco">
-  <div>
-    <div class="center header">
-      <img alt="Diproavilm Cia. Ltda." src="/assets/logo.jpg" />
-      <ion-card-title>Gestión de Almacen</ion-card-title>
-      <small><strong>Establezca una contraseña</strong></small>
+<div class="contenido">
+  <div class="screen">
+    <div class="header">
+      <img alt="Diproavilm Cia. Ltda." src="/assets/images/logo.png" />
+      <span class="title">Gestión de Almacén</span>
+      <span>Establezca una contraseña</span>
     </div>
 
-    <div>
+    <div class="body">
       <ion-input
         type="text"
         labelPlacement="stacked"
@@ -33,7 +33,7 @@
 
       <ion-button
         (click)="signin()"
-        color="primary"
+        color="secondary"
         fill="solid"
         expand="block"
       >
@@ -41,23 +41,19 @@
       </ion-button>
 
       <br />
+      <br />
+      <br />
 
-      <ion-toolbar>
-        <ion-buttons slot="start">
-            
-        </ion-buttons>
-        <ion-buttons slot="end">
-          <ion-button
-            (click)="regresar()"
-            fill="clear"
-            size="small"
-            color="medium"
-            class="iconos"
-          >
-            Regresar
-          </ion-button>
-        </ion-buttons>
-      </ion-toolbar>
+      <div class="btns">
+        <ion-button
+          (click)="regresar()"
+          fill="clear"
+          size="small"
+          color="medium"
+        >
+          Regresar
+        </ion-button>
+      </div>
 
       <br />
 
