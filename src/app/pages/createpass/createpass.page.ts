@@ -47,7 +47,6 @@ export class CreatepassPage implements OnInit {
     //   }
     // });
 
-    this.router.navigate(["/profile"]);
   }
   
   regresar(){

@@ -48,7 +48,6 @@ export class ChangepassPage implements OnInit {
     //   }
     // });
 
-    this.router.navigate(["/profile"]);
   }
   
   regresar(){

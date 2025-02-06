@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Encryption } from './encryption.helper';
-import { Preferences } from '@capacitor/preferences';
+
 
 @Injectable({
   providedIn: 'root'
@@ -8,24 +8,36 @@ import { Preferences } from '@capacitor/preferences';
 export class Sessions {
   private readonly encryp = inject(Encryption);
 
-  clear = async (): Promise<any> => {
-    await Preferences.clear();
+  clear = async () => {
+    await sessionStorage.clear();
   }
 
-  get  = async (key:string): Promise<any>  => {
-    const { value } = await Preferences.get({key});
+  get  = (key:string) => {
+    const value = sessionStorage.getItem(key);
     if (value){
-      return JSON.parse(atob(value));
+      return JSON.parse(this.encryp.decrypt(atob(value)));
     }
   }
 
-  set = async (key:string, data:any): Promise<any>  => {
-    let value = btoa(JSON.stringify(data)); 
-    await Preferences.set({key, value});
+  set = (key:string, data:any)  => {
+    let value = btoa(this.encryp.encryp(JSON.stringify(data))); 
+    sessionStorage.setItem(key, value);
   }
 
-  async closeSession(){
-    sessionStorage.clear();
-  }
+  // clear = async (): Promise<any> => {
+  //   await Preferences.clear();
+  // }
+
+  // get  = async (key:string): Promise<any>  => {
+  //   const { value } = await Preferences.get({key});
+  //   if (value){
+  //     return JSON.parse(this.encryp.decrypt(atob(value)));
+  //   }
+  // }
+
+  // set = async (key:string, data:any): Promise<any>  => {
+  //   let value = btoa(this.encryp.encryp(JSON.stringify(data))); 
+  //   await Preferences.set({key, value});
+  // }
 
 }

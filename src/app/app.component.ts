@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { MenuController } from '@ionic/angular';
-
-
+import { Sessions } from './core/helpers/session.helper';
+import { GeneralService } from './core/services/general.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +10,9 @@ import { MenuController } from '@ionic/angular';
   standalone: false,
 })
 export class AppComponent {
-  private readonly router = inject(Router);
-  private readonly menuCtrl = inject(MenuController)
+  private readonly menuCtrl = inject(MenuController);
+  private readonly sess = inject(Sessions);
+  private readonly svc = inject(GeneralService);
   
   public appPages = [
     { title: 'Dashboard', url: '/dashboard', icon: 'stats-chart-outline' },
@@ -23,20 +23,19 @@ export class AppComponent {
     { title: 'Kardex', url: '/kardex', icon: 'layers-outline' },
     // { title: 'Reporte', url: '/reporte', icon: 'reader-outline' },
   ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  public nombre: string = "Santiago Borja Romero"
+  
+  public nombre: string = "Opciones"
 
   constructor() {}
 
   goLink(link:string){
     this.menuCtrl.close();
-    this.router.navigate([`/${link}`])
+    this.svc.goRoute(link);
+    // this.router.navigate([`/${link}`], { replaceUrl: true, skipLocationChange: false })
   }
-
+  
   logout(){
-    /* Limpieza de peferences */
-
-    this.menuCtrl.close();
-    this.goLink("signin");
+    this.sess.clear();
+    this.goLink("login");
   }
 }

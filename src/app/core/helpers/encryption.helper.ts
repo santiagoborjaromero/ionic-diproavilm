@@ -10,7 +10,7 @@ export class Encryption {
   constructor() {
   }
 
-  // encryp(value:any){
+  encryp(value:any){
   //   var key = CryptoJS.enc.Utf8.parse(Global.secret);
   //   var iv = CryptoJS.enc.Utf8.parse(Global.secret);
   //   var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
@@ -23,9 +23,10 @@ export class Encryption {
 
   //   let res = encrypted.toString()
   //   return res;
-  // }
+    return value;
+  }
 
-  // decrypt(value:any){
+  decrypt(value:any){
   //   var key = CryptoJS.enc.Utf8.parse(Global.secret);
   //   var iv = CryptoJS.enc.Utf8.parse(Global.secret);
   //   var decrypted = CryptoJS.AES.decrypt(value, key, {
@@ -36,6 +37,7 @@ export class Encryption {
   //   });
 
   //   return decrypted.toString(CryptoJS.enc.Utf8);
-  // }
+    return value;
+  }
 
 }

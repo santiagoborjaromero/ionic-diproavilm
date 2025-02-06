@@ -34,14 +34,13 @@
 
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
-@import "@ionic/angular/css/palettes/dark.system.css";
-
+// @import "@ionic/angular/css/palettes/dark.system.css";
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
-body{
+html, body{
     font-family: 'Lato', Arial, Helvetica, sans-serif;
-    font-size: 16px;
+    font-size: 14px;
 }
 
 .center{
@@ -61,14 +60,18 @@ body{
 
 .contenido{
     display: flex;
-    
+
     height: 100vh;
     vertical-align: middle;
     justify-content: center;
     align-content: center;
     align-items: center;
-    background: linear-gradient(#0b7eb3e7, #0b7eb344), 
-              url('/assets/images/granja.jpg');
+    background-color: #fff ;
+    // background: linear-gradient(#ffd64fd8, #7a6f0bd3),
+    //background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/granja.jpg');
+    background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/fondo4.jpg');
+    // background-image: url("/assets/images/granja.jpg");
+    color: #000;
     background-size: cover;
     background-repeat: no-repeat;
     background-position: 50% 30%;
@@ -115,13 +118,49 @@ body{
     width: 90%;
     background: transparent;
     .btns{
-        margin-top: 50px;
         display: flex;
-    }
-    ion-button{
-        text-transform: capitalize;
-        font-size: 12px;
+        flex-direction: row;
+        margin-top: 50px;
         color: #000;
+        ion-button{
+            text-transform: capitalize;
+            font-size: 14px;
+            color: #000;
+            // border: 1px solid #2c2c2c;
+        }
     }
 }
 
+
+.derechos{ 
+    display: flex;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+
+ion-button{
+    text-transform: capitalize;
+    font-size: 14px;
+}
+
+.alert-info{
+    --background: #ffffff;
+    --color: #000;
+    --backdrop-opacity: 0.6;
+    --button-background-selected: #ffffff;
+    --button-color: #000000;
+    --ion-color-danger: #000000;
+}
+
+.alert-error{
+    --background: #b4362d;
+    --backdrop-opacity: 0.6;
+    --button-background-selected: #e9e2de;
+    --button-color: #000000;
+    --color: #fff;
+    --ion-color-danger: #000000;
+}

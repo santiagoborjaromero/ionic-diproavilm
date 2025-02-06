@@ -1,3 +1,13 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="regresar()"  color="secondary">
+        <ion-icon name="chevron-back-outline"></ion-icon> Regresar
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
 <div class="contenido">
   <div class="screen">
     <div class="header">
@@ -50,21 +60,21 @@
         Cambiar contraseña
       </ion-button>
 
-      <br />
+      <!-- <br />
 
-      <div className="btns">
+      <div class="btns">
         <ion-button
           (click)="regresar()"
           fill="clear"
           size="small"
-          color="medium"
           class="iconos"
         >
+        <ion-icon name="arrow-back-outline"></ion-icon>
           Regresar
         </ion-button>
       </div>
 
-      <br />
+      <br /> -->
 
       <small color="danger">{{seguridad_pass}}</small>
     </div>
