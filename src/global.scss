@@ -38,6 +38,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
+
+
 html, body{
     font-family: 'Lato', Arial, Helvetica, sans-serif;
     font-size: 14px;
@@ -77,11 +79,29 @@ html, body{
     background-position: 50% 30%;
 }
 
+.bg-danger{background-color: #b4362d; color: #fff; padding: 4px;}
+.bg-warning{background-color: #c96a1c; color: #fff; padding: 4px; }
+.bg-success{background-color: #098814; color: #fff; padding: 4px; }
+
+.redondo{
+    border-radius: 5px;
+}
 
 .t10{font-size: 10px;}
 .t11{font-size: 11px;}
 .t12{font-size: 12px;}
 .t14{font-size: 14px;}
+.t16{font-size: 16px;}
+.t18{font-size: 18px;}
+.t20{font-size: 20px;}
+.t22{font-size: 22px;}
+
+
+.mt-1{margin-top: 4px;}
+.mt-2{margin-top: 8px;}
+.mt-3{margin-top: 12px;}
+.mt-4{margin-top: 16px;}
+.mt-5{margin-top: 20px;}
 
 .screen{
     background-color: #ffffffbe;
@@ -163,4 +183,10 @@ ion-button{
     --button-color: #000000;
     --color: #fff;
     --ion-color-danger: #000000;
+}
+
+
+.flex{
+    display: flex;
+    vertical-align: middle;
 }

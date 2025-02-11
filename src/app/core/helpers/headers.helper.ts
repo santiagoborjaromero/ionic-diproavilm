@@ -9,18 +9,25 @@ import { HttpHeaders } from '@angular/common/http';
 export class Headers {
   constructor(private encryp: Encryption, private sessions: Sessions) { }
   getWithToken = () => {
-    let user: any = this.sessions.get("user");
-    let token = user.token;
+    let token: string = this.sessions.get("token");
     return {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
-      'Access-Control-Allow-Headers': 'Accept,Accept-Language,Content-Language,Content-Type',
-      'Access-Control-Expose-Headers': 'Content-Length,Content-Range',
     };
   }
+
   get = () => {
     return { "Content-Type": 'application/json' };
   }
 }
+
+
+/**
+ * 
+     'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, DELETE',
+      'Access-Control-Allow-Headers': 'Accept,Accept-Language,Content-Language,Content-Type',
+      'Access-Control-Expose-Headers': 'Content-Length,Content-Range',
+ * 
+ * 
+ */

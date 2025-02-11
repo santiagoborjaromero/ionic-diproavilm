@@ -42,6 +42,10 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initial(){
+    this.sess.set("user", "");
+    this.sess.set("token", "");
+    this.sess.set("form", "frmData");
+    this.sess.set("logged", false);
     this.username = "";
     this.password = "";
   }
@@ -103,6 +107,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
         if (resp.status=="ok"){
           let user = resp.message[0];
           this.sess.set("user", user);
+          this.sess.set("token", user.token);
           this.sess.set("form", frmData);
           this.sess.set("logged", true);
           this.service.goRoute("dashboard");
@@ -135,19 +140,21 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   restablecerClave = async () => {
-    const modal = await this.modalCtrl.create({
-      component: CreatepassPage,
-      mode: "ios",
-    })
-    return await modal.present();
-  }
-
-  changeClave = async () => {
-    const modal = await this.modalCtrl.create({
-      component: ChangepassPage,
-      mode: "ios",
-    })
-    return await modal.present();
+    this.router.navigate(['/createpass'],  { replaceUrl: true, skipLocationChange: false })
+    // const modal = await this.modalCtrl.create({
+      //   component: CreatepassPage,
+      //   mode: "ios",
+      // })
+      // return await modal.present();
+    }
+    
+    changeClave = async () => {
+    this.router.navigate(['/changepass'],  { replaceUrl: true, skipLocationChange: false })
+    // const modal = await this.modalCtrl.create({
+    //   component: ChangepassPage,
+    //   mode: "ios",
+    // })
+    // return await modal.present();
   }
 
 }

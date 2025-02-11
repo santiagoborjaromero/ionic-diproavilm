@@ -52,7 +52,8 @@
       </ion-input>
 
       <ion-button
-        (click)="signin()"
+        [disabled]="bloqueo"          
+        (click)="sendData()"
         color="secondary"
         fill="solid"
         expand="block"

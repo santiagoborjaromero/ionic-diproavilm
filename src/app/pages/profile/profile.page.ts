@@ -17,7 +17,7 @@ export class ProfilePage implements OnInit {
 
 
   salir(){
-    this.router.navigate(["/signin"])
+    this.router.navigate(["/login"],  { replaceUrl: true, skipLocationChange: false })
   }
 
 }

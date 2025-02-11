@@ -1,21 +1,9 @@
 import { Injectable, inject } from '@angular/core';
-import { Encryption } from './encryption.helper';
-import { Sessions } from '../helpers/session.helper';
-import * as moment from 'moment';
-// import Swal from 'sweetalert2';
-import { environment } from '../../../environments/environment';
-// import { AuthService } from '../services/auth.service';
-import { Router } from '@angular/router';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class Functions {
-    private readonly authSvc = inject(AuthService);
-    private readonly sessions = inject(Sessions);
-    private readonly router = inject(Router);
-
     public toFloat(value: string): number {
       return parseFloat(value);
     }
@@ -57,6 +45,84 @@ export class Functions {
     round(num:any, dec:any){
       return parseFloat(num.toFixed(dec));
     }
+
+    checkStrongPassword(text:string){
+      let minusculasRegex = new RegExp("^(?=.*[a-z])(?=.{1,})");
+      let mayusculasRegex = new RegExp("^(?=.*[A-Z])(?=.{1,})");
+      let numerosRegex = new RegExp("^(?=.*[0-9])(?=.{1,})");
+      let simbolosRegex = new RegExp("^(?=.*[!@#\$%\^&\*.,|])(?=.{1,})");
+      let strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+      let mediumRegex = new RegExp("^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,})");
+  
+      let strong = "";
+      let minForce:boolean = false;
+      let mayForce:boolean = false;
+      let numForce:boolean = false;
+      let simForce:boolean = false;
+      let lenForce:boolean = false;
+  
+      if (minusculasRegex.test(text)){
+        minForce = true;
+      }else{
+        minForce = false;
+      }
+      if (mayusculasRegex.test(text)){
+        mayForce = true;
+      }else{
+        mayForce = false;
+      }
+      if (numerosRegex.test(text)){
+        numForce = true;
+      }else{
+        numForce = false;
+      }
+      if (simbolosRegex.test(text)){
+        simForce = true;
+      }else{
+        simForce = false;
+      }
+      if (text.length >= 8){
+        lenForce = true;
+      }else{
+        lenForce = false;
+      }
+      if (mediumRegex.test(text)){
+        strong = "M";
+      } else if (strongRegex.test(text)){
+        strong = "S";
+      }else{
+        strong = "L";
+      }
+  
+      let sec_pass = false;
+      if (
+        minForce && 
+        mayForce && 
+        numForce && 
+        lenForce && 
+        simForce && 
+        (
+          strong == 'M' ||
+          strong == 'S'  
+        )
+      ){
+        sec_pass = true;
+      }else{
+        sec_pass = false;
+      }
+      
+      return [
+        minForce,
+        mayForce,
+        numForce,
+        simForce,
+        lenForce,
+        strong,
+        sec_pass
+      ]
+    }
+
+    
 
     handleErrors = (title:string = "", error:any = null)=>{
         let e = (JSON.stringify(error)).toLowerCase();

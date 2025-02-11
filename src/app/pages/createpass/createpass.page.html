@@ -1,5 +1,6 @@
 <ion-header>
   <ion-toolbar>
+    <ion-progress-bar *ngIf="saving" type="indeterminate" color="secondary"></ion-progress-bar>
     <ion-buttons slot="start">
       <ion-button (click)="regresar()" color="secondary">
         <ion-icon name="chevron-back-outline"></ion-icon> Regresar
@@ -24,8 +25,10 @@
         [(ngModel)]="username"
         placeholder="Nombre de usuario"
       ></ion-input>
+
       <ion-input
         type="password"
+        (keyup)="keyPass($event)"
         labelPlacement="stacked"
         [(ngModel)]="password"
         placeholder="Contraseña nueva"
@@ -43,32 +46,40 @@
       </ion-input>
 
       <ion-button
-        (click)="signin()"
+        [disabled]="bloqueo"
+        (click)="sendData()"
         color="secondary"
         fill="solid"
         expand="block"
       >
         Establecer Contraseña
       </ion-button>
-<!-- 
-      <br />
-      <br />
-      <br />
-
-      <div class="btns">
-        <ion-button
-          (click)="regresar()"
-          fill="clear"
-          size="small"
-        >
-        <ion-icon name="arrow-back-outline"></ion-icon>
-          Regresar
-        </ion-button>
-      </div>
-
-      <br /> -->
-
-      <small color="danger">{{seguridad_pass}}</small>
+      
+      <br>
+      <ion-grid>
+        <ion-row>
+          <ion-col size="6" *ngFor="let item of arrSecurity" class="flex">
+            @if(typeof item.value !== 'string'){
+              <span class="t22">
+                <ion-icon *ngIf="!item.value" name="close-circle" color="danger"></ion-icon>
+                <ion-icon *ngIf="item.value" name="checkmark-circle" color="secondary"></ion-icon>
+              </span> 
+              <ion-label>{{item.caption}}</ion-label>
+            } 
+            @else {
+              <div>
+                <ion-label *ngIf="!seguridad_pass && item.value=='L'">Contraseña Poco Segura</ion-label>
+                <ion-label *ngIf="!seguridad_pass && item.value=='M'">Fortaleza Media</ion-label>
+                <ion-label *ngIf="seguridad_pass">Contraseña Fuerte</ion-label>
+      
+                <ion-progress-bar value="100" *ngIf="!seguridad_pass && item.value=='L'" type="determinate" color="danger"></ion-progress-bar>
+                <ion-progress-bar value="100" *ngIf="!seguridad_pass && item.value=='M'" type="determinate" color="warning"></ion-progress-bar>
+                <ion-progress-bar value="100" *ngIf="seguridad_pass" type="determinate" color="success"></ion-progress-bar>
+              </div>
+            }
+          </ion-col>
+        </ion-row>
+      </ion-grid>
     </div>
   </div>
 </div>
