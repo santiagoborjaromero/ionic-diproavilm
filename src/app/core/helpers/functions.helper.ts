@@ -46,6 +46,17 @@ export class Functions {
       return parseFloat(num.toFixed(dec));
     }
 
+    arrSecurityPassword = () => {
+      return [
+      /*0*/ { id: "lowercase", caption: "Minúsculas", value: false },
+      /*1*/ { id: "uppercase", caption: "Mayúsculas", value: false },
+      /*2*/ { id: "number", caption: "Números", value: false },
+      /*3*/ { id: "symbol", caption: "Símbolos", value: false },
+      /*4*/ { id: "len", caption: "Longitud", value: false },
+      /*5*/ { id: "fuerza", caption: "Fortaleza", value: "L" },
+      ];
+    };
+
     checkStrongPassword(text:string){
       let minusculasRegex = new RegExp("^(?=.*[a-z])(?=.{1,})");
       let mayusculasRegex = new RegExp("^(?=.*[A-Z])(?=.{1,})");

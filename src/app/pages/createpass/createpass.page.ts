@@ -31,17 +31,9 @@ export class CreatepassPage implements OnInit {
   public times_error: number = 0;
   public bloqueo: boolean = false;
   public minLength: number = 8;
-  public arrSecurity: Array<any> = [
-    /*0*/ { id: "lowercase", caption: "Minúsculas", value: false },
-    /*1*/ { id: "uppercase", caption: "Mayúsculas", value: false },
-    /*2*/ { id: "number", caption: "Números", value: false },
-    /*3*/ { id: "symbol", caption: "Símbolos", value: false },
-    /*4*/ { id: "len", caption: "Longitud", value: false },
-    /*5*/ { id: "fuerza", caption: "Fortaleza", value: "L" },
-  ];
+  public arrSecurity: Array<any> = this.func.arrSecurityPassword();
 
   constructor(
-    // private svc:GeneralService
   ) { }
 
   ngOnInit() {

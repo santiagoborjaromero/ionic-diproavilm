@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { Sessions } from '../../core/helpers/session.helper';
 import { GeneralService } from '../../core/services/general.service';
 import { LoadingController, ModalController } from '@ionic/angular';
+import { Functions } from 'src/app/core/helpers/functions.helper';
 
 
 
@@ -18,16 +19,19 @@ export class ChangepassPage implements OnInit {
   private readonly modalCtrl = inject(ModalController);
   private readonly service = inject(GeneralService)
   private readonly loadingCtrl = inject(LoadingController)
-
-
-  public username: string ="";
-  public password: string ="";
-  public old_password: string ="";
-  public confirm_password: string ="";
-  public seguridad_pass: string = "";
-  public current_year:number = new Date().getFullYear();
+  private readonly func = inject(Functions);
+  
+  public username: string = "";
+  public password: string = "";
+  public confirm_password: string = "";
+  public seguridad_pass: boolean = false;
+  public saving: boolean = false;
+  public current_year: number = new Date().getFullYear();
   public times_error: number = 0;
   public bloqueo: boolean = false;
+  public minLength: number = 8;
+  public arrSecurity: Array<any> = this.func.arrSecurityPassword();
+  public old_password: string ="";
 
   constructor(
     // private svc:GeneralService
@@ -45,62 +49,115 @@ export class ChangepassPage implements OnInit {
   clean(){
     this.username = "";
     this.password = "";
+    this.old_password = "";
     this.confirm_password = "";
-    
+    this.seguridad_pass = false;
   }
 
-  async sendData(){
+  keyPass(event:any){
+    let result:any = this.func.checkStrongPassword(this.password);  
+    this.arrSecurity[0].value = result[0];
+    this.arrSecurity[1].value = result[1];
+    this.arrSecurity[2].value = result[2];
+    this.arrSecurity[3].value = result[3];
+    this.arrSecurity[4].value = result[4];
+    this.arrSecurity[5].value = result[5];
+    this.seguridad_pass = result[6];
+  }
+
+  async sendData() {
     let errMsg = "";
-    let error:boolean = false;
+    let error: boolean = false;
 
-    if (this.username == ""){
-      errMsg = "Debe llenar el la cédula de identidad";
+    this.saving = true;
+
+    if (this.username == "") {
+      errMsg = "Debe llenar el nombre del usuario";
       error = true;
     }
 
-    
-    if (!error && this.password == ""){
-      errMsg = "Debe llenar la contraseña";
+    if (!error && this.old_password == "") {
+      errMsg = "Debe llenar la contraseña anterior";
+      error = true;
+    }
+
+    if (!error && this.password == "") {
+      errMsg = "Debe llenar la nueva contraseña";
+      error = true;
+    }
+
+    if (!error && this.confirm_password == "") {
+      errMsg = "Debe llenar la contraseña de confirmación";
+      error = true;
+    }
+
+    if (!error && this.password !== this.confirm_password) {
+      errMsg = "La contraseña nueva y la confirmación deben ser iguales";
       error = true;
     }
     
-    if (error){
-      this.service.showToast("error", errMsg)
+    let fuerza = this.func.checkStrongPassword(this.password);
+    if (!error && !fuerza[6]){
+      errMsg = "La contraseña debe estar compuesta de mayúsculas, minúsculas, números y símbolos, con una longitud mínima de 8 caracteres";
+      error = true;
+    }
+
+    if (error) {
+      // this.service.showToast("error", errMsg)
+      this.saving = false;
+      this.service.showAlert(errMsg, "", "error", [
+        {
+          text: 'Aceptar',
+          role: 'cancel',
+          data: {
+            action: 'cancel',
+          },
+        },
+      ]);
       return
     }
 
-    this.showLoading("Cargando",1000);
-    
+
+    // this.showLoading("Cargando", 1000);
+
     let datos = {
-      ci_persona: this.username,
-      clave_persona: this.password
+      username: this.username,
+      password_old: this.old_password,
+      password_new: this.password,
+      app: "movil"
     }
 
-    await this.service.apiRest("POST", "login", datos).subscribe({
-      next: (resp)=>{
-        
-        if (resp.status){
-          let data = resp.data[0];
-          this.sess.set("user", data);
-          this.sess.set("logged", true);
-          this.router.navigate(["/dash"]);
-          this.username = "";
-          this.password = "";
-        } else{
+    await this.service.apiRest("POST", "cambioclave", datos, true).subscribe({
+      next: (resp) => {
+        this.saving = false;
+        if (resp.status=="ok") {
+          this.service.showToast("info", "Contraseña cambiada con éxito")
+          this.regresar();
+        } else {
           this.times_error++;
-          if (this.times_error == 3){
-            console.log("ERROR", resp.message)
-            this.bloquearusername();
+          // console.log("times_error", tis.times_error)
+          if (this.times_error == 3) {
             this.bloqueo = true;
+            this.bloquearusername();
           } else {
-            this.service.showToast("error", resp.message)
-            setTimeout(()=>{
-              this.service.showToast("error","Le quedan " + (3 - this.times_error) + " intento(s)." )
-            },2000)
+            // this.service.showToast("error", resp.message)
+            this.service.showAlert(resp.message, "", "error", [
+              {
+                text: 'Aceptar',
+                role: 'cancel',
+                data: {
+                  action: 'cancel',
+                },
+              },
+            ]);
+            setTimeout(() => {
+              this.service.showToast("error", "Le quedan " + (3 - this.times_error) + " intento(s).")
+            }, 2000)
           }
         }
       },
-      error: (error)=>{
+      error: (error) => {
+        this.saving = false;
         this.times_error++;
         console.log("ERROR", error)
         this.service.showToast("error", error)
@@ -109,9 +166,11 @@ export class ChangepassPage implements OnInit {
   }
 
   bloquearusername = async () => {
-    await this.service.apiRest("POST", "bloquear", {ci_persona: this.username}).subscribe({
+    await this.service.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
       next: (resp)=>{
-        this.service.showToast("error","username se encuentra bloqueado" )
+        console.log(resp)
+        this.service.showToast("error","username se encuentra bloqueado" );
+        this.regresar();
       },
       error: (error)=>{
         console.log("ERROR", error)
@@ -120,13 +179,14 @@ export class ChangepassPage implements OnInit {
       }
     })
   }
-  
-  regresar(){
-    this.router.navigate(["/login"],  { replaceUrl: true, skipLocationChange: false });
+
+  regresar() {
+    this.router.navigate(["/login"], { replaceUrl: true, skipLocationChange: false });
     // return this.modalCtrl.dismiss(null, 'cancel');
   }
 
-  async showLoading(texto: string, time:number = 0){
+
+  async showLoading(texto: string, time: number = 0) {
     let loading = await this.loadingCtrl.create({
       message: texto,
       duration: time
