@@ -7,7 +7,7 @@
         </ion-toolbar>
       </ion-header>
       <ion-content >
-        <ion-list id="inbox-list" >
+        <ion-list id="inbox-list" *ngIf="appPages.length>0">
           @for (p of appPages; track p; let i = $index) {
             <ion-menu-toggle auto-hide="false">
               <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">

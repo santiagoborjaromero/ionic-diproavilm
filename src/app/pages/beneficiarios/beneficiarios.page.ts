@@ -3,12 +3,12 @@ import { Sessions } from 'src/app/core/helpers/session.helper';
 import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss'],
-  standalone: false,
+  selector: 'app-beneficiarios',
+  templateUrl: './beneficiarios.page.html',
+  styleUrls: ['./beneficiarios.page.scss'],
+  standalone: false
 })
-export class DashboardPage implements OnInit {
+export class BeneficiariosPage implements OnInit {
 
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);

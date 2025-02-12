@@ -3,12 +3,12 @@ import { Sessions } from 'src/app/core/helpers/session.helper';
 import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.page.html',
-  styleUrls: ['./dashboard.page.scss'],
-  standalone: false,
+  selector: 'app-kardex',
+  templateUrl: './kardex.page.html',
+  styleUrls: ['./kardex.page.scss'],
+  standalone: false
 })
-export class DashboardPage implements OnInit {
+export class KardexPage implements OnInit {
 
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
@@ -17,6 +17,9 @@ export class DashboardPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+
+  }
+  ngAfterViewInit(): void {
     this.user = this.sess.get("user")
     let menu = this.user.menu;
     this.menuSvc.updateMenu(menu);

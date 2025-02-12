@@ -23,7 +23,7 @@ const routes: Routes = [
     loadChildren: () => import('./pages/dashboard/dashboard.module').then( m => m.DashboardPageModule)
   },
   {
-    path: 'usuarios',
+    path: 'users',
     loadChildren: () => import('./pages/usuarios/usuarios.module').then( m => m.UsuariosPageModule)
   },
   {
@@ -34,6 +34,22 @@ const routes: Routes = [
     path: '',
     redirectTo: 'inicio',
     pathMatch: 'full'
+  },
+  {
+    path: 'beneficiarios',
+    loadChildren: () => import('./pages/beneficiarios/beneficiarios.module').then( m => m.BeneficiariosPageModule)
+  },
+  {
+    path: 'productos',
+    loadChildren: () => import('./pages/productos/productos.module').then( m => m.ProductosPageModule)
+  },
+  {
+    path: 'movimientos',
+    loadChildren: () => import('./pages/movs/movs.module').then( m => m.MovsPageModule)
+  },
+  {
+    path: 'kardex',
+    loadChildren: () => import('./pages/kardex/kardex.module').then( m => m.KardexPageModule)
   },
 ];
 
