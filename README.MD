@@ -1,6 +1,7 @@
-# App Movil Diproavilm
+![7AG8](logo7AG8.jpg)
 ### 7UG8 (Septimo Semestre Grupo 8)
-### API RESTFUL
+
+# App Movil Diproavilm
 
 **UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES 
 “UNIANDES”** <br>
@@ -16,13 +17,10 @@ Jorge Luis López Romo <br>
 
 ## Recursos utilizados
 
-#### Base de datos
-Transaccional <br>
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) <br>
+![](https://img.shields.io/badge/Node-22.10.0-blue) 
+![](https://img.shields.io/badge/Npm-10.9.7-blue) 
+![](https://img.shields.io/badge/Ionic-7.2.0-blue) 
+![](https://img.shields.io/badge/Angular-19.0.7-red) 
+![](https://img.shields.io/badge/Lang-TypeScript-blue) 
 
-#### Api restful
-Lenguaje de programacion  <br>
-![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) 
 
-### FrontEnd
-IONIC - ANGULAR 18
