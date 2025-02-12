@@ -1,6 +1,6 @@
 # App Movil Diproavilm
-# 7UG8 (Septimo Semestre Grupo 8)
-# API RESTFUL
+### 7UG8 (Septimo Semestre Grupo 8)
+### API RESTFUL
 
 **UNIVERSIDAD REGIONAL AUTÓNOMA DE LOS ANDES 
 “UNIANDES”** <br>
@@ -14,16 +14,15 @@ MODALIDAD: ON LINE
 Jaime Santiago Borja Romero <br>
 Jorge Luis López Romo <br>
 
-
-
 ## Recursos utilizados
 
-### Base de datos
+#### Base de datos
 Transaccional <br>
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white) <br>
 
-### Backend
 #### Api restful
 Lenguaje de programacion  <br>
 ![PHP](https://img.shields.io/badge/php-%23777BB4.svg?style=for-the-badge&logo=php&logoColor=white) 
 
+### FrontEnd
+IONIC - ANGULAR 18
