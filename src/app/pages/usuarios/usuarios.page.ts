@@ -4,6 +4,7 @@ import { AlertController } from '@ionic/angular';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,7 +20,7 @@ export class UsuariosPage implements OnInit {
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
 
-  public tilte: string = "Usuarios";
+  public title: string = "Usuarios";
 
   public user: any = {};
   public lstUsers: any = {};
@@ -40,16 +41,20 @@ export class UsuariosPage implements OnInit {
     this.user = this.sess.get("user")
     let menu = this.user.menu;
     this.menuSvc.updateMenu(menu);
-    this.service.showLoading();
+    // this.service.showLoading();
+    // this.service.loading("Espere un momento");
     setTimeout(()=>{
-      this.getData();
+      this.getData(true);
     },800)
+
+    
   }
   
   getData = async (load:boolean = false) => {
     if (load) this.service.showLoading("Espere un momento", 1000);
     this.service.apiRest("GET", "users", null).subscribe({
       next: (resp:any)=>{
+        this.service.closeSwal()
         if (resp.status == "ok"){
           this.lstUsers = resp.message;
           this.lstUsersOriginal = resp.message;
@@ -94,27 +99,40 @@ export class UsuariosPage implements OnInit {
     this.router.navigate([`/user/${this.userID}`],  { replaceUrl: true, skipLocationChange: true })
   }
   del = async (id:any) => {
-    const alert = await this.alertController.create({
-      header: this.tilte,
-      subHeader: "Desea eliminar el registro",
-      mode: "ios",
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Si, Eliminar',
-          role: 'confirm',
-          handler: () => {
-            this.eliminar(id);
-          },
-        },
-      ],
+    Swal.fire({
+      title: this.title,
+      text: `Desea eliminar el registro?`,
+      icon: 'question',
+      confirmButtonText: 'Aceptar',
+      heightAuto:false,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar"
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        this.eliminar(id);
+      }
     });
-    alert.present()
+    // const alert = await this.alertController.create({
+    //   header: this.title,
+    //   subHeader: "Desea eliminar el registro",
+    //   mode: "ios",
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       handler: () => {
+    //       },
+    //     },
+    //     {
+    //       text: 'Si, Eliminar',
+    //       role: 'confirm',
+    //       handler: () => {
+    //         this.eliminar(id);
+    //       },
+    //     },
+    //   ],
+    // });
+    // alert.present()
   }
 
   eliminar = async (id:string) => {
@@ -136,27 +154,40 @@ export class UsuariosPage implements OnInit {
   }
 
   recuperar =  async (id:any) => {
-    const alert = await this.alertController.create({
-      header: this.tilte,
-      subHeader: "Desea recuperar el registro",
-      mode: "ios",
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Si, Recuperar',
-          role: 'confirm',
-          handler: () => {
-            this.recovery(id);
-          },
-        },
-      ],
+    Swal.fire({
+      title: this.title,
+      text: `Desea recuperar el registro?`,
+      icon: 'question',
+      confirmButtonText: 'Aceptar',
+      heightAuto:false,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar"
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        this.recovery(id);
+      }
     });
-    alert.present()
+    // const alert = await this.alertController.create({
+    //   header: this.title,
+    //   subHeader: "Desea recuperar el registro",
+    //   mode: "ios",
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       handler: () => {
+    //       },
+    //     },
+    //     {
+    //       text: 'Si, Recuperar',
+    //       role: 'confirm',
+    //       handler: () => {
+    //         this.recovery(id);
+    //       },
+    //     },
+    //   ],
+    // });
+    // alert.present()
   }
   
   recovery =  async (id:any) => {
@@ -178,27 +209,40 @@ export class UsuariosPage implements OnInit {
 
 
   reestablecerClave = async (id:any) => {
-    const alert = await this.alertController.create({
-      header: this.tilte,
-      subHeader: "Desea restablecer la contraseña del registro",
-      mode: "ios",
-      buttons: [
-        {
-          text: 'Cancelar',
-          role: 'cancel',
-          handler: () => {
-          },
-        },
-        {
-          text: 'Si, Restablecer',
-          role: 'confirm',
-          handler: () => {
-            this.reset(id);
-          },
-        },
-      ],
+    Swal.fire({
+      title: this.title,
+      text: `Desea restablecer la contraseña del registro`,
+      icon: 'question',
+      confirmButtonText: 'Aceptar',
+      heightAuto:false,
+      showCancelButton: true,
+      cancelButtonText: "Cancelar"
+    }).then((result:any) => {
+      if (result.isConfirmed) {
+        this.reset(id);
+      }
     });
-    alert.present()
+    // const alert = await this.alertController.create({
+    //   header: this.title,
+    //   subHeader: "Desea restablecer la contraseña del registro",
+    //   mode: "ios",
+    //   buttons: [
+    //     {
+    //       text: 'Cancelar',
+    //       role: 'cancel',
+    //       handler: () => {
+    //       },
+    //     },
+    //     {
+    //       text: 'Si, Restablecer',
+    //       role: 'confirm',
+    //       handler: () => {
+    //         this.reset(id);
+    //       },
+    //     },
+    //   ],
+    // });
+    // alert.present()
   }
 
   reset= async (id:any) => {

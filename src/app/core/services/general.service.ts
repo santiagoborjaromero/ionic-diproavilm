@@ -1,11 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
-import { Address } from '../helpers/address.helper';
 import { Observable } from 'rxjs';
 import { ActionSheetController, LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Headers } from '../helpers/headers.helper';
-
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -17,50 +16,18 @@ export class GeneralService {
   private readonly router = inject(Router);
   private readonly headers = inject(Headers);
   private readonly loadingCtrl = inject(LoadingController);
-  
-  // private publicHeaders: any;
-  // private privateHeaders: any;
-  // private token: any;
 
   private base_url = "http://192.168.1.169/apidiproavilm/?ruta=";
 
-  constructor() { 
-    
-    // this.publicHeaders = { "Content-Type": 'application/json' };
+  constructor() {
   }
 
-  // setPrivateHeaders(){
-  //   this.privateHeaders = {
-  //     "Content-Type": 'application/json',
-  //     "Authorization": `Bearer ${this.token}`,
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS, DELETE',
-  //     'Access-Control-Allow-Headers': 'Accept,Accept-Language,Content-Language,Content-Type',
-  //     'Access-Control-Expose-Headers': 'Content-Length,Content-Range',
-  //   };
-  // }
-  
-  // login(data:any): Observable<any> {
-  //   // this.headers = this.headerHlp.get('');
-  //   this.headers = {
-  //     "Content-Type": 'application/json',
-  //     'Access-Control-Allow-Origin': '*',
-  //     'Access-Control-Allow-Methods': 'GET, POST, PUT, OPTIONS, DELETE',
-  //     'Access-Control-Allow-Headers': 'Accept,Accept-Language,Content-Language,Content-Type',
-  //     'Access-Control-Expose-Headers': 'Content-Length,Content-Range',
-  //   };
-  //   let options = {
-  //     headers: this.headers
-  //   };
-  //   return this.http.post<any>(`${this.base_url}login`, data, options);
-  // }
-
-  apiRest( method:string = "GET",ruta:string="",body:any, pub:boolean = false): Observable<any>{
+  apiRest(method: string = "GET", ruta: string = "", body: any, pub: boolean = false): Observable<any> {
     let head = new HttpHeaders(pub ? this.headers.get() : this.headers.getWithToken());
-    let options:any = {
+    let options: any = {
       headers: head,
     }
-    switch (method){
+    switch (method) {
       case "POST":
         return this.http.post(`${this.base_url}${ruta}`, body, options);
       case "PUT":
@@ -74,8 +41,8 @@ export class GeneralService {
     return this.http.post(`${this.base_url}${ruta}`, body, options);
   }
 
-  async showToast(type:string =  "info", mensaje:string, time:number = 2000){
-    let ctype:any = type == "info" ? 'secondary' : ( type == "warning" ? 'warning' : 'danger');
+  async showToast(type: string = "info", mensaje: string, time: number = 2000) {
+    let ctype: any = type == "info" ? 'secondary' : (type == "warning" ? 'warning' : 'danger');
     const Toast = await this.toasCtrl.create({
       message: mensaje,
       duration: time,
@@ -87,7 +54,7 @@ export class GeneralService {
   }
 
 
-  async showAlert(title:string="", sub:string ="", cls:string="error", buttons:any = []){
+  async showAlert(title: string = "", sub: string = "", cls: string = "error", buttons: any = []) {
     const actionSheet = await this.actionSheetController.create({
       header: title,
       subHeader: sub,
@@ -96,10 +63,10 @@ export class GeneralService {
       keyboardClose: true,
       buttons: buttons
     });
-    await actionSheet.present(); 
+    await actionSheet.present();
   }
 
-  async goRoute(ruta:string=""){
+  async goRoute(ruta: string = "") {
     this.router.navigate([`/${ruta}`], { replaceUrl: true, skipLocationChange: false });
   }
 
@@ -111,6 +78,42 @@ export class GeneralService {
       animated: true
     })
     loading.present();
+  }
+
+  loading(text = '', time = 0) {
+    let timerInterval: any;
+    Swal.fire({
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      title: text,
+      text: "Espere un momento",
+      footer: "Diproavilm",
+      // showClass: { backdrop: 'swal2-noanimation', popup: '' }, hideClass: { popup: '' },
+      didOpen: () => {
+        Swal.showLoading();
+        if (time > 0) {
+          timerInterval = setInterval(() => {
+            const content = Swal.getHtmlContainer();
+            if (content) {
+              const b: any = content.querySelector('b');
+              if (b) {
+                b.textContent = Swal.getTimerLeft();
+              }
+            }
+          }, 100);
+        }
+      },
+      willClose: () => {
+        clearInterval(timerInterval);
+      }
+    }).then((result: any) => {
+      if (result.dismiss === Swal.DismissReason.timer) {
+      }
+    });
+  }
+
+  closeSwal(){
+    if (Swal.isVisible()) Swal.close();
   }
 
 }
