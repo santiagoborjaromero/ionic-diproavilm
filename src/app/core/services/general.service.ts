@@ -80,7 +80,7 @@ export class GeneralService {
       message: mensaje,
       duration: time,
       mode: "ios",
-      position: "top",
+      position: "bottom",
       color: ctype
     });
     Toast.present();
@@ -103,7 +103,7 @@ export class GeneralService {
     this.router.navigate([`/${ruta}`], { replaceUrl: true, skipLocationChange: false });
   }
 
-  async showLoading(texto: string = "Cargando", time: number = 2000) {
+  async showLoading(texto: string = "Espere un momento", time: number = 2000) {
     let loading = await this.loadingCtrl.create({
       message: texto,
       duration: time,

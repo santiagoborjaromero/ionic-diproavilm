@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -100,23 +100,29 @@
   <ion-list *ngIf="lstUsers && lstUsers.length>0"> </ion-list>
 </ion-content>
 
-<ion-footer>
+<!-- <ion-footer>
   <ion-toolbar class="center tbm">
     <ion-button shape="round" color="secondary">
       <ion-icon slot="icon-only" name="add"></ion-icon>
     </ion-button>
-    <!-- <ion-button shape="round" color="secondary">
-      <ion-icon slot="icon-only" name="pencil"></ion-icon>
-    </ion-button>
-    <ion-button shape="round" color="danger">
-      <ion-icon slot="icon-only" name="trash"></ion-icon>
-    </ion-button>
-    <ion-button shape="round" color="warning">
-      <ion-icon slot="icon-only" name="brush"></ion-icon>
-    </ion-button> -->
-
     <ion-button (click)="getData(true)" shape="round" color="secondary">
       <ion-icon  slot="icon-only" name="refresh"></ion-icon>
     </ion-button>
   </ion-toolbar>
-</ion-footer>
+</ion-footer> -->
+
+
+
+<ion-fab horizontal="end" vertical="top" color="secondary">
+  <ion-fab-button>
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button color="secondary" (click)="new()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="warning" (click)="getData(true)">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

@@ -47,7 +47,7 @@ export class UsuariosPage implements OnInit {
   }
   
   getData = async (load:boolean = false) => {
-    if (load) this.service.showLoading();
+    if (load) this.service.showLoading("Espere un momento", 1000);
     this.service.apiRest("GET", "users", null).subscribe({
       next: (resp:any)=>{
         if (resp.status == "ok"){
@@ -120,10 +120,10 @@ export class UsuariosPage implements OnInit {
   eliminar = async (id:string) => {
     await this.service.apiRest("DELETE", "deleteUser", id).subscribe({
       next: (resp)=>{
-        console.log(resp)
+        // console.log(resp)
         if (resp.status=="ok"){
           this.service.showToast("info", resp.message)
-          this.getData();
+          this.getData(true);
         } else{
           this.service.showToast("error", resp.message)
         }
@@ -164,7 +164,7 @@ export class UsuariosPage implements OnInit {
       next: (resp)=>{
         if (resp.status=="ok"){
           this.service.showToast("info", resp.message)
-          this.getData();
+          this.getData(true);
         } else{
           this.service.showToast("error", resp.message)
         }
@@ -206,7 +206,7 @@ export class UsuariosPage implements OnInit {
       next: (resp)=>{
         if (resp.status=="ok"){
           this.service.showToast("info", resp.message)
-          this.getData();
+          this.getData(true);
         } else{
           this.service.showToast("error", resp.message)
         }
