@@ -80,40 +80,6 @@ export class GeneralService {
     loading.present();
   }
 
-  loading(text = '', time = 0) {
-    let timerInterval: any;
-    Swal.fire({
-      allowOutsideClick: false,
-      allowEscapeKey: false,
-      title: text,
-      text: "Espere un momento",
-      footer: "Diproavilm",
-      // showClass: { backdrop: 'swal2-noanimation', popup: '' }, hideClass: { popup: '' },
-      didOpen: () => {
-        Swal.showLoading();
-        if (time > 0) {
-          timerInterval = setInterval(() => {
-            const content = Swal.getHtmlContainer();
-            if (content) {
-              const b: any = content.querySelector('b');
-              if (b) {
-                b.textContent = Swal.getTimerLeft();
-              }
-            }
-          }, 100);
-        }
-      },
-      willClose: () => {
-        clearInterval(timerInterval);
-      }
-    }).then((result: any) => {
-      if (result.dismiss === Swal.DismissReason.timer) {
-      }
-    });
-  }
-
-  closeSwal(){
-    if (Swal.isVisible()) Swal.close();
-  }
+  
 
 }
