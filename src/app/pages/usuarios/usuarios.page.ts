@@ -54,7 +54,6 @@ export class UsuariosPage implements OnInit {
     if (load) this.service.showLoading("Espere un momento", 1000);
     this.service.apiRest("GET", "users", null).subscribe({
       next: (resp:any)=>{
-        this.service.closeSwal()
         if (resp.status == "ok"){
           this.lstUsers = resp.message;
           this.lstUsersOriginal = resp.message;
