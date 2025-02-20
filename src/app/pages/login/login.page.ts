@@ -115,6 +115,15 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
           // this.router.navigate(["/dashboard"], { replaceUrl: true, skipLocationChange: false })
         } else {
           this.times_error++;
+          switch(resp.message){
+            case "establecer clave":
+              this.service.showToast("error", "Debe establecer una contraseña.")
+              setTimeout(() => {
+                this.restablecerClave();
+              }, 2000)
+              return; 
+          }
+
           // console.log("times_error", tis.times_error)
           if (this.times_error == 3) {
             this.bloqueo = true;

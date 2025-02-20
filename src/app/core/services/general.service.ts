@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Address } from '../helpers/address.helper';
 import { Observable } from 'rxjs';
-import { ActionSheetController, ToastController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Headers } from '../helpers/headers.helper';
 
@@ -16,6 +16,7 @@ export class GeneralService {
   private readonly toasCtrl = inject(ToastController);
   private readonly router = inject(Router);
   private readonly headers = inject(Headers);
+  private readonly loadingCtrl = inject(LoadingController);
   
   // private publicHeaders: any;
   // private privateHeaders: any;
@@ -59,7 +60,6 @@ export class GeneralService {
     let options:any = {
       headers: head,
     }
-
     switch (method){
       case "POST":
         return this.http.post(`${this.base_url}${ruta}`, body, options);
@@ -68,18 +68,20 @@ export class GeneralService {
       case "GET":
         return this.http.get(`${this.base_url}${ruta}&id=${body}`, options);
       case "DELETE":
-        return this.http.delete(`${this.base_url}${ruta}&id=${body}`, body);
+        return this.http.delete(`${this.base_url}${ruta}&id=${body}`, options);
     }
 
     return this.http.post(`${this.base_url}${ruta}`, body, options);
   }
 
   async showToast(type:string =  "info", mensaje:string, time:number = 2000){
+    let ctype:any = type == "info" ? 'secondary' : ( type == "warning" ? 'warning' : 'danger');
     const Toast = await this.toasCtrl.create({
       message: mensaje,
       duration: time,
       mode: "ios",
-      position: "top"
+      position: "top",
+      color: ctype
     });
     Toast.present();
   }
@@ -99,6 +101,16 @@ export class GeneralService {
 
   async goRoute(ruta:string=""){
     this.router.navigate([`/${ruta}`], { replaceUrl: true, skipLocationChange: false });
+  }
+
+  async showLoading(texto: string = "Cargando", time: number = 2000) {
+    let loading = await this.loadingCtrl.create({
+      message: texto,
+      duration: time,
+      translucent: true,
+      animated: true
+    })
+    loading.present();
   }
 
 }

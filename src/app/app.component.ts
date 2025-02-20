@@ -37,10 +37,9 @@ export class AppComponent {
   ngOnInit(): void {
     
     this.menuSvc.menuItems$.subscribe(items => {
-      // console.log(items.length)
       if (items.length != this.lstMenu.length){
         this.lstMenu = items;
-
+        
         this.appPages = [{ id: 0, title: 'Dashboard', url: '/dashboard', icon: 'stats-chart-outline' }];
         
         this.lstMenu.forEach( (m:any) => {
@@ -58,17 +57,14 @@ export class AppComponent {
               icon: m.icon_movil
             })
           }
-  
         });
       }
-
     })
   }
 
   goLink(link:string){
     this.menuCtrl.close();
     this.svc.goRoute(link);
-    // this.router.navigate([`/${link}`], { replaceUrl: true, skipLocationChange: false })
   }
   
   logout(){

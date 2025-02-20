@@ -129,6 +129,7 @@ export class CreatepassPage implements OnInit {
       next: (resp) => {
         this.saving = false;
         if (resp.status=="ok") {
+          this.service.showToast("info", resp.message)
           this.regresar();
         } else {
           this.times_error++;
@@ -165,7 +166,7 @@ export class CreatepassPage implements OnInit {
   bloquearusername = async () => {
     await this.service.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
       next: (resp)=>{
-        console.log(resp)
+        // console.log(resp)
         this.service.showToast("error","username se encuentra bloqueado" );
         this.regresar();
       },
