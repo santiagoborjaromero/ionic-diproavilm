@@ -20,69 +20,71 @@
   @if(lstUsers && lstUsers.length>0){
   <ion-item-sliding *ngFor="let i of lstUsers">
     @defer (on viewport) {
-      <ion-item
-        [button]="true"
-        (click)="seleccionarID(i.id)"
-        class="{{i.iduser == userID ? 'activerow' : ''}}"
-      >
-        <ion-avatar>
-          <img alt="user" src="/assets/images/user.svg" />
-        </ion-avatar>
-  
-        <ion-label>
+      <div>
+
+        <ion-item>
+          <ion-avatar>
+            <img alt="user" src="/assets/images/user.svg" />
+          </ion-avatar>
+    
           @if(i.status){
-          <strong>{{i.fullname}}</strong><br />
-          <small><strong>{{i.rolename}}</strong></small><br />
-          <ion-badge color="secondary" class="mr-1">Activo</ion-badge> 
+            <ion-label>
+              <strong>{{i.fullname}}</strong><br />
+              <small><strong>{{i.rolename}}</strong></small><br />
+              @if(i.scope.includes("R")){ <ion-badge color="success" class="mr-1">R</ion-badge> }
+              @if(i.scope.includes("W")){ <ion-badge color="warning" class="mr-1">W</ion-badge> }
+              @if(i.scope.includes("D")){ <ion-badge color="danger"  class="mr-1">D</ion-badge> }
+            </ion-label>
+            <ion-badge color="secondary" class="mr-1">Activo</ion-badge> 
           } @else {
-          <strong><del>{{i.fullname}}</del></strong><br />
-          <small><strong>{{i.rolename}}</strong></small><br />
-          <ion-badge color="medium" class="mr-1">Inactivo</ion-badge> 
-          @if(i.deleted_at!==null){
+            <ion-label>
+              <strong><del>{{i.fullname}}</del></strong><br />
+              <small><strong>{{i.rolename}}</strong></small><br />
+            </ion-label>
+            @if(i.deleted_at!==null){
               <ion-badge color="danger" class="mr-1">Eliminado</ion-badge> 
+            } @else {
+              <ion-badge color="medium" class="mr-1">Inactivo</ion-badge> 
             }
           }
-          @if(i.scope.includes("R")){ <ion-badge color="success" class="mr-1">R</ion-badge> }
-          @if(i.scope.includes("W")){ <ion-badge color="warning" class="mr-1">W</ion-badge> }
-          @if(i.scope.includes("D")){ <ion-badge color="danger"  class="mr-1">D</ion-badge> }
-        </ion-label>
-        <div class="metadata-end-wrapper" slot="end">
-          <ion-icon color="medium" name="chevron-forward"></ion-icon>
-        </div>
-      </ion-item>
-  
-      <ion-item-options side="start" *ngIf="i.deleted_at===null">
-        <ion-item-option color="clear">
-          <ion-button
-            (click)="reestablecerClave(i.iduser)"
-            shape="round"
-            color="warning"
-          >
-          Restablecer Clave
-          </ion-button>
-        </ion-item-option>
-      </ion-item-options>
-  
-  
-      <ion-item-options side="end" class="item-options">
-        <ion-item-option color="clear">
-          <ion-button
-            (click)="edit(i.iduser)"
-            shape="round"
-            color="secondary"
-          >
-            <ion-icon slot="icon-only" name="create"></ion-icon>
-          </ion-button>
-          <ion-button *ngIf="i.deleted_at===null" (click)="del(i.iduser)" shape="round" color="danger">
-            <ion-icon slot="icon-only" name="trash"></ion-icon>
-          </ion-button>
-  
-          <ion-button *ngIf="i.deleted_at!==null" (click)="recuperar(i.iduser)" shape="round" color="warning">
-            <!-- <ion-icon name="return-up-back-outline"></ion-icon> -->
-            Recuperar
-          </ion-button>
-        </ion-item-option>
-      </ion-item-options>
+          <!-- <div class="metadata-end-wrapper" slot="end">
+            <ion-icon color="medium" name="chevron-forward"></ion-icon>
+          </div> -->
+        </ion-item>
+    
+        <ion-item-options side="start" *ngIf="i.deleted_at===null">
+          <ion-item-option color="clear">
+            <ion-button
+              (click)="reestablecerClave(i.iduser)"
+              shape="round"
+              color="warning"
+            >
+            Restablecer Clave
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+    
+    
+        <ion-item-options side="end" class="item-options">
+          <ion-item-option color="clear">
+            <ion-button
+              (click)="edit(i.iduser)"
+              shape="round"
+              color="secondary"
+            >
+              <ion-icon slot="icon-only" name="create"></ion-icon>
+            </ion-button>
+            <ion-button *ngIf="i.deleted_at===null" (click)="del(i.iduser)" shape="round" color="danger">
+              <ion-icon slot="icon-only" name="trash"></ion-icon>
+            </ion-button>
+    
+            <ion-button *ngIf="i.deleted_at!==null" (click)="recuperar(i.iduser)" shape="round" color="warning">
+              <!-- <ion-icon name="return-up-back-outline"></ion-icon> -->
+              Recuperar
+            </ion-button>
+          </ion-item-option>
+        </ion-item-options>
+      </div>
     } @loading {
       <ion-item>Cargando</ion-item>
     } @placeholder {
