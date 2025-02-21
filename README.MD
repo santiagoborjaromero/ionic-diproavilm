@@ -7,13 +7,16 @@
 “UNIANDES”** <br>
 >FACULTAD DE SISTEMAS MERCANTILES <br>
 CARRERA DE INGENIERÍA DE SOFTWARE <br>
-SEXTO SEMESTRE <br>
+SEPTIMO SEMESTRE <br>
 MODALIDAD: ON LINE
 
 ## Integrantes
 >Hugo Alfredo Herrera Villalva <br>
 Jaime Santiago Borja Romero <br>
 Jorge Luis López Romo <br>
+
+![](https://img.shields.io/badge/NOV-2024-green) 
+![](https://img.shields.io/badge/ABR-2025-red) 
 
 ## Recursos utilizados
 
