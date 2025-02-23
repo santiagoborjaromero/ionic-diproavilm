@@ -57,7 +57,7 @@ export class UsuariosPage implements OnInit {
         if (resp.status == "ok"){
           this.lstUsers = resp.message;
           this.lstUsersOriginal = resp.message;
-          // console.log(this.lstUsers)
+          console.log(this.lstUsers)
         }else{
           this.service.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
