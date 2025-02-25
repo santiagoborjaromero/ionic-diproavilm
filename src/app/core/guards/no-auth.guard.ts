@@ -14,7 +14,7 @@ export class NoAuthGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let statusLogged = this.sessions.get('logged')  ;
-      if (statusLogged == "false" || statusLogged===undefined || statusLogged===null) {
+      if (statusLogged == false || statusLogged===undefined || statusLogged===null) {
         return true;
       }
       this.router.navigate(['/dashboard']);

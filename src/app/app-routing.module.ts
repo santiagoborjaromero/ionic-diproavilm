@@ -35,11 +35,6 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   {
-    path: 'user/:idUser',
-    loadChildren: () => import('./pages/usuarios/edit/edit.page').then( m => m.EditPage),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule),
     canActivate: [NoAuthGuard]
@@ -68,6 +63,22 @@ const routes: Routes = [
     path: 'kardex',
     loadChildren: () => import('./pages/kardex/kardex.module').then( m => m.KardexPageModule),
     canActivate: [AuthGuard]
+  },
+  {
+    path: 'user/:id',
+    loadChildren: () => import('./pages/usuarios-edit/usuarios-edit.module').then( m => m.UsuariosEditPageModule)
+  },
+  {
+    path: 'beneficiario/:id',
+    loadChildren: () => import('./pages/beneficiarios-edit/beneficiarios-edit.module').then( m => m.BeneficiariosEditPageModule)
+  },
+  {
+    path: 'mov/:id',
+    loadChildren: () => import('./pages/movs-edit/movs-edit.module').then( m => m.MovsEditPageModule)
+  },
+  {
+    path: 'producto/:id',
+    loadChildren: () => import('./pages/productos-edit/productos-edit.module').then( m => m.ProductosEditPageModule)
   },
 ];
 

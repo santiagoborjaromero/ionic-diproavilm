@@ -10,12 +10,11 @@ export class AuthGuard {
   private readonly router = inject(Router);
   private readonly sessions = inject(Sessions);
 
-
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
       let statusLogged = this.sessions.get('logged')  ;
-      if (statusLogged == "true") {
+      if (statusLogged == true) {
         return true;
       }
       this.router.navigate(['/login']);
