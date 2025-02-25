@@ -46,8 +46,6 @@ export class UsuariosPage implements OnInit {
     setTimeout(()=>{
       this.getData(true);
     },800)
-
-    
   }
   
   getData = async (load:boolean = false) => {
@@ -57,7 +55,7 @@ export class UsuariosPage implements OnInit {
         if (resp.status == "ok"){
           this.lstUsers = resp.message;
           this.lstUsersOriginal = resp.message;
-          console.log(this.lstUsers)
+          // console.log(this.lstUsers)
         }else{
           this.service.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
@@ -90,10 +88,12 @@ export class UsuariosPage implements OnInit {
     this.userID = id;
   }
   new(){
+    console.log("new");
     this.userID = "-1";
     this.router.navigate([`/user/${this.userID}`],  { replaceUrl: true, skipLocationChange: true })
   }
   edit(id:any){
+    console.log("edit");
     this.userID = id;
     this.router.navigate([`/user/${this.userID}`],  { replaceUrl: true, skipLocationChange: true })
   }
@@ -111,27 +111,6 @@ export class UsuariosPage implements OnInit {
         this.eliminar(id);
       }
     });
-    // const alert = await this.alertController.create({
-    //   header: this.title,
-    //   subHeader: "Desea eliminar el registro",
-    //   mode: "ios",
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       role: 'cancel',
-    //       handler: () => {
-    //       },
-    //     },
-    //     {
-    //       text: 'Si, Eliminar',
-    //       role: 'confirm',
-    //       handler: () => {
-    //         this.eliminar(id);
-    //       },
-    //     },
-    //   ],
-    // });
-    // alert.present()
   }
 
   eliminar = async (id:string) => {
@@ -166,27 +145,6 @@ export class UsuariosPage implements OnInit {
         this.recovery(id);
       }
     });
-    // const alert = await this.alertController.create({
-    //   header: this.title,
-    //   subHeader: "Desea recuperar el registro",
-    //   mode: "ios",
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       role: 'cancel',
-    //       handler: () => {
-    //       },
-    //     },
-    //     {
-    //       text: 'Si, Recuperar',
-    //       role: 'confirm',
-    //       handler: () => {
-    //         this.recovery(id);
-    //       },
-    //     },
-    //   ],
-    // });
-    // alert.present()
   }
   
   recovery =  async (id:any) => {
@@ -221,27 +179,6 @@ export class UsuariosPage implements OnInit {
         this.reset(id);
       }
     });
-    // const alert = await this.alertController.create({
-    //   header: this.title,
-    //   subHeader: "Desea restablecer la contraseña del registro",
-    //   mode: "ios",
-    //   buttons: [
-    //     {
-    //       text: 'Cancelar',
-    //       role: 'cancel',
-    //       handler: () => {
-    //       },
-    //     },
-    //     {
-    //       text: 'Si, Restablecer',
-    //       role: 'confirm',
-    //       handler: () => {
-    //         this.reset(id);
-    //       },
-    //     },
-    //   ],
-    // });
-    // alert.present()
   }
 
   reset= async (id:any) => {

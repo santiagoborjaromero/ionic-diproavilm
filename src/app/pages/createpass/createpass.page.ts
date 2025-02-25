@@ -37,8 +37,6 @@ export class CreatepassPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sess.set("logged", { value: false });
-    this.clean();
   }
 
   ngOnDestroy(): void {
@@ -180,7 +178,6 @@ export class CreatepassPage implements OnInit {
 
   regresar() {
     this.router.navigate(["/login"], { replaceUrl: true, skipLocationChange: false });
-    // return this.modalCtrl.dismiss(null, 'cancel');
   }
 
 

@@ -38,8 +38,6 @@ export class ChangepassPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.sess.set("logged",{value: false})
-    this.clean();
   }
 
   ngOnDestroy(): void {
