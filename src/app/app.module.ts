@@ -6,7 +6,8 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { Transmission } from './core/middleware/interceptor.middleware';
 
 
 @NgModule({
@@ -17,7 +18,10 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule, 
     HttpClientModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HTTP_INTERCEPTORS , useClass: Transmission, multi: true }
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
