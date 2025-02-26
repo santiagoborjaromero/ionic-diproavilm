@@ -32,7 +32,14 @@ const routes: Routes = [
   {
     path: 'users',
     loadChildren: () => import('./pages/usuarios/usuarios.module').then( m => m.UsuariosPageModule),
-    canActivate: [AuthGuard]
+    canActivate: [AuthGuard],
+    data: { shouldDestroy: true }
+  },
+  {
+    path: 'user/:id',
+    loadChildren: () => import('./pages/usuarios-edit/usuarios-edit.module').then( m => m.UsuariosEditPageModule),
+    canActivate: [AuthGuard],
+    data: { shouldDestroy: true }
   },
   {
     path: 'login',
@@ -64,21 +71,21 @@ const routes: Routes = [
     loadChildren: () => import('./pages/kardex/kardex.module').then( m => m.KardexPageModule),
     canActivate: [AuthGuard]
   },
-  {
-    path: 'user/:id',
-    loadChildren: () => import('./pages/usuarios-edit/usuarios-edit.module').then( m => m.UsuariosEditPageModule)
-  },
+  
   {
     path: 'beneficiario/:id',
-    loadChildren: () => import('./pages/beneficiarios-edit/beneficiarios-edit.module').then( m => m.BeneficiariosEditPageModule)
+    loadChildren: () => import('./pages/beneficiarios-edit/beneficiarios-edit.module').then( m => m.BeneficiariosEditPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'mov/:id',
-    loadChildren: () => import('./pages/movs-edit/movs-edit.module').then( m => m.MovsEditPageModule)
+    loadChildren: () => import('./pages/movs-edit/movs-edit.module').then( m => m.MovsEditPageModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'producto/:id',
-    loadChildren: () => import('./pages/productos-edit/productos-edit.module').then( m => m.ProductosEditPageModule)
+    loadChildren: () => import('./pages/productos-edit/productos-edit.module').then( m => m.ProductosEditPageModule),
+    canActivate: [AuthGuard],
   },
 ];
 
