@@ -1,5 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Encryption } from './encryption.helper';
+import { Global } from '../config/global.config';
 
 
 @Injectable({
@@ -13,31 +14,19 @@ export class Sessions {
   }
 
   get  = (key:string) => {
-    const value = sessionStorage.getItem(key);
+    const value = sessionStorage.getItem(Global.prefix_storage + key);
     if (value){
-      return JSON.parse(this.encryp.decrypt(atob(value)));
+      let base64 = (value);
+      let desencriptado = this.encryp.decrypt(base64);
+      let json =  JSON.parse(desencriptado);
+      return  json;
     }
   }
 
   set = (key:string, data:any)  => {
-    let value = btoa(this.encryp.encryp(JSON.stringify(data))); 
-    sessionStorage.setItem(key, value);
+    let value = (this.encryp.encryp(JSON.stringify(data))); 
+    sessionStorage.setItem(Global.prefix_storage + key, value);
   }
 
-  // clear = async (): Promise<any> => {
-  //   await Preferences.clear();
-  // }
-
-  // get  = async (key:string): Promise<any>  => {
-  //   const { value } = await Preferences.get({key});
-  //   if (value){
-  //     return JSON.parse(this.encryp.decrypt(atob(value)));
-  //   }
-  // }
-
-  // set = async (key:string, data:any): Promise<any>  => {
-  //   let value = btoa(this.encryp.encryp(JSON.stringify(data))); 
-  //   await Preferences.set({key, value});
-  // }
 
 }

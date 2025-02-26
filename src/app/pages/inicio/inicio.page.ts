@@ -1,8 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { LoadingController, NavController } from '@ionic/angular';
-
-
+import { GeneralService } from 'src/app/core/services/general.service';
 
 @Component({
   selector: 'app-inicio',
@@ -11,12 +9,8 @@ import { LoadingController, NavController } from '@ionic/angular';
   standalone: false
 })
 export class InicioPage implements OnInit {
-  private readonly router = inject(Router)
-  private readonly navCtrl = inject(NavController)
-  private readonly loadingCtrl = inject(LoadingController)
+  private readonly svc = inject(GeneralService)
   
-  current_year = 2025;
-
   constructor() { }
 
   ngOnInit() {
@@ -29,7 +23,7 @@ export class InicioPage implements OnInit {
   
   cambioPantalla = async () => {
     setTimeout(()=>{
-      this.router.navigate(["/login"])
+      this.svc.goRoute("login")
     },2000)
   }
 

@@ -1,10 +1,6 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { ActionSheetController, ModalController } from '@ionic/angular';
-import { CreatepassPage } from '../createpass/createpass.page';
-import { ChangepassPage } from '../changepass/changepass.page';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { Sessions } from 'src/app/core/helpers/session.helper';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,11 +9,8 @@ import { Router } from '@angular/router';
   standalone: false
 })
 export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
-  private readonly modalCtrl = inject(ModalController);
-  private readonly service = inject(GeneralService);
+  private readonly svc = inject(GeneralService);
   private readonly sess = inject(Sessions);
-  private readonly router = inject(Router);
-  private readonly actionSheetController = inject(ActionSheetController);
 
   public username: string = "";
   public password: string = "";
@@ -43,6 +36,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   initial() {
+    this.sess.clear()
     this.sess.set("user", "");
     this.sess.set("token", "");
     this.sess.set("form", "frmData");
@@ -67,8 +61,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
     }
 
     if (error) {
-      // this.service.showToast("error", errMsg)
-      this.service.showAlert(errMsg, "", "error", [
+      this.svc.showAlert(errMsg, "", "error", [
         {
           text: 'Aceptar',
           role: 'cancel',
@@ -77,23 +70,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
           },
         },
       ]);
-      // const actionSheet = await this.actionSheetController.create({
-      //   header: errMsg,
-      //   // subHeader: 'Autorización',
-      //   cssClass: "alert-error",
-      //   mode: "ios",
-      //   keyboardClose: true,
-      //   buttons: [
-      //     {
-      //       text: 'Aceptar',
-      //       role: 'cancel',
-      //       data: {
-      //         action: 'cancel',
-      //       },
-      //     },
-      //   ],
-      // });
-      // await actionSheet.present();
+
       return;
     }
 
@@ -101,23 +78,23 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       username: this.username,
       password: this.password,
       app: "movil"
-    }
+    };
 
-    await this.service.apiRest("POST", "login", frmData, true).subscribe({
+    await this.svc.apiRest("POST", "login", frmData, true).subscribe({
       next: (resp) => {
+
         if (resp.status == "ok") {
           let user = resp.message[0];
           this.sess.set("user", user);
           this.sess.set("token", user.token);
           this.sess.set("form", frmData);
           this.sess.set("logged", true);
-          this.service.goRoute("dashboard");
-          // this.router.navigate(["/dashboard"], { replaceUrl: true, skipLocationChange: false })
+          this.svc.goRoute("dashboard");
         } else {
           this.times_error++;
           switch(resp.message){
             case "establecer clave":
-              this.service.showToast("error", "Debe establecer una contraseña.")
+              this.svc.showToast("error", "Debe establecer una contraseña.")
               setTimeout(() => {
                 this.restablecerClave();
               }, 2000)
@@ -129,8 +106,8 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
             this.bloqueo = true;
             this.bloquearusername();
           } else {
-            // this.service.showToast("error", resp.message)
-            this.service.showAlert(resp.message, "", "error", [
+            // this.svc.showToast("error", resp.message)
+            this.svc.showAlert(resp.message, "", "error", [
               {
                 text: 'Aceptar',
                 role: 'cancel',
@@ -140,13 +117,13 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
               },
             ]);
             setTimeout(() => {
-              this.service.showToast("error", "Le quedan " + (3 - this.times_error) + " intento(s).")
+              this.svc.showToast("error", "Le quedan " + (3 - this.times_error) + " intento(s).")
             }, 2000)
           }
         }
       },
       error: (err) => {
-        this.service.showAlert(err, "", "error", [
+        this.svc.showAlert(err, "", "error", [
           {
             text: 'Aceptar',
             role: 'cancel',
@@ -161,36 +138,26 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
   bloquearusername = async () => {
-    await this.service.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
+    await this.svc.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
       next: (resp)=>{
         console.log(resp)
-        this.service.showToast("error","username se encuentra bloqueado" );
+        this.svc.showToast("error","username se encuentra bloqueado" );
         this.bloqueo = true;
       },
       error: (error)=>{
         console.log("ERROR", error)
         this.times_error++;
-        this.service.showToast("error", error)
+        this.svc.showToast("error", error)
       }
     })
   }
 
   restablecerClave = async () => {
-    this.router.navigate(['/createpass'], { replaceUrl: true, skipLocationChange: false })
-    // const modal = await this.modalCtrl.create({
-    //   component: CreatepassPage,
-    //   mode: "ios",
-    // })
-    // return await modal.present();
+    this.svc.goRoute("createpass");
   }
 
   changeClave = async () => {
-    this.router.navigate(['/changepass'], { replaceUrl: true, skipLocationChange: false })
-    // const modal = await this.modalCtrl.create({
-    //   component: ChangepassPage,
-    //   mode: "ios",
-    // })
-    // return await modal.present();
+    this.svc.goRoute("changepass");
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { Sessions } from 'src/app/core/helpers/session.helper';
+import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 
 @Component({
@@ -10,9 +10,9 @@ import { MenuService } from 'src/app/core/services/menu.service';
   standalone: false
 })
 export class ProfilePage implements OnInit {
-  private readonly router = inject(Router) 
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
+  private readonly svc = inject(GeneralService);
 
   public user: any = {};
   constructor() { }
@@ -24,7 +24,7 @@ export class ProfilePage implements OnInit {
   }
 
   salir(){
-    this.router.navigate(["/login"],  { replaceUrl: true, skipLocationChange: false })
+    this.svc.goRoute("login");
   }
 
 }

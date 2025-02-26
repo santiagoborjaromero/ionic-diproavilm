@@ -1,11 +1,7 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Router } from '@angular/router';
-import { Sessions } from '../../core/helpers/session.helper';
 import { GeneralService } from '../../core/services/general.service';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { LoadingController } from '@ionic/angular';
 import { Functions } from 'src/app/core/helpers/functions.helper';
-
-
 
 @Component({
   selector: 'app-changepass',
@@ -14,10 +10,7 @@ import { Functions } from 'src/app/core/helpers/functions.helper';
   standalone: false
 })
 export class ChangepassPage implements OnInit {
-  private readonly router = inject(Router);
-  private readonly sess = inject(Sessions);
-  private readonly modalCtrl = inject(ModalController);
-  private readonly service = inject(GeneralService)
+  private readonly svc = inject(GeneralService)
   private readonly loadingCtrl = inject(LoadingController)
   private readonly func = inject(Functions);
   
@@ -101,9 +94,9 @@ export class ChangepassPage implements OnInit {
     }
 
     if (error) {
-      // this.service.showToast("error", errMsg)
+      // this.svc.showToast("error", errMsg)
       this.saving = false;
-      this.service.showAlert(errMsg, "", "error", [
+      this.svc.showAlert(errMsg, "", "error", [
         {
           text: 'Aceptar',
           role: 'cancel',
@@ -125,11 +118,11 @@ export class ChangepassPage implements OnInit {
       app: "movil"
     }
 
-    await this.service.apiRest("POST", "cambioclave", datos, true).subscribe({
+    await this.svc.apiRest("POST", "cambioclave", datos, true).subscribe({
       next: (resp) => {
         this.saving = false;
         if (resp.status=="ok") {
-          this.service.showToast("info", "Contraseña cambiada con éxito")
+          this.svc.showToast("info", "Contraseña cambiada con éxito")
           this.regresar();
         } else {
           this.times_error++;
@@ -138,8 +131,8 @@ export class ChangepassPage implements OnInit {
             this.bloqueo = true;
             this.bloquearusername();
           } else {
-            // this.service.showToast("error", resp.message)
-            this.service.showAlert(resp.message, "", "error", [
+            // this.svc.showToast("error", resp.message)
+            this.svc.showAlert(resp.message, "", "error", [
               {
                 text: 'Aceptar',
                 role: 'cancel',
@@ -149,7 +142,7 @@ export class ChangepassPage implements OnInit {
               },
             ]);
             setTimeout(() => {
-              this.service.showToast("error", "Le quedan " + (3 - this.times_error) + " intento(s).")
+              this.svc.showToast("error", "Le quedan " + (3 - this.times_error) + " intento(s).")
             }, 2000)
           }
         }
@@ -158,29 +151,28 @@ export class ChangepassPage implements OnInit {
         this.saving = false;
         this.times_error++;
         console.log("ERROR", error)
-        this.service.showToast("error", error)
+        this.svc.showToast("error", error)
       }
     })
   }
 
   bloquearusername = async () => {
-    await this.service.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
+    await this.svc.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
       next: (resp)=>{
         console.log(resp)
-        this.service.showToast("error","username se encuentra bloqueado" );
+        this.svc.showToast("error","username se encuentra bloqueado" );
         this.regresar();
       },
       error: (error)=>{
         console.log("ERROR", error)
         this.times_error++;
-        this.service.showToast("error", error)
+        this.svc.showToast("error", error)
       }
     })
   }
 
   regresar() {
-    this.router.navigate(["/login"], { replaceUrl: true, skipLocationChange: false });
-    // return this.modalCtrl.dismiss(null, 'cancel');
+    this.svc.goRoute("login")
   }
 
 

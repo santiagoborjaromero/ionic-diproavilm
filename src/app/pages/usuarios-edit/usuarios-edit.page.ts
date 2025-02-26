@@ -1,5 +1,6 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { GeneralService } from 'src/app/core/services/general.service';
 
 @Component({
   selector: 'app-usuarios-edit',
@@ -9,6 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UsuariosEditPage implements OnInit {
   private readonly router = inject(Router)
+  private readonly svc = inject(GeneralService)
 
   public Titulo: string ="Usuario - Edición";
 
@@ -22,7 +24,7 @@ export class UsuariosEditPage implements OnInit {
   }
 
   back(){
-    this.router.navigate([`/users`],  { replaceUrl: true, skipLocationChange: true })
+    this.svc.goRoute("users")
   }
 
 }

@@ -1,10 +1,11 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ActionSheetController, LoadingController, ToastController } from '@ionic/angular';
+import { ActionSheetController, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Headers } from '../helpers/headers.helper';
 import Swal from 'sweetalert2';
+import { Encryption } from '../helpers/encryption.helper';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,8 @@ export class GeneralService {
   private readonly router = inject(Router);
   private readonly headers = inject(Headers);
   private readonly loadingCtrl = inject(LoadingController);
+  private readonly encrypt = inject(Encryption);
+  private readonly navCtrl = inject(NavController);
 
   private base_url = "http://192.168.1.169/apidiproavilm/?ruta=";
 
@@ -27,6 +30,14 @@ export class GeneralService {
     let options: any = {
       headers: head,
     }
+
+    if (["POST", "PUT"].includes(method)){
+      body = {
+        data: this.encrypt.convertResponse(JSON.stringify(body))
+      };
+      // console.log(JSON.stringify(body))
+    }
+
     switch (method) {
       case "POST":
         return this.http.post(`${this.base_url}${ruta}`, body, options);
@@ -67,7 +78,8 @@ export class GeneralService {
   }
 
   async goRoute(ruta: string = "") {
-    this.router.navigate([`/${ruta}`], { replaceUrl: true, skipLocationChange: false });
+    this.router.navigate([`/${ruta}`], { replaceUrl: true, skipLocationChange: false});
+    // this.navCtrl.navigateForward(ruta);
   }
 
   async showLoading(texto: string = "Espere un momento", time: number = 2000) {
