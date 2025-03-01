@@ -68,7 +68,22 @@ export class AppComponent {
   }
   
   logout(){
-    this.sess.clear();
-    this.goLink("login");
+    let frmData = {
+      app: "movil"
+    };
+    this.svc.apiRest("POST","logout",frmData).subscribe({
+      next: (resp:any) => {
+        if (resp.status == "ok"){
+          this.sess.clear();
+          this.goLink("login");
+        }else{
+          this.svc.showToast("error", resp.message)
+        }
+      },
+      error: (err) => {
+
+      }
+    })
+
   }
 }
