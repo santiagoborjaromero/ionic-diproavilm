@@ -130,7 +130,11 @@ export class CreatepassPage implements OnInit {
             this.bloquearusername();
           } else {
             // this.svc.showToast("error", resp.message)
-            this.svc.showAlert(resp.message, "", "error", [
+            let msg = resp.message;
+            if (typeof resp.message !== "string"){
+              msg = resp.message.message;
+            }
+            this.svc.showAlert(msg, "", "error", [
               {
                 text: 'Aceptar',
                 role: 'cancel',

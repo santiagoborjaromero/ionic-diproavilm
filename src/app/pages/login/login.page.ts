@@ -82,7 +82,6 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
     await this.svc.apiRest("POST", "login", frmData, true).subscribe({
       next: (resp) => {
-
         if (resp.status == "ok") {
           let user = resp.message[0];
           this.sess.set("user", user);
@@ -99,6 +98,14 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
                 this.restablecerClave();
               }, 2000)
               return; 
+              break;
+            case "password expirado":
+              this.svc.showToast("error", "Su contraseña ha expirado, debe cambiar la contraseña.")
+              setTimeout(() => {
+                this.changeClave();
+              }, 2000)
+              return; 
+              break;
           }
 
           // console.log("times_error", tis.times_error)
