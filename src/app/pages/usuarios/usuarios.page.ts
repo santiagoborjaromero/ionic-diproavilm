@@ -66,7 +66,6 @@ export class UsuariosPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log("ionViewWillEnter")
   }
   
   getData = async (load:boolean = false) => {

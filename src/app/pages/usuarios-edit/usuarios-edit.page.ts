@@ -44,10 +44,26 @@ export class UsuariosEditPage implements OnInit {
   }
 
   ngAfterContentInit(): void {
-    console.log("ngAfterContentInit");
+    // console.log("ngAfterContentInit");
     setTimeout(()=>{
       this.initial()
     },500)
+  }
+
+  ngOnDestroy(): void {
+    this.user = -1;
+    this.rstUser = {};
+    this.userID = 0;
+    this.username = "";
+    this.fullname = "";
+    this.idrole = "";
+    this.status = false;
+    this.scope = "";
+    this.lstRoles = [];
+    this.scopeR = false;
+    this.scopeW = false;
+    this.scopeD = false;
+    this.grant_movil_access = false;
   }
 
   initial(){
@@ -93,7 +109,7 @@ export class UsuariosEditPage implements OnInit {
     if (load) this.svc.showLoading("Espere un momento", 800);
     await this.svc.apiRest("GET", `user`, this.userID).subscribe({
       next: (resp)=>{
-        console.log(resp)
+        // console.log(resp)
         if (resp.status == "ok"){
           this.rstUser = resp.message[0] ?? {};
           this.username = this.rstUser.username;
