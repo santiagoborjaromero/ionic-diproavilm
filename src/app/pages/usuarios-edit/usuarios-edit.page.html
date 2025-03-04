@@ -1,5 +1,5 @@
 <ion-header [translucent]="true">
-  <ion-toolbar  color="secondary">
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
@@ -7,14 +7,70 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-item>
-    asd
-  </ion-item>
+<ion-content [fullscreen]="true" >
+  <div class="contenido-normal">
+    <div class="body">
+      <ion-item color="clear">
+        <ion-input
+          label="Nombre Completo"
+          labelPlacement="stacked"
+          [(ngModel)]="fullname"
+          placeholder="Ingrese el nombre completo"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Usuario"
+          labelPlacement="stacked"
+          [(ngModel)]="username"
+          placeholder="Ingrese el usuario"
+          [disabled]="userID>0"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select 
+          interface="modal"
+          [mode]="'ios'" 
+          label="Rol del Usuario" 
+          labelPlacement="stacked" 
+          placeholder="Rol"
+          [(ngModel)]="idrole">
+          @for (item of lstRoles; track $index) {
+            <ion-select-option  value="{{item.idrole}}">{{item.name}}</ion-select-option>
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear" >
+        <ion-toggle [mode]="'ios'"  [checked]="status" [(ngModel)]="grant_movil_access">
+          Permiso acceso a movil <br>
+          <small><i>
+            ({{grant_movil_access ? "Si tiene permiso" : "No tiene permitido"}})
+          </i></small>
+        </ion-toggle>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-toggle [mode]="'ios'" [checked]="status" [(ngModel)]="status">Estado
+          <br>
+          <small><i>
+            ({{status ? "Activo" : "Inactivo"}})
+          </i></small>
+        </ion-toggle>
+      </ion-item>
+      <ion-button
+          (click)="save()"
+          
+          color="secondary"
+          fill="solid"
+          expand="block"
+        >
+          Guardar
+        </ion-button>
+    </div>
+  </div>
 </ion-content>
 
-<ion-fab horizontal="end" vertical="top" color="secondary">
-  <ion-fab-button>
+<ion-fab horizontal="end" vertical="top">
+  <ion-fab-button color="secondary">
     <ion-icon name="ellipsis-vertical-outline"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="bottom">

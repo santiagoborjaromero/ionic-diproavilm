@@ -55,6 +55,7 @@
         <ion-item-options side="start" *ngIf="i.deleted_at===null">
           <ion-item-option color="clear">
             <ion-button
+              *ngIf="this.scopeW" 
               (click)="reestablecerClave(i.iduser)"
               shape="round"
               color="warning"
@@ -68,17 +69,18 @@
         <ion-item-options side="end" class="item-options">
           <ion-item-option color="clear">
             <ion-button
+              *ngIf="this.scopeW" 
               (click)="edit(i.iduser)"
               shape="round"
               color="secondary"
             >
               <ion-icon slot="icon-only" name="create"></ion-icon>
             </ion-button>
-            <ion-button *ngIf="i.deleted_at===null" (click)="del(i.iduser)" shape="round" color="danger">
+            <ion-button *ngIf="i.deleted_at===null && this.scopeD"  (click)="del(i.iduser)" shape="round" color="danger">
               <ion-icon slot="icon-only" name="trash"></ion-icon>
             </ion-button>
     
-            <ion-button *ngIf="i.deleted_at!==null" (click)="recuperar(i.iduser)" shape="round" color="warning">
+            <ion-button *ngIf="i.deleted_at!==null && this.scopeW" (click)="recuperar(i.iduser)" shape="round" color="warning">
               <!-- <ion-icon name="return-up-back-outline"></ion-icon> -->
               Recuperar
             </ion-button>
@@ -116,7 +118,7 @@
     <ion-icon name="ellipsis-vertical-outline"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="bottom">
-    <ion-fab-button color="secondary" (click)="new()">
+    <ion-fab-button *ngIf="this.scopeW" color="secondary" (click)="new()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
     <ion-fab-button color="warning" (click)="getData(true)">

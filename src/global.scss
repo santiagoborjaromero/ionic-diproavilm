@@ -79,6 +79,12 @@ html, body{
     background-position: 50% 30%;
 }
 
+.contenido-normal{
+    display: flex;
+    justify-content: center;
+
+}
+
 .bg-danger{background-color: #b4362d; color: #fff; padding: 4px;}
 .bg-warning{background-color: #c96a1c; color: #fff; padding: 4px; }
 .bg-success{background-color: #098814; color: #fff; padding: 4px; }
@@ -183,11 +189,14 @@ ion-button{
 }
 
 .alert-error{
-    --background: #b4362d;
+    --background: #f7d1cf;
+    --color: #000;
+    // --background: #fff;
+    // --color: #000;
+    // --border: 3px solid #b4362d;
     --backdrop-opacity: 0.6;
     --button-background-selected: #e9e2de;
     --button-color: #000000;
-    --color: #fff;
     --ion-color-danger: #000000;
 }
 

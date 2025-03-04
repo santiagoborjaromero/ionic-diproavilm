@@ -24,6 +24,11 @@ export class UsuariosPage implements OnInit {
   public lstUsersOriginal: any = {};
   public buscar: string ="";
   public userID: string ="";
+  public scope: Array<any>=[];
+
+  public scopeR:boolean=false;;
+  public scopeW:boolean=false;;
+  public scopeD:boolean=false;;
 
   constructor() { }
 
@@ -40,6 +45,19 @@ export class UsuariosPage implements OnInit {
     this.user = this.sess.get("user")
     let menu = this.user.menu;
     this.menuSvc.updateMenu(menu);
+
+    this.scope = this.user.role[0].scope.split("");
+
+    if (this.scope.includes("R")) this.scopeR = true;
+    if (this.scope.includes("W")) this.scopeW = true;
+    if (this.scope.includes("D")) this.scopeD = true;
+
+    if (!this.scopeR){
+      this.svc.showToast("error", "Su rol asignado no le permite visualizar esta información.")
+      return;
+    }
+
+
     // this.svc.showLoading();
     // this.svc.loading("Espere un momento");
     setTimeout(()=>{
