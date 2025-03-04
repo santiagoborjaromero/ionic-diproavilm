@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ActionSheetController, LoadingController, NavController, ToastController } from '@ionic/angular';
+import { ActionSheetController, AlertController, IonicSafeString, LoadingController, NavController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { Headers } from '../helpers/headers.helper';
 import Swal from 'sweetalert2';
@@ -13,6 +13,7 @@ import { Encryption } from '../helpers/encryption.helper';
 export class GeneralService {
   private readonly http = inject(HttpClient);
   private readonly actionSheetController = inject(ActionSheetController);
+  private readonly alertCtrl = inject(AlertController);
   private readonly toasCtrl = inject(ToastController);
   private readonly router = inject(Router);
   private readonly headers = inject(Headers);
@@ -65,14 +66,24 @@ export class GeneralService {
   }
 
 
-  async showAlert(title: string = "", sub: string = "", cls: string = "error", buttons: any = []) {
-    const actionSheet = await this.actionSheetController.create({
+  async showAlert(title: string = "", sub: string = "", cls: string = "error", buttons: Array<any> = []) {
+    if (buttons.length==0){
+      buttons = [{
+        text: 'Aceptar',
+        cssClass: 'alert-button-confirm',
+      }]
+    }
+    const actionSheet = await this.alertCtrl.create({
       header: title,
-      subHeader: sub,
+      // subHeader: sub,
+      message: sub,
       cssClass: `alert-${cls}`,
       mode: "ios",
-      keyboardClose: true,
-      buttons: buttons
+      keyboardClose: false,
+      buttons: buttons,
+      htmlAttributes: {
+        'aria-label': 'alert dialog',
+      },
     });
     await actionSheet.present();
   }
