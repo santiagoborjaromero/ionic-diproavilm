@@ -21,7 +21,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("OnInit")
+    // console.log("OnInit")
   }
 
   ngOnDestroy(): void {
