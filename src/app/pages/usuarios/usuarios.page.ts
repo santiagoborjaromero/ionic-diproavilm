@@ -36,12 +36,13 @@ export class UsuariosPage implements OnInit {
   }
 
   ngOnDestroy(): void {
-    console.log("ngOnDestroy")
+    // console.log("ngOnDestroy")
     this.lstUsers = [];
+    this.lstUsersOriginal = [];
   }
 
   ngAfterViewInit(): void {
-    console.log("ngAfterViewInit")
+    // console.log("ngAfterViewInit")
     this.user = this.sess.get("user")
     let menu = this.user.menu;
     this.menuSvc.updateMenu(menu);

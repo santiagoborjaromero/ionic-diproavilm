@@ -18,7 +18,7 @@ export class UsuariosEditPage implements OnInit {
   private readonly loadingCtrl = inject(LoadingController)
   private readonly menuSvc = inject(MenuService);
 
-  public Titulo: string ="Usuario - Edición";
+  public Titulo: string ="Usuario - ";
 
   public logged:boolean = false;
   public user:any;
@@ -40,7 +40,7 @@ export class UsuariosEditPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log("ngOnInit");
+    // console.log("ngOnInit");
   }
 
   ngAfterContentInit(): void {
@@ -68,6 +68,12 @@ export class UsuariosEditPage implements OnInit {
 
   initial(){
     this.userID = this.route.snapshot.paramMap.get("id")?.toString();
+
+    if (this.userID == "-1"){
+      this.Titulo += "Nuevo";
+    }else{
+      this.Titulo += "Edición";
+    }
     
     this.logged  = this.sess.get("logged");
 

@@ -1,13 +1,201 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>beneficiarios_edit</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{Titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">beneficiarios_edit</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="contenido-normal">
+    <div class="body">
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Tipo de Beneficiario (*)"
+          labelPlacement="stacked"
+          placeholder="Tipo de Beneficiario"
+          [(ngModel)]="type"
+        >
+          @for (item of lstTypes; track $index) {
+          <ion-select-option value="{{item.id}}"
+            >{{item.name}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Nombre (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="name"
+          placeholder="Ingrese el nombre"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Nombre Comercial"
+          labelPlacement="stacked"
+          [(ngModel)]="comercialname"
+          placeholder="Ingrese el nombre comercial"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Tipo de Identificacion (*)"
+          labelPlacement="stacked"
+          placeholder="Tipo de Identificacion"
+          [(ngModel)]="identificationtype"
+        >
+          @for (item of lstIdentificationType; track $index) {
+          <ion-select-option value="{{item.ididentificationtype}}"
+            >{{item.description}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Número de Indetificación (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="identificationnumber"
+          placeholder="Ingrese el Número de Indetificación"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="País (*)"
+          labelPlacement="stacked"
+          placeholder="País"
+          [(ngModel)]="idcountry"
+        >
+          @for (item of lstCountry; track $index) {
+          <ion-select-option value="{{item.idcountry}}"
+            >{{item.name}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Provincia (*)"
+          labelPlacement="stacked"
+          placeholder="Provincia"
+          [(ngModel)]="idprovince"
+        >
+          @for (item of lstProvince; track $index) {
+          <ion-select-option value="{{item.idprovince}}"
+            >{{item.name}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Ciudad (*)"
+          labelPlacement="stacked"
+          placeholder="Ciudad"
+          [(ngModel)]="idcity"
+        >
+          @for (item of lstCity; track $index) {
+          <ion-select-option value="{{item.idcity}}"
+            >{{item.name}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Dirección"
+          labelPlacement="stacked"
+          [(ngModel)]="address"
+          placeholder="Ingrese la dirección"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Parroqua"
+          labelPlacement="stacked"
+          [(ngModel)]="parish"
+          placeholder="Ingrese el nombre de la parroquia"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Teléfono"
+          labelPlacement="stacked"
+          [(ngModel)]="phone"
+          placeholder="Ingrese el telefono"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Correo Electrónico"
+          labelPlacement="stacked"
+          [(ngModel)]="email"
+          placeholder="Ingrese el Correo electronico"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Sitio Web"
+          labelPlacement="stacked"
+          [(ngModel)]="web"
+          placeholder="Ingrese el sitio web"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Cuota de crédito"
+          labelPlacement="stacked"
+          [(ngModel)]="creditquota"
+          placeholder="Ingrese la cuota de crédito"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Días de crédito"
+          labelPlacement="stacked"
+          [(ngModel)]="creditdays"
+          placeholder="Ingrese los días de crédito"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Cuenta Contable"
+          labelPlacement="stacked"
+          [(ngModel)]="account"
+          placeholder="0.0.0.0000"
+        ></ion-input>
+      </ion-item>
+      <ion-button (click)="save()" color="secondary" fill="solid" expand="block">
+        Guardar
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
+
+
+<ion-fab horizontal="end" vertical="top">
+  <ion-fab-button color="secondary">
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button color="secondary" (click)="back()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="warning" (click)="getData(true)">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

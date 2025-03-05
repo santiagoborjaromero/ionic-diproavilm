@@ -173,6 +173,10 @@ html, body{
     justify-content: center;
 }
 
+ion-avatar{
+    border-radius: 0;
+    padding: 3px;
+}
 
 ion-button{
     text-transform: capitalize;
