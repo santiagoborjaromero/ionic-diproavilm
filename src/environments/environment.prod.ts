@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  apUrl: "http://192.168.1.169/apidiproavilm/?ruta="
 };

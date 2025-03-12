@@ -15,14 +15,12 @@ export class Encryption {
     var iv = CryptoJS.enc.Utf8.parse(Global.secret2);
     var encrypted = CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(value.toString()), key,
     {
-        // keySize: 128 / 8,
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
     });
 
     let res = encrypted.toString()
-    // console.log("encryp", res, value)
     return res;
   }
 
@@ -30,14 +28,12 @@ export class Encryption {
     var key = CryptoJS.enc.Utf8.parse(Global.secret);
     var iv = CryptoJS.enc.Utf8.parse(Global.secret2);
     var decrypted = CryptoJS.AES.decrypt(value, key, {
-        // keySize: 128 / 8,
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
     });
 
     let dec = decrypted.toString(CryptoJS.enc.Utf8);
-    // console.log("decrypt", `>${dec}<`, value)
     return dec
   }
 
@@ -47,18 +43,17 @@ export class Encryption {
     var iv = CryptoJS.enc.Utf8.parse(Global.secret2);
     var encrypted = CryptoJS.AES.encrypt(value.toString(), key,
     {
-        // keySize: 128 / 8,
         iv: iv,
         mode: CryptoJS.mode.CBC,
         padding: CryptoJS.pad.Pkcs7
     });
 
     let res = CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
-    // console.log("encryp", res, value)
     return res;
   }
 
   convertRequest(value:string = ""){
+    console.log(value)
     let desencriptado = null;
     try{
       let base64 = atob(value);
@@ -70,8 +65,9 @@ export class Encryption {
   }
 
   convertResponse(value:any){
-     let encriptado = this.encryp(value);
+    let encriptado = this.encryp(value);
     let base64 = btoa(encriptado);
+    console.log(base64)
     return base64;
   }
 

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Headers } from '../helpers/headers.helper';
 import Swal from 'sweetalert2';
 import { Encryption } from '../helpers/encryption.helper';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,7 @@ export class GeneralService {
   private readonly encrypt = inject(Encryption);
   private readonly navCtrl = inject(NavController);
 
-  private base_url = "http://192.168.1.169/apidiproavilm/?ruta=";
+  private base_url = environment.apUrl;
 
   constructor() {
   }
