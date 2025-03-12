@@ -1,4 +1,3 @@
-
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
@@ -8,8 +7,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content class="contenido-normal">
+    <div class="body">
+      <div>
+        <h6 class="center">Cantidad de Ingresos vs Egresos por Trimestres</h6>
+        <canvas
+          baseChart
+          [type]="'bar'"
+          [data]="lineChartDataCantidadVentasPorAnio"
+          [options]="lineChartOptionsCantidadVentasPorAnio"
+          [legend]="true"
+        ></canvas>
+      </div>
+    </div>
 </ion-content>
+
 
 <ion-footer>
   <ion-toolbar class="center">

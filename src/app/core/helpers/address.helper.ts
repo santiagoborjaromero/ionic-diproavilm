@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Global } from '../config/global.config';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -7,7 +8,7 @@ import { Global } from '../config/global.config';
 export class Address {
   constructor() {}
     getapiUrl = ():string  =>  {
-      let url = Global.api_db;
+      let url = environment.apUrl;
       return url;
     }
 }

@@ -53,7 +53,7 @@ export class Encryption {
   }
 
   convertRequest(value:string = ""){
-    console.log(value)
+    // console.log(value)
     let desencriptado = null;
     try{
       let base64 = atob(value);
@@ -67,7 +67,7 @@ export class Encryption {
   convertResponse(value:any){
     let encriptado = this.encryp(value);
     let base64 = btoa(encriptado);
-    console.log(base64)
+    // console.log(base64)
     return base64;
   }
 

@@ -8,12 +8,16 @@ import { DashboardPageRoutingModule } from './dashboard-routing.module';
 
 import { DashboardPage } from './dashboard.page';
 
+import { BaseChartDirective } from 'ng2-charts';
+
+
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DashboardPageRoutingModule
+    DashboardPageRoutingModule,
+    BaseChartDirective,
   ],
   declarations: [DashboardPage]
 })
