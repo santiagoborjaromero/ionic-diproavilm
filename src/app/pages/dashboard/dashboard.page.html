@@ -246,12 +246,24 @@
     <ion-grid>
       <ion-row>
         <ion-col class="center">
-          <h2>Top 5 de Productos Vendidos</h2>
+          <h2>Productos más vendidos</h2>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="center">
           <ion-list>
+            <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="9">
+                    <strong>PRODUCTOS</strong>
+                  </ion-col>
+                  <ion-col class="pull-right">
+                    <strong>VALOR</strong>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
             <ion-item *ngFor="let item of Top5Prod_Limitado">
               <ion-grid>
                 <ion-row>
@@ -260,7 +272,6 @@
                   </ion-col>
                   <ion-col class="pull-right">
                     <ion-label>${{func.numberFormat(item.egreso,2)}}</ion-label>
-                    <small>Egreso</small>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -270,12 +281,24 @@
       </ion-row>
       <ion-row>
         <ion-col class="center">
-          <h2>Top 5 Ventas a Clientes</h2>
+          <h2>Ventas por clientes</h2>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="center">
           <ion-list>
+            <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="9">
+                    <strong>PRODUCTOS</strong>
+                  </ion-col>
+                  <ion-col class="pull-right">
+                    <strong>VALOR</strong>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
             <ion-item *ngFor="let item of Top5Clie_Limitado">
               <ion-grid>
                 <ion-row>
@@ -284,7 +307,6 @@
                   </ion-col>
                   <ion-col class="pull-right">
                     <ion-label>${{func.numberFormat(item.egreso,2)}}</ion-label>
-                    <small>Egreso</small>
                   </ion-col>
                 </ion-row>
               </ion-grid>
@@ -294,12 +316,24 @@
       </ion-row>
       <ion-row>
         <ion-col class="center">
-          <h2>Top 5 Ventas por Ciudades</h2>
+          <h2>Ventas por ciudades</h2>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="center">
           <ion-list>
+            <ion-item>
+              <ion-grid>
+                <ion-row>
+                  <ion-col size="9">
+                    <strong>PRODUCTOS</strong>
+                  </ion-col>
+                  <ion-col class="pull-right">
+                    <strong>VALOR</strong>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
+            </ion-item>
             <ion-item *ngFor="let item of Top5Ciu_Limitado">
               <ion-grid>
                 <ion-row>
@@ -308,7 +342,6 @@
                   </ion-col>
                   <ion-col class="pull-right">
                     <ion-label>${{func.numberFormat(item.egreso,2)}}</ion-label>
-                    <small>Egreso</small>
                   </ion-col>
                 </ion-row>
               </ion-grid>
