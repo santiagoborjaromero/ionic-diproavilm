@@ -47,6 +47,14 @@ html, body{
 
 .center{
     text-align: center;
+    align-items: center;
+    align-content: center;
+}
+
+.pull-right{
+    text-align: end;
+    align-items: end;
+    align-content: end;
 }
 
 .icon{
@@ -82,7 +90,8 @@ html, body{
 .contenido-normal{
     display: flex;
     justify-content: center;
-
+    align-items: center;
+    text-align: center;
 }
 
 .bg-danger{background-color: #b4362d; color: #fff; padding: 4px;}
@@ -101,6 +110,12 @@ html, body{
 .t18{font-size: 18px;}
 .t20{font-size: 20px;}
 .t22{font-size: 22px;}
+.t24{font-size: 24px;}
+.t26{font-size: 26px;}
+.t28{font-size: 28px;}
+.t30{font-size: 30px;}
+.t32{font-size: 32px;}
+.t34{font-size: 34px;}
 
 
 .mt-1{margin-top: 4px;}
@@ -164,7 +179,10 @@ html, body{
 
 }
 
-
+.scroll{
+    overflow-x: none;
+    overflow-y: scroll;
+}
 
 .derechos{ 
     display: flex;

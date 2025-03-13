@@ -18,7 +18,7 @@ export class DashboardPage implements OnInit {
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
   private readonly svc = inject(GeneralService);
-  private readonly func = inject(Functions);
+  public  readonly func = inject(Functions);
   // private readonly chart = inject(Chart)
 
 
@@ -36,8 +36,11 @@ export class DashboardPage implements OnInit {
   public CategoriaProd: any = [];
   public LineaProd: any = [];
   public Top5Prod: any = [];
+  public Top5Prod_Limitado: any = [];
   public Top5Clie: any = [];
+  public Top5Clie_Limitado: any = [];
   public Top5Ciu: any = [];
+  public Top5Ciu_Limitado: any = [];
   public colores: any = [
     'rgba(54, 162, 235, 0.5)',
     'rgba(255, 159, 64, 0.5)',
@@ -52,12 +55,55 @@ export class DashboardPage implements OnInit {
     'rgba(201, 203, 207, 0.5)',
     'rgba(201, 203, 207, 0.5)'
   ]
+  public egresoStock: number = 0;
+  public egresoTotal: number = 0;
+  public porcStock: number = 0;
+  public porcTotal: number = 0;
+  public ventasStock: number = 0;
+  public ventasTotal: number = 0;
 
+  public lineChartDataCantidadIngresosPorAnio: ChartConfiguration['data'] = {
+    labels: [],
+    datasets: [],
+  }
+  public lineChartOptionsCantidadIngresosPorAnio: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      }
+    },
+    indexAxis: 'x',
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
   public lineChartDataCantidadVentasPorAnio: ChartConfiguration['data'] = {
     labels: [],
     datasets: [],
   }
   public lineChartOptionsCantidadVentasPorAnio: ChartOptions = {
+    responsive: true,
+    plugins: {
+      legend: {
+        position: 'top'
+      }
+    },
+    indexAxis: 'x',
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  };
+  
+  public LCDataTipoComprobantes: ChartConfiguration['data'] = {
+    labels: [],
+    datasets: [],
+  }
+  public LCOptionsTipoComprobantes: ChartOptions = {
     responsive: true,
     plugins: {
       legend: {
@@ -134,10 +180,10 @@ export class DashboardPage implements OnInit {
     let trim3ingtot = 0;
     let trim4egrtot = 0;
     let trim4ingtot = 0;
-    let egresoStock = 0;
-    let egresoTotal = 0;
-    let ventasStock = 0;
-    let ventasTotal = 0;
+    // let egresoStock = 0;
+    // let egresoTotal = 0;
+    // let ventasStock = 0;
+    // let ventasTotal = 0;
     let found = false;
 
 
@@ -166,8 +212,8 @@ export class DashboardPage implements OnInit {
       trim4ingtot += d.trimestre == 4 && d.asiento == 'I' ? parseFloat(d.total) : 0;
 
       /** TOTAL CANTIDAD Y VALOR POR VENTAS */
-      ventasStock += d.coddoc == "FV" ? parseFloat(d.cantidad) : 0;
-      ventasTotal += d.coddoc == "FV" ? parseFloat(d.total) : 0;
+      this.ventasStock += d.coddoc == "FV" ? parseFloat(d.cantidad) : 0;
+      this.ventasTotal += d.coddoc == "FV" ? parseFloat(d.total) : 0;
 
       /** TOTAL POR TIPO DE COMPROBANTES */
 
@@ -250,6 +296,15 @@ export class DashboardPage implements OnInit {
         }
       }
 
+      this.Top5Prod_Limitado = [];
+      let count = 0
+      this.Top5Prod.forEach((p:any)=>{
+        count++;
+        if (count<=5){
+          this.Top5Prod_Limitado.push(p);
+        }
+      });
+
 
       /** TOP 5 CLIENTES */
       found = false;
@@ -270,6 +325,15 @@ export class DashboardPage implements OnInit {
         }
       }
 
+      this.Top5Clie_Limitado = [];
+      count = 0
+      this.Top5Clie.forEach((p:any)=>{
+        count++;
+        if (count<=5){
+          this.Top5Clie_Limitado.push(p);
+        }
+      });
+
       /** TOP 5 CIUDADES */
       found = false;
       this.Top5Ciu.forEach((tc: any, idx: number) => {
@@ -288,6 +352,17 @@ export class DashboardPage implements OnInit {
           )
         }
       }
+
+      this.Top5Ciu_Limitado = [];
+      count = 0
+      this.Top5Ciu.forEach((p:any)=>{
+        count++;
+        if (count<=5){
+          this.Top5Ciu_Limitado.push(p);
+        }
+      });
+
+
     });
 
     this.trimestres.data_ingreso = [trim1ing, trim2ing, trim3ing, trim4ing];
@@ -295,66 +370,21 @@ export class DashboardPage implements OnInit {
     this.trimestres.data_egreso = [trim1egr, trim2egr, trim3egr, trim4egr];
     this.trimestres.data_egreso_total = [trim1egrtot, trim2egrtot, trim3egrtot, trim4egrtot];
 
-    egresoStock = trim1ing + trim2ing + trim3ing + trim4ing;
-    egresoTotal = trim1ingtot + trim2ingtot + trim3ingtot + trim4ingtot;
+    this.egresoStock = trim1ing + trim2ing + trim3ing + trim4ing;
+    this.egresoTotal = trim1ingtot + trim2ingtot + trim3ingtot + trim4ingtot;
 
-    let porcStock = (ventasStock / egresoStock) * 100;
-    let porcTotal = (ventasTotal / egresoTotal) * 100;
+    this.porcStock = (this.ventasStock / this.egresoStock) * 100;
+    this.porcTotal = (this.ventasTotal / this.egresoTotal) * 100;
 
 
     this.chartCantidadIngresoEgresos();
-
-    // // $("#egresoStock").html(this.func.numberFormat(egresoStock,2));
-    // // $("#egresoTotal").html(this.func.numberFormat(egresoTotal,2));
-
-    // // $("#ventasStock").html(this.func.numberFormat(ventasStock,2));
-    // // $("#ventasTotal").html(this.func.numberFormat(ventasTotal,2));
-
-    // // $("#porcStock").html(this.func.numberFormat(porcStock,2));
-    // // $("#porcTotal").html(this.func.numberFormat(porcTotal,2));
-
-    // console.log(this.trimestres)
-
-
+    this.chartCategorias();
   }
 
 
   chartCantidadIngresoEgresos() {
     console.log("chartCantidadIngresoEgresos");
-
-    //   let t = new Chart(this.lineCanvas?.nativeElement, {
-    //     type: 'line',
-    //     data: {
-    //         labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-    //         datasets: [
-    //             {
-    //                 label: 'My First dataset',
-    //                 fill: false,
-    //                 tension: 0.1,
-    //                 backgroundColor: 'rgba(75,192,192,0.4)',
-    //                 borderColor: 'rgba(75,192,192,1)',
-    //                 borderCapStyle: 'butt',
-    //                 borderDash: [],
-    //                 borderDashOffset: 0.0,
-    //                 borderJoinStyle: 'miter',
-    //                 pointBorderColor: 'rgba(75,192,192,1)',
-    //                 pointBackgroundColor: '#fff',
-    //                 pointBorderWidth: 1,
-    //                 pointHoverRadius: 5,
-    //                 pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-    //                 pointHoverBorderColor: 'rgba(220,220,220,1)',
-    //                 pointHoverBorderWidth: 2,
-    //                 pointRadius: 1,
-    //                 pointHitRadius: 10,
-    //                 data: [65, 59, 80, 81, 56, 55, 40],
-    //                 spanGaps: false,
-    //             }
-    //         ]
-    //     }
-    // });
-
-
-    this.lineChartDataCantidadVentasPorAnio = {
+    this.lineChartDataCantidadIngresosPorAnio = {
       labels: this.trimestres.labels,
       datasets: [
         {
@@ -376,8 +406,71 @@ export class DashboardPage implements OnInit {
         }
       ]
     }
+    this.lineChartDataCantidadVentasPorAnio = {
+      labels: this.trimestres.labels,
+      datasets: [
+        {
+          label: 'Ingresos',
+          data: this.trimestres.data_ingreso_total,
+          borderWidth: 0,
+          tension: 0.1,
+          borderColor: 'black',
+          backgroundColor: this.colores[3]
+        },
+        {
+          label: 'Egresos',
+          data: this.trimestres.data_egreso_total,
+          borderWidth: 0,
+          tension: 0.1,
+          borderColor: 'black',
+          backgroundColor: this.colores[4],
 
-    // console.log(this.lineChartDataCantidadVentasPorAnio)
+        }
+      ]
+    }
+  }
+
+  chartCategorias(){
+    console.log("chartCategorias");
+
+    /**TIPO DE COMPROBANTES */
+    let grptipo:any = [];
+    let grpIng:any = [];
+    let grpEgr:any = [];
+    let tblTCTotIng = 0;
+    let tblTCTotEgr = 0;
+    this.tipoComprobantes.forEach((tc:any)=>{
+        grptipo.push(tc.tipo);
+        grpIng.push(tc.ingreso);
+        grpEgr.push(tc.egreso);
+        tblTCTotIng += tc.ingreso;
+        tblTCTotEgr += tc.egreso;
+    })
+  
+      // $("#tblTCTotIng").html(numero(tblTCTotIng,2))
+      // $("#tblTCTotEgr").html(numero(tblTCTotEgr,2))
+      
+    this.LCDataTipoComprobantes = {
+      labels: grptipo,
+      datasets: [
+        {
+          label: 'Ingresos',
+          data: grpIng,
+          borderWidth: 0,
+          tension: 0.1,
+          borderColor: 'black',
+          backgroundColor: this.colores
+        },
+        {
+          label: 'Egresos',
+          data: grpEgr,
+          borderWidth: 0,
+          tension: 0.1,
+          borderColor: 'black',
+          backgroundColor: this.colores
+        }
+      ]
+    }
   }
 
 
