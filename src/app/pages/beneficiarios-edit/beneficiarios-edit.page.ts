@@ -289,7 +289,7 @@ export class BeneficiariosEditPage implements OnInit {
     await this.svc.apiRest(method, url, data).subscribe({
       next: (resp)=>{
         if (resp.status == "ok"){
-          this.svc.showToast("info", `Beneficiario creado con éxito`)
+          this.svc.showToast("info", `Beneficiario guardado con éxito`)
           this.back()
         } else{
           this.svc.showToast("error", resp.message)
