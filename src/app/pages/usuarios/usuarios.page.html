@@ -24,7 +24,11 @@
 
         <ion-item>
           <ion-avatar>
-            <img alt="user" src="/assets/images/user.svg" />
+            @if(i.deleted_at===null){
+              <img alt="user" src="/assets/images/user.svg" />
+            }@else {
+              <img alt="user" src="/assets/images/eliminado.svg"/>
+            }
           </ion-avatar>
     
           @if(i.status == 1){
@@ -37,7 +41,7 @@
             </ion-label>
             <ion-badge color="secondary" class="mr-1">Activo</ion-badge> 
           } @else {
-            <ion-label>
+            <ion-label color="danger">
               <strong><del>{{i.fullname}}</del></strong><br />
               <small><strong>{{i.rolename}}</strong></small><br />
             </ion-label>

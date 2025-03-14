@@ -23,25 +23,33 @@
       <div>
         <ion-item>
           <ion-avatar>
-            <img alt="beneficiario" src="/assets/images/beneficiario.svg"/>
+            @if(i.deleted_at===null){
+              <img alt="beneficiario" src="/assets/images/beneficiario.svg"/>
+            }@else {
+              <img alt="beneficiario" src="/assets/images/eliminado.svg"/>
+            }
           </ion-avatar>
 
-          <ion-label>
-            <strong>{{i.nombre}}</strong><br />
-            <small><strong>{{i.identification}} {{i.nombrecomercial}}</strong></small><br />
-            @if(i.type == "C"){ <ion-badge color="success" class="mr-1">Cliente</ion-badge> }
-            @if(i.type == "P"){ <ion-badge color="warning" class="mr-1">Proveedor</ion-badge> }
-            @if(i.type == "A"){ <ion-badge color="danger"  class="mr-1">Cliente y Proveedor</ion-badge> }
-            @if(i.type == "E"){ <ion-badge color="danger"  class="mr-1">Diproavilm</ion-badge> }
-            <br>
-            <small><strong>{{i.provincia}} - {{i.ciudad}}</strong></small>
-          </ion-label>
+          @if(i.deleted_at===null){
+            <ion-label>
+              <strong>{{i.nombre}}</strong><br />
+              <small><strong>{{i.identification}} {{i.nombrecomercial}}</strong></small><br />
+              @if(i.type == "C"){ <ion-badge color="success" class="mr-1">Cliente</ion-badge> }
+              @if(i.type == "P"){ <ion-badge color="warning" class="mr-1">Proveedor</ion-badge> }
+              @if(i.type == "A"){ <ion-badge color="danger"  class="mr-1">Cliente y Proveedor</ion-badge> }
+              @if(i.type == "E"){ <ion-badge color="danger"  class="mr-1">Diproavilm</ion-badge> }
+              <br>
+              <small><strong>{{i.provincia}} - {{i.ciudad}}</strong></small>
+            </ion-label>
+          }@else {
+            <ion-label color="danger"><del>{{i.nombre}}</del></ion-label>
+          }
         </ion-item>
     
         <ion-item-options side="end" class="item-options">
           <ion-item-option color="clear">
             <ion-button
-              *ngIf="this.scopeW" 
+              *ngIf="i.deleted_at===null && this.scopeW" 
               (click)="edit(i.idbeneficiary)"
               shape="round"
               color="secondary"

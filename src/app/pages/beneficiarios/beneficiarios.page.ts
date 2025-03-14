@@ -15,7 +15,6 @@ export class BeneficiariosPage implements OnInit {
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
   private readonly svc = inject(GeneralService);
-
   
   public title: string = "Beneficiarios";
   
@@ -129,9 +128,8 @@ export class BeneficiariosPage implements OnInit {
   }
 
   eliminar = async (id:string) => {
-    await this.svc.apiRest("DELETE", "deleteUser", id).subscribe({
+    await this.svc.apiRest("DELETE", "deleteBene", id).subscribe({
       next: (resp)=>{
-        // console.log(resp)
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -162,8 +160,8 @@ export class BeneficiariosPage implements OnInit {
     });
   }
   
-  recovery =  async (id:any) => {
-    await this.svc.apiRest("POST", `recuperarUsuario&id=${id}`, {id}).subscribe({
+  recovery = async (id:string) => {
+    await this.svc.apiRest("PUT", `recuperaBene&id=${id}`, null).subscribe({
       next: (resp)=>{
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
