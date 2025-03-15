@@ -27,7 +27,8 @@ export class Functions {
       return nommes;
     }
 
-    numberFormat(n:number,dec=2){
+    numberFormat(n:any,dec=2){
+      if (typeof n === "string") n = parseFloat(n);
       return (n).toLocaleString(
         "en-US", 
         { 
