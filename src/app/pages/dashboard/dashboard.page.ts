@@ -154,8 +154,6 @@ export class DashboardPage implements OnInit {
 
   graficar() {
 
-    console.log("graficar")
-
     this.trimestres = {
       labels: ["Trim 1", "Trim 2", "Trim 3", "Trim 4"],
       data_egreso: [],
@@ -383,7 +381,6 @@ export class DashboardPage implements OnInit {
 
 
   chartCantidadIngresoEgresos() {
-    console.log("chartCantidadIngresoEgresos");
     this.lineChartDataCantidadIngresosPorAnio = {
       labels: this.trimestres.labels,
       datasets: [
@@ -431,7 +428,6 @@ export class DashboardPage implements OnInit {
   }
 
   chartCategorias(){
-    console.log("chartCategorias");
 
     /**TIPO DE COMPROBANTES */
     let grptipo:any = [];
