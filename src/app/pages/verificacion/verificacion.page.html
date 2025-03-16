@@ -1,0 +1,27 @@
+<div class="contenido2">
+  <div class="screen">
+    <div class="header">
+      <span class="title">Codigo de Seguridad</span>
+      <img alt="Diproavilm Cia. Ltda." src="/assets/images/escudo2.svg" />
+      <br><br>
+      <ion-item lines="none" class="center">
+        <ion-text>Ingrese el código de 6 digitos que enviamos a la aplicación de notificaciones</ion-text>
+      </ion-item>
+      <ion-item>
+        <ion-input
+        [mode]="'ios'"
+        [maxlength]="6"
+        [inputmode]="'numeric'"
+        [fill]="'solid'"
+        [autofocus]="true"
+        [placeholder]="'000000'"
+        class="center t30"
+        [(ngModel)]="codigo"
+        ></ion-input>
+      </ion-item>
+      <ion-item lines="none"></ion-item>
+      <ion-button (click)="signin()">Verificar</ion-button>
+      <ion-item lines="none">El código expira en&nbsp;<strong>{{elapsed}}</strong></ion-item>
+    </div>
+  </div>
+</div>

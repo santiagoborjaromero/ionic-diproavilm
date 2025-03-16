@@ -88,7 +88,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
           this.sess.set("token", user.token);
           this.sess.set("form", frmData);
           this.sess.set("logged", true);
-          this.svc.goRoute("dashboard");
+          this.svc.goRoute("verificacion");
         } else {
           this.times_error++;
           switch(resp.message){

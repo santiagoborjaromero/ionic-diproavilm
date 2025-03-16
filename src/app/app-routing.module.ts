@@ -87,6 +87,11 @@ const routes: Routes = [
     loadChildren: () => import('./pages/productos-edit/productos-edit.module').then( m => m.ProductosEditPageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'verificacion',
+    loadChildren: () => import('./pages/verificacion/verificacion.module').then( m => m.VerificacionPageModule),
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({

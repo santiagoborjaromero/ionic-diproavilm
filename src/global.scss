@@ -76,11 +76,23 @@ html, body{
     justify-content: center;
     align-content: center;
     align-items: center;
-    background-color: #fff ;
-    // background: linear-gradient(#ffd64fd8, #7a6f0bd3),
-    //background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/granja.jpg');
-    background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/fondo4.jpg');
+    background-color: #ffffff ;
+    // background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/granja.jpg');
+    // background: linear-gradient(#0b7eb3e7, #0b7eb344), url('/assets/images/fondo4.jpg');
     // background-image: url("/assets/images/granja.jpg");
+    color: #000;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: 50% 30%;
+}
+.contenido2{
+    display: flex;
+    height: 100vh;
+    vertical-align: middle;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: #fff ;
     color: #000;
     background-size: cover;
     background-repeat: no-repeat;
