@@ -1,13 +1,13 @@
 <ion-tabs>
-  <ion-header [translucent]="true">
-    <ion-toolbar color="secondary">
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Dashboard</ion-title>
-    </ion-toolbar>
-  </ion-header>
   <ion-tab tab="egresos" class="scroll">
+    <ion-header [translucent]="true">
+      <ion-toolbar color="secondary" [mode]="'ios'">
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Dashboard - Egresos</ion-title>
+      </ion-toolbar>
+    </ion-header>
     <ion-grid>
       <ion-row>
         <ion-col class="center">
@@ -67,6 +67,12 @@
   </ion-tab>
 
   <ion-tab tab="ingresos" class="scroll">
+    <ion-toolbar color="secondary" [mode]="'ios'">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Dashboard - Ingresos</ion-title>
+    </ion-toolbar>
     <ion-grid>
       <ion-row>
         <ion-col class="center">
@@ -128,6 +134,12 @@
   </ion-tab>
 
   <ion-tab tab="comprobante" class="scroll">
+    <ion-toolbar color="secondary" [mode]="'ios'">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Dashboard - Comprobantes</ion-title>
+    </ion-toolbar>
     <ion-grid>
       <ion-row>
         <ion-col class="center">
@@ -178,6 +190,12 @@
   </ion-tab>
 
   <ion-tab tab="categoria" class="scroll">
+    <ion-toolbar color="secondary" [mode]="'ios'">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Dashboard - Categorias</ion-title>
+    </ion-toolbar>
     <ion-grid>
       <ion-row>
         <ion-col class="center">
@@ -243,6 +261,12 @@
   </ion-tab>
 
   <ion-tab tab="top5" class="scroll">
+    <ion-toolbar color="secondary" [mode]="'ios'">
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Dashboard - Top 5</ion-title>
+    </ion-toolbar>
     <ion-grid>
       <ion-row>
         <ion-col class="center">
@@ -352,7 +376,7 @@
     </ion-grid>
   </ion-tab>
 
-  <ion-tab-bar slot="bottom">
+  <ion-tab-bar slot="bottom"  [mode]="'ios'">
     <ion-tab-button tab="egresos">
       <ion-icon name="trending-down-outline"></ion-icon>
       Egresos
@@ -376,10 +400,3 @@
   </ion-tab-bar>
 </ion-tabs>
 
-<!-- <ion-footer>
-  <ion-toolbar class="center">
-    <ion-button shape="round" color="secondary">
-      <ion-icon slot="icon-only" name="refresh"></ion-icon>
-    </ion-button>
-  </ion-toolbar>
-</ion-footer> -->

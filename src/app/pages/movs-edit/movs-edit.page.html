@@ -1,13 +1,85 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>movs_edit</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-tabs>
+  <ion-tab tab="generales">
+    <div id="generales-page">
+      <ion-header [translucent]="true" [mode]="'ios'">
+        <ion-toolbar  color="secondary">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Datos Generales</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content [fullscreen]="true">
+        <div class="contenido-normal">
+          <div class="body">
+            <ion-item color="clear">
+              <ion-input
+                label="Nombre (*)"
+                labelPlacement="stacked"
+                placeholder="Ingrese el nombre"
+              ></ion-input>
+            </ion-item>
+          </div>
+        </div>
+      </ion-content>
+    </div>
+  </ion-tab>
+  <ion-tab tab="detalle">
+    <div id="detalle-page">
+      <ion-header [translucent]="true" [mode]="'ios'">
+        <ion-toolbar  color="secondary">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Detalle</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="example-content">detalle content</div>
+      </ion-content>
+    </div>
+  </ion-tab>
+  <ion-tab tab="totales">
+    <div id="totales-page">
+      <ion-header [translucent]="true" [mode]="'ios'">
+        <ion-toolbar  color="secondary">
+          <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+          </ion-buttons>
+          <ion-title>Totales</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="example-content">totales content</div>
+      </ion-content>
+    </div>
+  </ion-tab>
+  <ion-tab tab="search">
+    <div id="search-page">
+      <ion-header>
+        <ion-toolbar>
+          <ion-title>Search</ion-title>
+        </ion-toolbar>
+      </ion-header>
+      <ion-content>
+        <div class="example-content">Search content</div>
+      </ion-content>
+    </div>
+  </ion-tab>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">movs_edit</ion-title>
-    </ion-toolbar>
-  </ion-header>
-</ion-content>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="generales">
+      <ion-icon name="calendar-number-outline"></ion-icon>
+      Datos Generales
+    </ion-tab-button>
+    <ion-tab-button tab="detalle">
+      <ion-icon name="receipt-outline"></ion-icon>
+      Detalle
+    </ion-tab-button>
+    <ion-tab-button tab="totales">
+      <!-- <ion-icon name="totales"></ion-icon> -->
+      <ion-icon name="calculator-outline"></ion-icon>
+      Totales
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>
