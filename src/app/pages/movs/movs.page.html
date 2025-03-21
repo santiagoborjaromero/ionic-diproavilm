@@ -1,13 +1,109 @@
-
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar  color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Movimientos</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
+
 <ion-content [fullscreen]="true">
+  <ion-segment color="tertiary" value="dia" [mode]="'ios'" (click)="getData(true)" [(ngModel)]="segment">
+    <ion-segment-button value="dia">
+      <ion-label>Dia</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="mes">
+      <ion-label>Mes</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="trim">
+      <ion-label>Trim</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="anio">
+      <ion-label>Año</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-item>
+    <ion-input
+      (keyup)="find($event)"
+      label="Buscar"
+      labelPlacement="stacked"
+      [(ngModel)]="buscar"
+      placeholder="Ingrese el texto a buscar"
+    ></ion-input>
+  </ion-item>
+  @if(lstMovs && lstMovs.length>0){
+    <ion-item-sliding *ngFor="let i of lstMovs">
+      @defer (on viewport) {
+        <div>
+          <ion-item>
+            <ion-avatar>
+              @if(i.status==1){
+                <img alt="Movimiento" src="/assets/images/movs.svg"/>
+              }@else {
+                <img alt="Movimiento" src="/assets/images/eliminado.svg"/>
+              }
+            </ion-avatar>
   
-</ion-content>
+            <ion-label>
+              <strong>{{i.beneficiary_name}}</strong><br />
+              <small>Número Documento = <strong>{{i.numberdocument}}</strong></small><br />
+              <small>Fecha = <strong>{{i.date}}</strong></small><br />
+              <ion-badge color="secondary" class="mr-1">{{i.type}}</ion-badge>
+              <ion-badge color="{{i.status == 1 ? 'success' : 'danger'}}" class="mr-1">{{i.status == 1 ? 'Activo' : 'Anulado'}}</ion-badge>
+              <ion-badge color="warning">Items {{i.nitems}}</ion-badge>
+              <br>
+              <strong>$ {{func.numberFormat(i.total,2)}} </strong>
+            </ion-label>
+          </ion-item>
+      
+          <ion-item-options side="end" class="item-options">
+            <ion-item-option color="clear">
+              <ion-button
+                *ngIf="i.status == 1 && this.scopeW" 
+                (click)="edit(i.idmovmentproduct)"
+                shape="round"
+                color="secondary"
+              >
+                <ion-icon slot="icon-only" name="create"></ion-icon>
+              </ion-button>
+              <ion-button *ngIf="i.status == 1 && this.scopeD"  (click)="del(i.idmovmentproduct)" shape="round" color="danger">
+                <ion-icon slot="icon-only" name="trash"></ion-icon>
+              </ion-button>
+      
+              <ion-button *ngIf="i.status == 0 && this.scopeW" (click)="recuperar(i.idmovmentproduct)" shape="round" color="warning">
+                Recuperar
+              </ion-button>
+            </ion-item-option>
+          </ion-item-options>
+        </div>
+      } @loading {
+        <ion-item>Cargando</ion-item>
+      } @placeholder {
+        <ion-item>Cargando</ion-item>
+        }
+  
+    </ion-item-sliding>
+    }@else {
+    <ion-item lines="none">
+      <i>No se encuentra elementos</i>
+    </ion-item>
+    }
+    <ion-list *ngIf="lstMovs && lstMovs.length>0"> </ion-list>
+  </ion-content>
+  
+  
+  <ion-fab horizontal="end" vertical="top">
+    <ion-fab-button color="secondary">
+      <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="bottom">
+      <ion-fab-button *ngIf="this.scopeW" color="secondary" (click)="new()">
+        <ion-icon name="add"></ion-icon>
+      </ion-fab-button>
+      <ion-fab-button color="warning" (click)="getData(true)">
+        <ion-icon name="repeat"></ion-icon>
+      </ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>

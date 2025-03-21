@@ -94,14 +94,18 @@ export class GeneralService {
     // this.navCtrl.navigateForward(ruta);
   }
 
-  async showLoading(texto: string = "Espere un momento", time: number = 2000) {
-    let loading = await this.loadingCtrl.create({
-      message: texto,
-      duration: time,
-      translucent: true,
-      animated: true
-    })
+  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+    let params:any = {};
+    params["message"] = texto;
+    if (time>0) params["duration"] = time;
+    params["translucent"] = true;
+    params["animated"] = true;
+    params["mode"] = 'ios';
+    params["spinner"] = 'circular';
+    
+    let loading = await this.loadingCtrl.create(params)
     loading.present();
+    return loading;
   }
 
   
