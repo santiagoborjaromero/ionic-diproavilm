@@ -9,17 +9,24 @@
 
 <ion-content [fullscreen]="true">
   <ion-item>
-    <ion-input
+    <ion-searchbar 
+      [mode]="'ios'" 
+      search-icon="search-circle" 
+      placeholder="Buscar"
+      (keyup)="find($event)"
+      [(ngModel)]="buscar"
+      ></ion-searchbar>
+    <!-- <ion-input
       (keyup)="find($event)"
       label="Buscar"
       labelPlacement="stacked"
       [(ngModel)]="buscar"
       placeholder="Ingrese el texto a buscar"
-    ></ion-input>
+    ></ion-input> -->
   </ion-item>
   @if(lstBene && lstBene.length>0){
-  <ion-item-sliding *ngFor="let i of lstBene">
-    @defer (on viewport) {
+  <ion-item-sliding *ngFor="let i of lstBene; trackBy: trackById">
+    @defer (on viewport; prefetch on idle) {
       <div>
         <ion-item>
           <ion-avatar>
@@ -70,12 +77,12 @@
       <ion-item>Cargando</ion-item>
     } @placeholder {
       <ion-item>Cargando</ion-item>
-      }
-
+    }
   </ion-item-sliding>
+
   }@else {
   <ion-item lines="none">
-    <i>No se encuentra elementos</i>
+    <i>No se encontraron elementos</i>
   </ion-item>
   }
   <ion-list *ngIf="lstBene && lstBene.length>0"> </ion-list>

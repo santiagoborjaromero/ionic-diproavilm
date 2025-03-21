@@ -25,13 +25,20 @@
     </ion-segment-button>
   </ion-segment>
   <ion-item>
-    <ion-input
+    <ion-searchbar 
+      [mode]="'ios'" 
+      search-icon="search-circle" 
+      placeholder="Buscar"
+      (keyup)="find($event)"
+      [(ngModel)]="buscar"
+      ></ion-searchbar>
+    <!-- <ion-input
       (keyup)="find($event)"
       label="Buscar"
       labelPlacement="stacked"
       [(ngModel)]="buscar"
       placeholder="Ingrese el texto a buscar"
-    ></ion-input>
+    ></ion-input> -->
   </ion-item>
   @if(lstMovs && lstMovs.length>0){
     <ion-item-sliding *ngFor="let i of lstMovs">
@@ -87,7 +94,7 @@
     </ion-item-sliding>
     }@else {
     <ion-item lines="none">
-      <i>No se encuentra elementos</i>
+      <i>No se encontraron elementos</i>
     </ion-item>
     }
     <ion-list *ngIf="lstMovs && lstMovs.length>0"> </ion-list>

@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { Functions } from 'src/app/core/helpers/functions.helper';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
@@ -18,6 +19,7 @@ export class ProductosPage implements OnInit {
   private readonly menuSvc = inject(MenuService);
   private readonly svc = inject(GeneralService);
   public readonly func = inject(Functions);
+  public readonly loadingCtrl = inject(LoadingController);
   
   public title: string = "Productos";
   
@@ -29,9 +31,11 @@ export class ProductosPage implements OnInit {
   public prodID: number = 0;
   public scope: Array<any>=[];
 
-  public scopeR:boolean=false;;
-  public scopeW:boolean=false;;
-  public scopeD:boolean=false;;
+  public scopeR:boolean=false;
+  public scopeW:boolean=false;
+  public scopeD:boolean=false;
+
+  public loading:any;
 
   constructor() { }
 
@@ -64,20 +68,28 @@ export class ProductosPage implements OnInit {
     },800)
   }
 
+  pagination(startIndex=0, endIndex=10){
+    this.lstProd = this.lstProdOriginal.slice(startIndex, endIndex);
+  }
+
 
   getData = async (load:boolean = false) => {
-    if (load) this.svc.showLoading("Espere un momento", 1000);
+    this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "productos", null).subscribe({
       next: (resp:any)=>{
-
+        this.loading.dismiss();
         if (resp.status == "ok"){
-          this.lstProd = resp.message;
           this.lstProdOriginal = resp.message;
+          this.pagination();
+          setTimeout(()=>{
+            this.pagination(0,this.lstProdOriginal.length)
+          },1000)
         }else{
           this.svc.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
       },
       error: (error:any)=>{
+        this.loading.dismiss();
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });
@@ -132,8 +144,10 @@ export class ProductosPage implements OnInit {
   }
 
   eliminar = async (id:string) => {
+    this.showLoading("Eliminando, espere un momento");
     await this.svc.apiRest("DELETE", "deleteProducto", id).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -142,6 +156,7 @@ export class ProductosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -165,8 +180,10 @@ export class ProductosPage implements OnInit {
   }
   
   recovery = async (id:string) => {
+    this.showLoading("Recuperando, espere un momento")
     await this.svc.apiRest("POST", `recuperarProducto&id=${id}`, null).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -175,10 +192,18 @@ export class ProductosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
     })
+  }
+
+
+  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+    let params:any = await this.svc.showLoading(texto,time);
+    this.loading = await this.loadingCtrl.create(params)
+    this.loading.present();
   }
 
 }

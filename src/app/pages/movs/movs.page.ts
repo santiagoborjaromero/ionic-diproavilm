@@ -69,6 +69,10 @@ export class MovsPage implements OnInit {
     },800)
   }
 
+  pagination(startIndex=0, endIndex=10){
+    this.lstMovs = this.lstMovsOriginal.slice(startIndex, endIndex);
+  }
+
 
   getData = async (load:boolean = false) => {
     if (load) this.showLoading("Espere un momento");
@@ -106,10 +110,12 @@ export class MovsPage implements OnInit {
       next: (resp:any)=>{
         this.loading.dismiss();
         if (resp.status == "ok"){
-          this.lstMovs = resp.message;
           this.lstMovsOriginal = resp.message;
 
-          // console.log(this.lstMovs)
+          this.pagination();
+          setTimeout(()=>{
+            this.pagination(0,this.lstMovsOriginal.length)
+          },1000)
         }else{
           this.svc.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
@@ -128,13 +134,10 @@ export class MovsPage implements OnInit {
       this.lstMovs = [];
       this.lstMovsOriginal.forEach((e:any)=>{
         if (
-          e.name.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.description.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.presentation.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.Movsuctcode.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.barcode.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.line.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
-          e.category.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 
+          e.beneficiary_name.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
+          e.numberdocument.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
+          e.type.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
+          e.total.toString().toLowerCase().indexOf(this.buscar.toLowerCase())>-1 
         ){
           this.lstMovs.push(e)
         }
@@ -226,13 +229,7 @@ export class MovsPage implements OnInit {
   }
 
   async showLoading(texto: string = "Espere un momento", time: number = 0) {
-    let params:any = {};
-    params["message"] = texto;
-    if (time>0) params["duration"] = time;
-    params["translucent"] = true;
-    params["animated"] = true;
-    params["mode"] = 'ios';
-    params["spinner"] = 'circular';
+    let params:any = await this.svc.showLoading(texto,time);
     this.loading = await this.loadingCtrl.create(params)
     this.loading.present();
   }

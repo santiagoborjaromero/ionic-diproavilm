@@ -102,10 +102,9 @@ export class GeneralService {
     params["animated"] = true;
     params["mode"] = 'ios';
     params["spinner"] = 'circular';
-    
-    let loading = await this.loadingCtrl.create(params)
-    loading.present();
-    return loading;
+    // let loading = await this.loadingCtrl.create(params)
+    // loading.present();
+    return params;
   }
 
   

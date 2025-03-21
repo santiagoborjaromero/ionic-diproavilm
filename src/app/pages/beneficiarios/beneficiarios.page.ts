@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
@@ -15,6 +16,7 @@ export class BeneficiariosPage implements OnInit {
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
   private readonly svc = inject(GeneralService);
+  private readonly loadingCtrl = inject(LoadingController);
   
   public title: string = "Beneficiarios";
   
@@ -25,6 +27,7 @@ export class BeneficiariosPage implements OnInit {
   public userID: number = 0;
   public beneID: number = 0;
   public scope: Array<any>=[];
+  public loading: any;
 
   public scopeR:boolean=false;;
   public scopeW:boolean=false;;
@@ -64,23 +67,34 @@ export class BeneficiariosPage implements OnInit {
     },800)
   }
 
+  pagination(startIndex=0, endIndex=10){
+    this.lstBene = this.lstBeneOriginal.slice(startIndex, endIndex);
+  }
 
   getData = async (load:boolean = false) => {
-    if (load) this.svc.showLoading("Espere un momento", 1000);
+    this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "bene", null).subscribe({
       next: (resp:any)=>{
+        this.loading.dismiss();
         if (resp.status == "ok"){
-          this.lstBene = resp.message;
           this.lstBeneOriginal = resp.message;
-          // console.log(this.lstBene)
+          this.pagination();
+          setTimeout(()=>{
+            this.pagination(0,this.lstBeneOriginal.length)
+          },1000)
         }else{
           this.svc.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
       },
       error: (error:any)=>{
+        this.loading.dismiss();
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     })
+  }
+
+  trackById(index: number, item: any): number {
+    return item.id; // o el campo que sea único
   }
 
   find = (event:any) => {
@@ -128,8 +142,10 @@ export class BeneficiariosPage implements OnInit {
   }
 
   eliminar = async (id:string) => {
+    this.showLoading("Eliminando");
     await this.svc.apiRest("DELETE", "deleteBene", id).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -138,6 +154,7 @@ export class BeneficiariosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -161,8 +178,10 @@ export class BeneficiariosPage implements OnInit {
   }
   
   recovery = async (id:string) => {
+    this.showLoading("Recuperando")
     await this.svc.apiRest("PUT", `recuperaBene&id=${id}`, null).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -171,10 +190,18 @@ export class BeneficiariosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
     })
+  }
+
+
+  showLoading = async (texto: string = "Espere un momento", time: number = 0) => {
+    let params:any = await this.svc.showLoading(texto,time);
+    this.loading = await this.loadingCtrl.create(params)
+    this.loading.present();
   }
 
 }

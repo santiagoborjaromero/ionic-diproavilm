@@ -1,4 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
+import { LoadingController } from '@ionic/angular';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
@@ -16,6 +17,7 @@ export class UsuariosPage implements OnInit {
   private readonly svc = inject(GeneralService);
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
+  private readonly loadingCtrl = inject(LoadingController);
 
   public title: string = "Usuarios";
 
@@ -25,6 +27,7 @@ export class UsuariosPage implements OnInit {
   public buscar: string ="";
   public userID: string ="";
   public scope: Array<any>=[];
+  public loading: any;
 
   public scopeR:boolean=false;;
   public scopeW:boolean=false;;
@@ -68,20 +71,28 @@ export class UsuariosPage implements OnInit {
 
   ionViewWillEnter() {
   }
+
+  pagination(startIndex=0, endIndex=10){
+    this.lstUsers = this.lstUsersOriginal.slice(startIndex, endIndex);
+  }
   
   getData = async (load:boolean = false) => {
-    if (load) this.svc.showLoading("Espere un momento", 1000);
+    this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "users", null).subscribe({
       next: (resp:any)=>{
+        this.loading.dismiss();
         if (resp.status == "ok"){
-          this.lstUsers = resp.message;
           this.lstUsersOriginal = resp.message;
-          // console.log(this.lstUsers)
+          this.pagination();
+          setTimeout(()=>{
+            this.pagination(0,this.lstUsersOriginal.length)
+          },1000)
         }else{
           this.svc.showAlert(resp.message, "", "error", [{text: 'Aceptar',role: 'cancel',data: {  action: 'cancel',},},]);
         }
       },
       error: (error:any)=>{
+        this.loading.dismiss();
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     })
@@ -135,8 +146,10 @@ export class UsuariosPage implements OnInit {
   }
 
   eliminar = async (id:string) => {
+    this.showLoading("Eliminando")
     await this.svc.apiRest("DELETE", "deleteUser", id).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         // console.log(resp)
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
@@ -146,6 +159,7 @@ export class UsuariosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -169,8 +183,10 @@ export class UsuariosPage implements OnInit {
   }
   
   recovery =  async (id:any) => {
+    this.showLoading("Recuperando");
     await this.svc.apiRest("POST", `recuperarUsuario&id=${id}`, {id}).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -179,6 +195,7 @@ export class UsuariosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -203,8 +220,10 @@ export class UsuariosPage implements OnInit {
   }
 
   reset= async (id:any) => {
+    this.showLoading("Reseando");
     await this.svc.apiRest("POST", `resetearclave&id=${id}`, {id}).subscribe({
       next: (resp)=>{
+        this.loading.dismiss();
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -213,10 +232,18 @@ export class UsuariosPage implements OnInit {
         }
       },
       error: (error)=>{
+        this.loading.dismiss();
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
     })
+  }
+
+
+  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+    let params:any = await this.svc.showLoading(texto,time);
+    this.loading = await this.loadingCtrl.create(params)
+    this.loading.present();
   }
 
 }

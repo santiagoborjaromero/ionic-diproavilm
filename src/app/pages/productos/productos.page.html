@@ -9,13 +9,13 @@
 
 <ion-content [fullscreen]="true">
   <ion-item>
-    <ion-input
+    <ion-searchbar 
+      [mode]="'ios'" 
+      search-icon="search-circle" 
+      placeholder="Buscar"
       (keyup)="find($event)"
-      label="Buscar"
-      labelPlacement="stacked"
       [(ngModel)]="buscar"
-      placeholder="Ingrese el texto a buscar"
-    ></ion-input>
+      ></ion-searchbar>
   </ion-item>
   @if(lstProd && lstProd.length>0){
   <ion-item-sliding *ngFor="let i of lstProd">
@@ -24,7 +24,7 @@
         <ion-item>
           <ion-avatar>
             @if(i.deleted_at===null){
-              <img alt="producto" src="/assets/images/producto.svg"/>
+              <img alt="producto" src="/assets/images/producto1.svg"/>
             }@else {
               <img alt="producto" src="/assets/images/eliminado.svg"/>
             }
@@ -72,7 +72,7 @@
   </ion-item-sliding>
   }@else {
   <ion-item lines="none">
-    <i>No se encuentra elementos</i>
+    <i>No se encontraron elementos</i>
   </ion-item>
   }
   <ion-list *ngIf="lstProd && lstProd.length>0"> </ion-list>
