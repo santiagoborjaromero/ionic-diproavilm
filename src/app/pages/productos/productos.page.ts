@@ -132,7 +132,7 @@ export class ProductosPage implements OnInit {
   }
 
   eliminar = async (id:string) => {
-    await this.svc.apiRest("DELETE", "deleteBene", id).subscribe({
+    await this.svc.apiRest("DELETE", "deleteProducto", id).subscribe({
       next: (resp)=>{
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
@@ -165,7 +165,7 @@ export class ProductosPage implements OnInit {
   }
   
   recovery = async (id:string) => {
-    await this.svc.apiRest("PUT", `recuperaBene&id=${id}`, null).subscribe({
+    await this.svc.apiRest("POST", `recuperarProducto&id=${id}`, null).subscribe({
       next: (resp)=>{
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)

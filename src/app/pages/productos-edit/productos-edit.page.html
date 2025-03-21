@@ -1,13 +1,161 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>productos_edit</ion-title>
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>{{Titulo}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
+
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">productos_edit</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <div class="contenido-normal">
+    <div class="body">
+      <ion-item color="clear">
+        <ion-input
+          label="Nombre (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="name"
+          placeholder="Ingrese el nombre"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Descripcion (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="description"
+          placeholder="Ingrese la descripcion del producto"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Codigo (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="productcode"
+          placeholder="Ingrese el codigo del producto"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Codigo de Barras (*)"
+          labelPlacement="stacked"
+          [(ngModel)]="barcode"
+          placeholder="Ingrese el codigo de barras del producto"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Presentacion (*)"
+          labelPlacement="stacked"
+          placeholder="Presentacion del producto"
+          [(ngModel)]="idpresentation"
+        >
+          @for (item of lstPresentation; track $index) {
+          <ion-select-option value="{{item.idpresentation}}"
+            >{{item.name}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Linea del Producto (*)"
+          labelPlacement="stacked"
+          placeholder="Linea del Producto"
+          [(ngModel)]="idproductline"
+        >
+          @for (item of lstLines; track $index) {
+          <ion-select-option value="{{item.idproductline}}"
+            >{{item.description}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-select
+          interface="modal"
+          [mode]="'ios'"
+          label="Categoría del Producto (*)"
+          labelPlacement="stacked"
+          placeholder="Categoría del Producto"
+          [(ngModel)]="idproductcategory"
+        >
+          @for (item of lstCategory; track $index) {
+          <ion-select-option value="{{item.idproductcategory}}"
+            >{{item.description}}</ion-select-option
+          >
+          }
+        </ion-select>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Precio de venta al publico PVP (*)"
+          labelPlacement="stacked"
+          [type]="'number'"
+          [(ngModel)]="price"
+          placeholder="Ingrese el precio de venta al público"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear" >
+        <ion-toggle [mode]="'ios'"  [checked]="status == 1 ?  true : false" [(ngModel)]="status">
+          Estado <br>
+          <small><i>
+            ({{status==1 ? "Activo" : "Inactivo"}})
+          </i></small>
+        </ion-toggle>
+      </ion-item>
+      <ion-item color="clear" lines="none">
+        <strong>
+          Cuentas Contables
+        </strong>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Costo"
+          labelPlacement="stacked"
+          [(ngModel)]="accountcost"
+          placeholder="Ingrese el codigo contable de costo"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Ventas"
+          labelPlacement="stacked"
+          [(ngModel)]="accountsales"
+          placeholder="Ingrese el codigo contable de ventas"
+        ></ion-input>
+      </ion-item>
+      <ion-item color="clear">
+        <ion-input
+          label="Inventario"
+          labelPlacement="stacked"
+          [(ngModel)]="accountinv"
+          placeholder="Ingrese el codigo contable de inventario"
+        ></ion-input>
+      </ion-item>
+      <ion-button (click)="save()" color="secondary" fill="solid" expand="block">
+        Guardar
+      </ion-button>
+    </div>
+  </div>
 </ion-content>
+
+
+
+<ion-fab horizontal="end" vertical="top">
+  <ion-fab-button color="secondary">
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button color="secondary" (click)="back()">
+      <ion-icon name="close-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="warning" (click)="getData(true)">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
