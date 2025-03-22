@@ -54,12 +54,13 @@ export class Encryption {
 
   convertRequest(value:string = ""){
     // console.log(value)
-    let desencriptado = null;
+    let desencriptado:any = null;
     try{
       let base64 = atob(value);
       desencriptado = JSON.parse(this.decrypt(base64))
     }catch(ex){
       console.log(ex)
+      desencriptado = "Existent errores al desencriptar";
     }
     return desencriptado
   }
