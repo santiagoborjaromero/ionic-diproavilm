@@ -80,7 +80,7 @@ export class UsuariosPage implements OnInit {
     this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "users", null).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        // this.loading.dismiss();
         if (resp.status == "ok"){
           this.lstUsersOriginal = resp.message;
           this.pagination();
@@ -92,7 +92,7 @@ export class UsuariosPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        // this.loading.dismiss();
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     })
