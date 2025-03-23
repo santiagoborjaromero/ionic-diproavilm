@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { Sessions } from 'src/app/core/helpers/session.helper';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -11,12 +12,14 @@ import { Sessions } from 'src/app/core/helpers/session.helper';
 export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   private readonly svc = inject(GeneralService);
   private readonly sess = inject(Sessions);
+  private readonly loadingCtrl = inject(LoadingController);
 
   public username: string = "";
   public password: string = "";
   public current_year: number = new Date().getFullYear();
   public bloqueo: boolean = false;
   public times_error: number = 0;
+  public loading: any;
 
   constructor() { }
 
@@ -80,8 +83,11 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       app: "movil"
     };
 
+    this.showLoading("Verificando Usuario")
+
     await this.svc.apiRest("POST", "login", frmData, true).subscribe({
       next: (resp) => {
+        this.loading.dismiss();
         if (resp.status == "ok") {
           let user = resp.message[0];
           this.sess.set("user", user);
@@ -130,6 +136,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       error: (err) => {
+        this.loading.dismiss();
         this.svc.showAlert(err, "", "error", [
           {
             text: 'Aceptar',
@@ -165,6 +172,13 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
   changeClave = async () => {
     this.svc.goRoute("changepass");
+  }
+
+
+  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+    let params:any = await this.svc.showLoading(texto,time);
+    this.loading = await this.loadingCtrl.create(params)
+    this.loading.present();
   }
 
 }
