@@ -70,7 +70,11 @@ export class MovsPage implements OnInit {
   }
 
   pagination(startIndex=0, endIndex=10){
-    this.lstMovs = this.lstMovsOriginal.slice(startIndex, endIndex);
+    if (this.lstMovsOriginal.length>0){
+      this.lstMovs = this.lstMovsOriginal.slice(startIndex, endIndex);
+    }else{
+      this.lstMovs = [];
+    }
   }
 
 
