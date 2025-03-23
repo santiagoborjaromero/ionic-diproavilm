@@ -37,7 +37,7 @@ export class GeneralService {
       body = {
         data: this.encrypt.convertResponse(JSON.stringify(body))
       };
-      console.log(JSON.stringify(body))
+      // console.log(JSON.stringify(body))
     }
 
     switch (method) {
