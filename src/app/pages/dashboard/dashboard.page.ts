@@ -125,6 +125,13 @@ export class DashboardPage implements OnInit {
     let menu = this.user.menu;
     this.menuSvc.updateMenu(menu);
 
+    let verificado  = this.sess.get("verificado");
+    console.log(verificado)
+    // if (!verificado){
+    //   this.svc.goRoute(`verificacion`);
+    //   return;
+    // }
+
     this.getData();
   }
 

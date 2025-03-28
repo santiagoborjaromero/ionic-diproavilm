@@ -25,6 +25,7 @@ export class VerificacionPage implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.sess.set("verificado", false);
     setTimeout(() => {
       this.onTime();
     }, 800)
@@ -87,6 +88,7 @@ export class VerificacionPage implements OnInit {
     await this.svc.apiRest("POST", "codigoauth", frmData).subscribe({
       next: (resp) => {
         if (resp.status == "ok") {
+          this.sess.set("verificado", true);
           this.svc.goRoute("dashboard");
         } else {
           this.svc.showAlert(resp.message, "", "error", [
@@ -118,8 +120,48 @@ export class VerificacionPage implements OnInit {
       }
     })
   }
+  nuevoCodigo = async () => {
+    await this.svc.apiRest("POST", "solicitarcodigoauth", null).subscribe({
+      next: (resp) => {
+        if (resp.status == "ok") {
+          this.svc.showAlert(resp.message, "", "info", [
+            {
+              text: 'Aceptar',
+              role: 'cancel',
+              data: {
+                action: 'cancel',
+              },
+            },
+          ]);
+        } else {
+          this.svc.showAlert(resp.message, "", "error", [
+            {
+              text: 'Aceptar',
+              role: 'cancel',
+              data: {
+                action: 'cancel',
+              },
+            },
+          ]);
+          this.timeerror++;
+          if (this.timeerror>=3){
+            this.back();
+          }
+        }
+      },
+      error: (err) => {
+        this.svc.showAlert(err, "", "error", [
+          {
+            text: 'Aceptar',
+            role: 'cancel',
+            data: {
+              action: 'cancel',
+            },
+          },
+        ]);
 
-
-
+      }
+    })
+  }
 
 }
