@@ -1,85 +1,346 @@
-<ion-tabs>
-  <ion-tab tab="generales">
-    <div id="generales-page">
-      <ion-header [translucent]="true" [mode]="'ios'">
-        <ion-toolbar  color="secondary">
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>Datos Generales</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content [fullscreen]="true">
-        <div class="contenido-normal">
-          <div class="body">
-            <ion-item color="clear">
-              <ion-input
-                label="Nombre (*)"
-                labelPlacement="stacked"
-                placeholder="Ingrese el nombre"
-              ></ion-input>
-            </ion-item>
-          </div>
-        </div>
-      </ion-content>
-    </div>
-  </ion-tab>
-  <ion-tab tab="detalle">
-    <div id="detalle-page">
-      <ion-header [translucent]="true" [mode]="'ios'">
-        <ion-toolbar  color="secondary">
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>Detalle</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <div class="example-content">detalle content</div>
-      </ion-content>
-    </div>
-  </ion-tab>
-  <ion-tab tab="totales">
-    <div id="totales-page">
-      <ion-header [translucent]="true" [mode]="'ios'">
-        <ion-toolbar  color="secondary">
-          <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-          </ion-buttons>
-          <ion-title>Totales</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <div class="example-content">totales content</div>
-      </ion-content>
-    </div>
-  </ion-tab>
-  <ion-tab tab="search">
-    <div id="search-page">
-      <ion-header>
-        <ion-toolbar>
-          <ion-title>Search</ion-title>
-        </ion-toolbar>
-      </ion-header>
-      <ion-content>
-        <div class="example-content">Search content</div>
-      </ion-content>
-    </div>
-  </ion-tab>
+<ion-header [translucent]="true" [mode]="'ios'">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Movimientos de Almacén</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-segment value="orden" [mode]="'ios'">
+    <ion-segment-button value="orden" content-id="orden">
+      <ion-label>Datos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="productos" content-id="productos">
+      <ion-label>Productos</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="resumen" content-id="resumen">
+      <ion-label>Resumen</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="totales" content-id="totales" (click)="totales()">
+      <ion-label>Totales</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-segment-view>
+    <ion-segment-content id="orden">
+      <!-- ORDEN -->
+      <ion-toolbar>
+        <ion-header>
+          <ion-title><h1>Datos Generales</h1></ion-title>
+        </ion-header>
+      </ion-toolbar>
 
-  <ion-tab-bar slot="bottom">
-    <ion-tab-button tab="generales">
-      <ion-icon name="calendar-number-outline"></ion-icon>
-      Datos Generales
-    </ion-tab-button>
-    <ion-tab-button tab="detalle">
-      <ion-icon name="receipt-outline"></ion-icon>
-      Detalle
-    </ion-tab-button>
-    <ion-tab-button tab="totales">
-      <!-- <ion-icon name="totales"></ion-icon> -->
-      <ion-icon name="calculator-outline"></ion-icon>
-      Totales
-    </ion-tab-button>
-  </ion-tab-bar>
-</ion-tabs>
+      <ion-item-group>
+        <div *ngIf="!showBeneficiarios">
+          <!-- <ion-item color="clear" lines="none"> -->
+          <ion-card>
+            <ion-card-content>
+              <ion-input
+                value="{{ fecha | date: 'yyyy-MM-dd' }}"
+                id="date"
+                class="ion-text-end t14 black"
+                label="Fecha"
+              ></ion-input>
+              <ion-popover trigger="date" size="cover">
+                <ng-template>
+                  <ion-datetime
+                    presentation="date"
+                    [(ngModel)]="fecha"
+                    locale="sl-SI"
+                  ></ion-datetime>
+                </ng-template>
+              </ion-popover>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card>
+            <ion-card-content>
+              <ion-select
+                (ionChange)="calculoNumComp($event)"
+                interface="modal"
+                [mode]="'ios'"
+                label="Comprobante"
+                placeholder="Comprobante"
+                [(ngModel)]="acronym"
+                class="t14 black"
+                [disabled]="idtransaction!='-1'"
+              >
+                @for (item of lstComprobantes; track $index) {
+                <ion-select-option value="{{item.acronym}}"
+                  >{{item.name}}</ion-select-option
+                >
+                }
+              </ion-select>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card>
+            <ion-card-content>
+              <ion-input
+                [(ngModel)]="numero_documento"
+                [mode]="'ios'"
+                [readonly]="numdocreadonly"
+                placeholder="000-000-000000000"
+                slot="end"
+                [disabled]="idtransaction!='-1'"
+                class="right"
+                label="Número de Documento"
+                class="t14 black"
+                [maxlength]="17"
+              ></ion-input>
+            </ion-card-content>
+          </ion-card>
+
+          <ion-card >
+            <ion-card-content>
+              <ion-button 
+                fill="solid"
+                color="success"
+                (click)="activarBuscarBeneficiario()"
+                *ngIf="idtransaction=='-1'">
+                <ion-icon name="search"></ion-icon> Seleccionar Beneficiario
+              </ion-button>
+
+              <ion-text  *ngIf="idtransaction!='-1'">Beneficiarios</ion-text>
+              <br /><br />
+              <div [innerHTML]="beneficiario_nombre" class="black"></div>
+            </ion-card-content>
+          </ion-card>
+        </div>
+
+        <div *ngIf="showBeneficiarios">
+          <ion-item color="clear" lines="none">
+            <ion-title><h1>Beneficiarios</h1></ion-title>
+            <ion-button
+              color="warning"
+              shape="round"
+              slot="start"
+              (click)="activarBuscarBeneficiario()"
+              *ngIf="idtransaction=='-1'"
+            >
+              <ion-icon name="arrow-back"></ion-icon>
+            </ion-button>
+          </ion-item>
+
+          <ion-item color="clear" lines="none">
+            <ion-searchbar
+              [mode]="'ios'"
+              placeholder="Buscar"
+              (keyup)="findBeneficiario($event)"
+              [(ngModel)]="buscarBene"
+            ></ion-searchbar>
+          </ion-item>
+
+          <ion-grid>
+            <ion-row>
+              <ion-col *ngFor="let item of lstBeneficiariosFiltrado" size="12" >
+                <ion-card class="center">
+                  <ion-card-content>
+                    <ion-grid>
+                      <ion-row>
+                        <ion-col size="10">
+                          <img
+                            alt="beneficiario"
+                            src="/assets/images/beneficiario.svg"
+                            width="40"
+                          />
+                          <br />
+                          <ion-text class="t14"> {{item.nombre}} </ion-text>
+                          <br />
+                          <ion-text class="t12">
+                            {{item.identification}}
+                          </ion-text>
+                        </ion-col>
+                        <ion-col size="2" class="contenido-normal">
+                          <ion-button
+                            shape="round"
+                            color="secondary"
+                            (click)="seleccionarBeneficiario(item.idbeneficiary)"
+                          >
+                            <ion-icon slot="icon-only" name="add"></ion-icon>
+                          </ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </ion-grid>
+                  </ion-card-content>
+                </ion-card>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+        </div>
+      </ion-item-group>
+    </ion-segment-content>
+
+    <ion-segment-content id="productos">
+      <!-- PRODUCTOS -->
+      <ion-toolbar>
+        <ion-header>
+          <ion-title><h1>Listado de Productos</h1></ion-title>
+          <ion-searchbar
+            [mode]="'ios'"
+            placeholder="Buscar Producto"
+            (keyup)="findProducto($event)"
+            [(ngModel)]="buscar"
+            animated="true"></ion-searchbar>
+        </ion-header>
+      </ion-toolbar>
+
+      <ion-item-group>
+        <ion-item *ngFor="let item of lstProductosFiltrado">
+          <ion-text>
+            <small><br /></small>
+            <strong>{{item.name}}</strong>
+            <small><br /></small>
+            <ion-chip color="medium"
+              >{{func.numberFormat(item.stock,2)}}
+              {{item.presentation}}</ion-chip>
+            <ion-chip color="secondary">$ {{func.numberFormat(item.price,2)}}</ion-chip>
+            <small><br /><br /></small>
+          </ion-text>
+          <ion-button
+            slot="end"
+            color="secondary"
+            (click)="addProduct(item.idproduct, '+')"
+          >
+            <ion-icon name="cart"></ion-icon>
+          </ion-button>
+        </ion-item>
+      </ion-item-group>
+    </ion-segment-content>
+
+    <ion-segment-content id="resumen">
+      <!-- RESUMEN DE PRODUCTOSD, CARRITO DE COMPRA -->
+      <ion-toolbar>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title><h1>Productos Seleccionados</h1></ion-title>
+          </ion-toolbar>
+        </ion-header>
+      </ion-toolbar>
+      <ion-grid>
+        @if (lstCart.length>0) {
+        <div *ngFor="let item of lstCart">
+          <ion-row>
+            <ion-col>
+              <strong>{{item.name}}</strong>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-select
+                [disabled]="rstComprobante.entry!='A'"
+                interface="popover"
+                fill="outline"
+                [(ngModel)]="item.entry"
+                class="t14"
+              >
+                <ion-select-option value="I">Ingreso</ion-select-option>
+                <ion-select-option value="E">Egreso</ion-select-option>
+              </ion-select>
+            </ion-col>
+            <ion-col>
+              <ion-input
+                label="Cantidad"
+                labelPlacement="stacked"
+                fill="outline"
+                [(ngModel)]="item.qty"
+                type="number"
+              ></ion-input>
+            </ion-col>
+            <ion-col size="2">
+              <ion-button
+                color="danger"
+                (click)="removeProduct(item.idproduct)"
+              >
+                <ion-icon name="trash"></ion-icon>
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </div>
+        } @else {
+        <div class="center">
+          <br /><br /><br /><br /><br /><ion-icon
+            name="cart-outline"
+            class="t60"
+          ></ion-icon>
+          <br />
+          <h1>No hay Productos</h1>
+        </div>
+        
+        }
+      </ion-grid>
+    </ion-segment-content>
+
+    <ion-segment-content id="totales">
+      <!-- TOTAL -->
+      <ion-toolbar>
+        <ion-header>
+          <ion-toolbar>
+            <ion-title><h1>Resumen General</h1></ion-title>
+          </ion-toolbar>
+        </ion-header>
+      </ion-toolbar>
+      @if (lstCart.length>0) {
+        <ion-list>
+          <ion-item>
+            <ion-text slot="start">Fecha</ion-text>
+            <ion-text slot="end">{{fecha}}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-text slot="start">Comprobante</ion-text>
+            <ion-text slot="end">{{acronym}} - {{numero_documento}}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-text slot="start">Beneficiario</ion-text>
+            <ion-text slot="end"><div [innerHTML]="beneficiario_nombre" class="black right"></div></ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-text slot="start">Ingresos</ion-text>
+            <ion-text slot="end">$ {{func.numberFormat(rstTotal.total_ing,2)}}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-text slot="start">Egresos</ion-text>
+            <ion-text slot="end">$ {{func.numberFormat(rstTotal.total_egr,2)}}</ion-text>
+          </ion-item>
+          <ion-item>
+            <ion-button color="secondary" (click)="save()">
+              Guardar
+            </ion-button>
+            <ion-button color="danger" (click)="back()">
+              Regresar
+            </ion-button>
+          </ion-item>
+        </ion-list>
+      } @else {
+        <div class="center">
+          <br /><br /><br /><br /><br /><ion-icon
+            name="cart-outline"
+            class="t60"
+          ></ion-icon>
+          <br />
+          <h1>No hay Productos</h1>
+        </div>
+        <ion-button color="danger" (click)="back()">
+          Regresar
+        </ion-button>
+      }
+    </ion-segment-content>
+  </ion-segment-view>
+</ion-content>
+
+
+<ion-fab horizontal="end" vertical="top">
+  <ion-fab-button color="secondary">
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button *ngIf="this.scopeW" color="secondary" (click)="back()">
+      <ion-icon name="return-up-back-outline"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button color="warning" (click)="getData()">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+

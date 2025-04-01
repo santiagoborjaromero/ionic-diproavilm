@@ -40,12 +40,16 @@ export class GeneralService {
       // console.log(JSON.stringify(body))
     }
 
+    // console.log("Begin " + method + "/" + ruta)
+
     switch (method) {
       case "POST":
         return this.http.post(`${this.base_url}${ruta}`, body, options);
       case "PUT":
         return this.http.put(`${this.base_url}${ruta}`, body, options);
       case "GET":
+        // console.log(`${this.base_url}${ruta}&id=${body}`)
+        // console.log(options)
         return this.http.get(`${this.base_url}${ruta}&id=${body}`, options);
       case "DELETE":
         return this.http.delete(`${this.base_url}${ruta}&id=${body}`, options);
@@ -54,13 +58,13 @@ export class GeneralService {
     return this.http.post(`${this.base_url}${ruta}`, body, options);
   }
 
-  async showToast(type: string = "info", mensaje: string, time: number = 2000) {
-    let ctype: any = type == "info" ? 'secondary' : (type == "warning" ? 'warning' : 'danger');
+  async showToast(type: string = "info", mensaje: string, time: number = 2000, position:any = "bottom") {
+    let ctype: any = type == "info" ? 'secondary' : (type == "warning" ? 'warning' : (type == "danger" ? 'danger' : type));
     const Toast = await this.toasCtrl.create({
       message: mensaje,
       duration: time,
       mode: "ios",
-      position: "bottom",
+      position: position,
       color: ctype
     });
     Toast.present();

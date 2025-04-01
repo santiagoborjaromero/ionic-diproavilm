@@ -99,6 +99,10 @@ html, body{
     background-position: 50% 30%;
 }
 
+.black{
+    color: #000 !important;
+}
+
 .contenido-normal{
     display: flex;
     justify-content: center;
@@ -128,6 +132,11 @@ html, body{
 .t30{font-size: 30px;}
 .t32{font-size: 32px;}
 .t34{font-size: 34px;}
+.t40{font-size: 40px;}
+.t45{font-size: 45px;}
+.t50{font-size: 50px;}
+.t55{font-size: 55px;}
+.t60{font-size: 60px;}
 
 
 .mt-1{margin-top: 4px;}
@@ -176,6 +185,7 @@ html, body{
 .body{
     width: 90%;
     background: transparent;
+    overflow-y: auto;
     .btns{
         display: flex;
         flex-direction: row;
@@ -204,6 +214,11 @@ html, body{
     align-items: center;
     justify-content: center;
 }
+
+.right {
+    float: right;
+    text-align: right;
+ }
 
 ion-avatar{
     border-radius: 0 !important;

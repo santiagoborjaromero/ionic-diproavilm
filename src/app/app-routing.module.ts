@@ -92,6 +92,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/verificacion/verificacion.module').then( m => m.VerificacionPageModule),
     canActivate: [AuthGuard],
   },
+  {
+    path: 'productos',
+    loadChildren: () => import('./share/productos/productos.module').then( m => m.ProductosPageModule)
+  },
 ];
 
 @NgModule({

@@ -5,9 +5,16 @@
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
   </ion-toolbar>
+  <ion-toolbar  color="secondary">
+    <ion-searchbar 
+      [mode]="'ios'" 
+      search-icon="search-circle" 
+      placeholder="Buscar"
+      (keyup)="find($event)"
+      [(ngModel)]="buscar"
+      ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
-
-
 
 <ion-content [fullscreen]="true">
   <ion-segment color="tertiary" value="dia" [mode]="'ios'" (click)="getData(true)" [(ngModel)]="segment">
@@ -24,22 +31,6 @@
       <ion-label>Año</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-item>
-    <ion-searchbar 
-      [mode]="'ios'" 
-      search-icon="search-circle" 
-      placeholder="Buscar"
-      (keyup)="find($event)"
-      [(ngModel)]="buscar"
-      ></ion-searchbar>
-    <!-- <ion-input
-      (keyup)="find($event)"
-      label="Buscar"
-      labelPlacement="stacked"
-      [(ngModel)]="buscar"
-      placeholder="Ingrese el texto a buscar"
-    ></ion-input> -->
-  </ion-item>
   @if(lstMovs && lstMovs.length>0){
     <ion-item-sliding *ngFor="let i of lstMovs">
       @defer (on viewport) {
@@ -69,17 +60,17 @@
             <ion-item-option color="clear">
               <ion-button
                 *ngIf="i.status == 1 && this.scopeW" 
-                (click)="edit(i.idmovmentproduct)"
+                (click)="edit(i.idtransaction)"
                 shape="round"
                 color="secondary"
               >
                 <ion-icon slot="icon-only" name="create"></ion-icon>
               </ion-button>
-              <ion-button *ngIf="i.status == 1 && this.scopeD"  (click)="del(i.idmovmentproduct)" shape="round" color="danger">
+              <ion-button *ngIf="i.status == 1 && this.scopeD"  (click)="del(i.idtransaction)" shape="round" color="danger">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-button>
       
-              <ion-button *ngIf="i.status == 0 && this.scopeW" (click)="recuperar(i.idmovmentproduct)" shape="round" color="warning">
+              <ion-button *ngIf="i.status == 0 && this.scopeW" (click)="recuperar(i.idtransaction)" shape="round" color="warning">
                 Recuperar
               </ion-button>
             </ion-item-option>

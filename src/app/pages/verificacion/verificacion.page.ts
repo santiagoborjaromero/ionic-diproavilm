@@ -21,6 +21,7 @@ export class VerificacionPage implements OnInit {
   public elapsed: string = "00:00";
   public codigo: string = "";
   public timeerror: number = 0;
+  public timer: any;
 
   constructor() { }
 
@@ -34,7 +35,7 @@ export class VerificacionPage implements OnInit {
   onTime() {
     let totalSeconds = 5 * 60;
 
-    const timer = setInterval(() => {
+    this.timer = setInterval(() => {
       const minutesLeft = Math.floor(totalSeconds / 60);
       const secondsLeft = totalSeconds % 60;
 
@@ -45,7 +46,7 @@ export class VerificacionPage implements OnInit {
       totalSeconds--;
 
       if (totalSeconds < 0) {
-        clearInterval(timer);
+        clearInterval(this.timer);
         console.log('⏰ Tiempo terminado!');
         this.back();
       }
@@ -88,6 +89,7 @@ export class VerificacionPage implements OnInit {
     await this.svc.apiRest("POST", "codigoauth", frmData).subscribe({
       next: (resp) => {
         if (resp.status == "ok") {
+          clearInterval(this.timer);
           this.sess.set("verificado", true);
           this.svc.goRoute("dashboard");
         } else {
@@ -102,6 +104,7 @@ export class VerificacionPage implements OnInit {
           ]);
           this.timeerror++;
           if (this.timeerror>=3){
+            clearInterval(this.timer);
             this.back();
           }
         }

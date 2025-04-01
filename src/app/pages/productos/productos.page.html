@@ -5,18 +5,17 @@
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-item>
+  <ion-toolbar  color="secondary">
     <ion-searchbar 
       [mode]="'ios'" 
-      search-icon="search-circle" 
       placeholder="Buscar"
       (keyup)="find($event)"
       [(ngModel)]="buscar"
       ></ion-searchbar>
-  </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
   @if(lstProd && lstProd.length>0){
   <ion-item-sliding *ngFor="let i of lstProd">
     @defer (on viewport) {

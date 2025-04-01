@@ -1,29 +1,22 @@
 <ion-header [translucent]="true" [mode]="'ios'">
-  <ion-toolbar  color="secondary">
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>{{title}}</ion-title>
   </ion-toolbar>
-</ion-header>
-
-<ion-content [fullscreen]="true">
-  <ion-item>
+  <ion-toolbar color="secondary">
     <ion-searchbar 
       [mode]="'ios'" 
-      search-icon="search-circle" 
       placeholder="Buscar"
       (keyup)="find($event)"
       [(ngModel)]="buscar"
+      animated="true"
       ></ion-searchbar>
-    <!-- <ion-input
-      (keyup)="find($event)"
-      label="Buscar"
-      labelPlacement="stacked"
-      [(ngModel)]="buscar"
-      placeholder="Ingrese el texto a buscar"
-    ></ion-input> -->
-  </ion-item>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
   @if(lstBene && lstBene.length>0){
   <ion-item-sliding *ngFor="let i of lstBene; trackBy: trackById">
     @defer (on viewport; prefetch on idle) {
