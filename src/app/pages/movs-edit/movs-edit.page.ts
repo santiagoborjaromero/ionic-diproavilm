@@ -1,13 +1,12 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { LoadingController, ModalController } from '@ionic/angular';
+import { IonContent, IonSegmentView, LoadingController, ModalController } from '@ionic/angular';
 import * as moment from 'moment';
 import { Functions } from 'src/app/core/helpers/functions.helper';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
 import { ProductosPage } from 'src/app/share/productos/productos.page';
-
 
 @Component({
   selector: 'app-movs-edit',
@@ -16,6 +15,9 @@ import { ProductosPage } from 'src/app/share/productos/productos.page';
   standalone: false
 })
 export class MovsEditPage implements OnInit {
+  @ViewChild(IonContent) content!: IonContent;
+  // @ViewChild(IonSegmentView) content!: IonSegmentView;
+
   private readonly sess = inject(Sessions);
   private readonly menuSvc = inject(MenuService);
   private readonly svc = inject(GeneralService);
@@ -26,7 +28,6 @@ export class MovsEditPage implements OnInit {
 
   public title: string = "Movimientos";
   public user:any;
-
 
   public logged:boolean = false;
   public scope: Array<any> = [];
@@ -66,7 +67,6 @@ export class MovsEditPage implements OnInit {
   public lstCart: Array<any> = [];
   public rstTotal: any = {};
 
-
   constructor() { }
 
   ngOnInit() { }
@@ -83,12 +83,11 @@ export class MovsEditPage implements OnInit {
   
   initial(){
     this.idtransaction = this.route.snapshot.paramMap.get("id")?.toString();
-    if (isNaN(this.idtransaction)) { this.idtransaction == "-1"}
-  
+    
     if (this.idtransaction == "-1"){
-      this.title += "Nuevo";
+      this.title = "Nuevo Movimiento";
     }else{
-      this.title += "Edición";
+      this.title = "Edición de Movimiento";
     }
     
     this.logged  = this.sess.get("logged");
@@ -124,17 +123,15 @@ export class MovsEditPage implements OnInit {
     this.getMovTypes();
     this.getBene();
   
-    if (this.idmovementtype != "-1"){
+    if (this.idtransaction != "-1"){
       setTimeout(() => {
         this.getData();
       }, 800)
     }
-
   }
-
+  
   getData = async () => { 
     // this.showLoading("Espere un momento");
-
     // console.log(this.idtransaction)
     await this.svc.apiRest("GET", "transaccionOne", this.idtransaction).subscribe({
       next: (resp) => {
@@ -157,7 +154,6 @@ export class MovsEditPage implements OnInit {
   }
 
   populateData = () => {
-    // console.log(this.rstTransaccion)
     this.idtransaction = this.rstTransaccion.idtransaction;
     this.idmovementtype = this.rstTransaccion.idmovementtype;
     this.fecha = moment(this.rstTransaccion.date).format("YYYY-MM-DD");
@@ -202,6 +198,7 @@ export class MovsEditPage implements OnInit {
       next: (resp) => {
         if (resp.status == "ok") {
           this.lstComprobantes = resp.message;
+          // console.log(this.lstComprobantes)
           this.checkSecuencial();
         } else {
           this.svc.showToast("error", resp.message)
@@ -277,10 +274,6 @@ export class MovsEditPage implements OnInit {
     return await modal.present();
   }
 
-  seleccionProducto() {
-
-  }
-
   addProduct = (id: any, operador: string) => {
 
     let found = false;
@@ -321,9 +314,6 @@ export class MovsEditPage implements OnInit {
     this.svc.showToast("danger", "Producto removido", 500, "top")
   }
 
-  findProductos = (event: any) => {
-
-  }
 
   calculoNumComp = (event: any) => {
     this.checkSecuencial();
@@ -336,7 +326,7 @@ export class MovsEditPage implements OnInit {
       }
     });
 
-    // console.log(this.rstComprobante)
+    //console.log(this.rstComprobante)
 
     if (this.rstComprobante.calculatenumdoc == 1) {
       this.numero_documento = this.setNumeroDocumento(this.rstComprobante.sequential);
@@ -381,6 +371,7 @@ export class MovsEditPage implements OnInit {
     });
 
     this.activarBuscarBeneficiario();
+    this.content.scrollToTop(500);
   }
 
   findBeneficiario(event: any) {
@@ -390,8 +381,9 @@ export class MovsEditPage implements OnInit {
       this.lstBeneficiariosFiltrado = [];
       this.lstBeneficiariosFiltradoOriginal.forEach((e: any) => {
         if (
-          e.name.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1 ||
-          e.description.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1 ||
+          e.nombre.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1 ||
+          e.nombrecomercial.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1 ||
+          e.ciudad.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1 ||
           e.identification.toLowerCase().indexOf(this.buscarBene.toLowerCase()) > -1
         ) {
           this.lstBeneficiariosFiltrado.push(e)
@@ -529,6 +521,10 @@ export class MovsEditPage implements OnInit {
     let params:any = await this.svc.showLoading(texto,time);
     this.loading = await this.loadingCtrl.create(params)
     this.loading.present();
+  }
+
+  baja(){
+    this.content.scrollToBottom(500);
   }
 
 

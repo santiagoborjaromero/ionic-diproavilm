@@ -3,10 +3,11 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Movimientos de Almacén</ion-title>
+    <ion-title>{{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
-<ion-content [fullscreen]="true">
+
+<ion-content class="ion-padding">
   <ion-segment value="orden" [mode]="'ios'">
     <ion-segment-button value="orden" content-id="orden">
       <ion-label>Datos</ion-label>
@@ -15,26 +16,31 @@
       <ion-label>Productos</ion-label>
     </ion-segment-button>
     <ion-segment-button value="resumen" content-id="resumen">
-      <ion-label>Resumen</ion-label>
+      <ion-label>Selección</ion-label>
     </ion-segment-button>
-    <ion-segment-button value="totales" content-id="totales" (click)="totales()">
+    <ion-segment-button
+      value="totales"
+      content-id="totales"
+      (click)="totales()"
+    >
       <ion-label>Totales</ion-label>
     </ion-segment-button>
   </ion-segment>
+
   <ion-segment-view>
     <ion-segment-content id="orden">
       <!-- ORDEN -->
-      <ion-toolbar>
-        <ion-header>
-          <ion-title><h1>Datos Generales</h1></ion-title>
-        </ion-header>
-      </ion-toolbar>
-
-      <ion-item-group>
-        <div *ngIf="!showBeneficiarios">
-          <!-- <ion-item color="clear" lines="none"> -->
-          <ion-card>
-            <ion-card-content>
+      <ion-item lines="none">
+        <h1>
+          <ion-icon name="layers-outline"></ion-icon>
+          Datos Generales
+        </h1>
+      </ion-item>
+      <ion-content class="ion-padding">
+        <ion-item-group class="bg-gray">
+          <div *ngIf="!showBeneficiarios">
+            <br />
+            <ion-item>
               <ion-input
                 value="{{ fecha | date: 'yyyy-MM-dd' }}"
                 id="date"
@@ -46,15 +52,13 @@
                   <ion-datetime
                     presentation="date"
                     [(ngModel)]="fecha"
-                    locale="sl-SI"
+                    locale="es-ES"
                   ></ion-datetime>
                 </ng-template>
               </ion-popover>
-            </ion-card-content>
-          </ion-card>
-
-          <ion-card>
-            <ion-card-content>
+            </ion-item>
+  
+            <ion-item>
               <ion-select
                 (ionChange)="calculoNumComp($event)"
                 interface="modal"
@@ -71,121 +75,142 @@
                 >
                 }
               </ion-select>
-            </ion-card-content>
-          </ion-card>
-
-          <ion-card>
-            <ion-card-content>
+            </ion-item>
+  
+            <ion-item>
               <ion-input
                 [(ngModel)]="numero_documento"
                 [mode]="'ios'"
                 [readonly]="numdocreadonly"
                 placeholder="000-000-000000000"
                 slot="end"
-                [disabled]="idtransaction!='-1'"
+                [disabled]="idtransaction != '-1'"
                 class="right"
                 label="Número de Documento"
                 class="t14 black"
                 [maxlength]="17"
               ></ion-input>
-            </ion-card-content>
-          </ion-card>
-
-          <ion-card >
-            <ion-card-content>
-              <ion-button 
-                fill="solid"
-                color="success"
+            </ion-item>
+  
+            <ion-item lines="none">
+              <ion-button
+                expand="block"
+                color="secondary"
+                size="large"
+                [mode]="'ios'"
                 (click)="activarBuscarBeneficiario()"
-                *ngIf="idtransaction=='-1'">
+                *ngIf="idtransaction=='-1'"
+              >
                 <ion-icon name="search"></ion-icon> Seleccionar Beneficiario
               </ion-button>
-
-              <ion-text  *ngIf="idtransaction!='-1'">Beneficiarios</ion-text>
-              <br /><br />
+            </ion-item>
+            <ion-item lines="none">
               <div [innerHTML]="beneficiario_nombre" class="black"></div>
-            </ion-card-content>
-          </ion-card>
-        </div>
+            </ion-item>
+          </div>
+  
+          <div *ngIf="showBeneficiarios" class="bg-white">
+            <ion-item color="clear" lines="none">
+              <ion-button
+                fill="clear"
+                color="medium"
+                slot="start"
+                (click)="activarBuscarBeneficiario()"
+                *ngIf="idtransaction=='-1'"
+              >
+                <ion-icon name="chevron-back-outline"></ion-icon> Regresar
+              </ion-button>
+            </ion-item>
+  
+            <ion-item color="clear" lines="none">
+              <ion-searchbar
+                [mode]="'ios'"
+                placeholder="Buscar"
+                (keyup)="findBeneficiario($event)"
+                [(ngModel)]="buscarBene"
+              ></ion-searchbar>
+            </ion-item>
+  
+            <ion-item *ngFor="let item of lstBeneficiariosFiltrado">
+              <img alt="beneficiario" src="/assets/images/beneficiario.svg" width="80"  class="ion-padding"/>
+              <ion-text class="t14"> 
+                {{item.nombre}} 
+                <br />
+                <small>{{item.identification}}</small>
+              </ion-text>
+              <ion-button
+                color="secondary"
+                slot="end"
+                (click)="seleccionarBeneficiario(item.idbeneficiary)"
+              >
+                <ion-icon slot="icon-only" name="add"></ion-icon>
+              </ion-button>
+            </ion-item>
+  
+            <!-- <ion-grid>
+              <ion-row>
+                <ion-col *ngFor="let item of lstBeneficiariosFiltrado" size="12">
+                  <ion-card class="center">
+                    <ion-card-content>
+                      <ion-grid>
+                        <ion-row>
+                          <ion-col size="10">
+                            <img
+                              alt="beneficiario"
+                              src="/assets/images/beneficiario.svg"
+                              width="40"
+                            />
+                            <br />
+                            <ion-text class="t14"> {{item.nombre}} </ion-text>
+                            <br />
+                            <ion-text class="t12">
+                              {{item.identification}}
+                            </ion-text>
+                          </ion-col>
+                          <ion-col size="2" class="contenido-normal">
+                            <ion-button
+                              shape="round"
+                              color="secondary"
+                              (click)="seleccionarBeneficiario(item.idbeneficiary)"
+                            >
+                              <ion-icon slot="icon-only" name="add"></ion-icon>
+                            </ion-button>
+                          </ion-col>
+                        </ion-row>
+                      </ion-grid>
+                    </ion-card-content>
+                  </ion-card>
+                </ion-col>
+              </ion-row>
+            </ion-grid> -->
+          </div>
+        </ion-item-group>
 
-        <div *ngIf="showBeneficiarios">
-          <ion-item color="clear" lines="none">
-            <ion-title><h1>Beneficiarios</h1></ion-title>
-            <ion-button
-              color="warning"
-              shape="round"
-              slot="start"
-              (click)="activarBuscarBeneficiario()"
-              *ngIf="idtransaction=='-1'"
-            >
-              <ion-icon name="arrow-back"></ion-icon>
-            </ion-button>
-          </ion-item>
-
-          <ion-item color="clear" lines="none">
-            <ion-searchbar
-              [mode]="'ios'"
-              placeholder="Buscar"
-              (keyup)="findBeneficiario($event)"
-              [(ngModel)]="buscarBene"
-            ></ion-searchbar>
-          </ion-item>
-
-          <ion-grid>
-            <ion-row>
-              <ion-col *ngFor="let item of lstBeneficiariosFiltrado" size="12" >
-                <ion-card class="center">
-                  <ion-card-content>
-                    <ion-grid>
-                      <ion-row>
-                        <ion-col size="10">
-                          <img
-                            alt="beneficiario"
-                            src="/assets/images/beneficiario.svg"
-                            width="40"
-                          />
-                          <br />
-                          <ion-text class="t14"> {{item.nombre}} </ion-text>
-                          <br />
-                          <ion-text class="t12">
-                            {{item.identification}}
-                          </ion-text>
-                        </ion-col>
-                        <ion-col size="2" class="contenido-normal">
-                          <ion-button
-                            shape="round"
-                            color="secondary"
-                            (click)="seleccionarBeneficiario(item.idbeneficiary)"
-                          >
-                            <ion-icon slot="icon-only" name="add"></ion-icon>
-                          </ion-button>
-                        </ion-col>
-                      </ion-row>
-                    </ion-grid>
-                  </ion-card-content>
-                </ion-card>
-              </ion-col>
-            </ion-row>
-          </ion-grid>
-        </div>
-      </ion-item-group>
+      </ion-content>
     </ion-segment-content>
 
     <ion-segment-content id="productos">
       <!-- PRODUCTOS -->
-      <ion-toolbar>
-        <ion-header>
-          <ion-title><h1>Listado de Productos</h1></ion-title>
+      <ion-item-group class="bg-gray">
+        <ion-item lines="none">
+          <h1>
+            <ion-icon name="cube-outline"></ion-icon>
+            Listado de Productos
+          </h1>
+        </ion-item>
+
+        <ion-item>
           <ion-searchbar
             [mode]="'ios'"
             placeholder="Buscar Producto"
             (keyup)="findProducto($event)"
             [(ngModel)]="buscar"
-            animated="true"></ion-searchbar>
-        </ion-header>
-      </ion-toolbar>
+            animated="true"
+          ></ion-searchbar>
+        </ion-item>
 
-      <ion-item-group>
+        <br />
+
         <ion-item *ngFor="let item of lstProductosFiltrado">
           <ion-text>
             <small><br /></small>
@@ -193,8 +218,11 @@
             <small><br /></small>
             <ion-chip color="medium"
               >{{func.numberFormat(item.stock,2)}}
-              {{item.presentation}}</ion-chip>
-            <ion-chip color="secondary">$ {{func.numberFormat(item.price,2)}}</ion-chip>
+              {{item.presentation}}</ion-chip
+            >
+            <ion-chip color="secondary"
+              >$ {{func.numberFormat(item.price,2)}}</ion-chip
+            >
             <small><br /><br /></small>
           </ion-text>
           <ion-button
@@ -210,13 +238,15 @@
 
     <ion-segment-content id="resumen">
       <!-- RESUMEN DE PRODUCTOSD, CARRITO DE COMPRA -->
-      <ion-toolbar>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title><h1>Productos Seleccionados</h1></ion-title>
-          </ion-toolbar>
-        </ion-header>
-      </ion-toolbar>
+      <ion-item-group class="bg-gray">
+        <ion-item lines="none">
+          <h1>
+            <ion-icon name="checkbox-outline"></ion-icon> Productos
+            Seleccionados
+          </h1>
+        </ion-item>
+        <br />
+      </ion-item-group>
       <ion-grid>
         @if (lstCart.length>0) {
         <div *ngFor="let item of lstCart">
@@ -266,68 +296,105 @@
           <br />
           <h1>No hay Productos</h1>
         </div>
-        
+
         }
       </ion-grid>
     </ion-segment-content>
 
     <ion-segment-content id="totales">
       <!-- TOTAL -->
-      <ion-toolbar>
-        <ion-header>
-          <ion-toolbar>
-            <ion-title><h1>Resumen General</h1></ion-title>
-          </ion-toolbar>
-        </ion-header>
-      </ion-toolbar>
+      <ion-item-group class="bg-gray">
+        <ion-item lines="none">
+          <h1><ion-icon name="receipt-outline"></ion-icon> Resumen General</h1>
+        </ion-item>
+        <br />
+      </ion-item-group>
       @if (lstCart.length>0) {
-        <ion-list>
-          <ion-item>
-            <ion-text slot="start">Fecha</ion-text>
-            <ion-text slot="end">{{fecha}}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-text slot="start">Comprobante</ion-text>
-            <ion-text slot="end">{{acronym}} - {{numero_documento}}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-text slot="start">Beneficiario</ion-text>
-            <ion-text slot="end"><div [innerHTML]="beneficiario_nombre" class="black right"></div></ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-text slot="start">Ingresos</ion-text>
-            <ion-text slot="end">$ {{func.numberFormat(rstTotal.total_ing,2)}}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-text slot="start">Egresos</ion-text>
-            <ion-text slot="end">$ {{func.numberFormat(rstTotal.total_egr,2)}}</ion-text>
-          </ion-item>
-          <ion-item>
-            <ion-button color="secondary" (click)="save()">
-              Guardar
-            </ion-button>
-            <ion-button color="danger" (click)="back()">
+      <ion-list>
+        <ion-item>
+          <ion-text slot="start">Fecha</ion-text>
+          <ion-text slot="end">{{fecha}}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-text slot="start">Comprobante</ion-text>
+          <ion-text slot="end">{{acronym}} - {{numero_documento}}</ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-text slot="start">Beneficiario</ion-text>
+          <ion-text slot="end"
+            ><div [innerHTML]="beneficiario_nombre" class="black right"></div
+          ></ion-text>
+        </ion-item>
+        <ion-item>
+          <ion-text slot="start">Ingresos</ion-text>
+          <ion-text slot="end"
+            >$ {{func.numberFormat(rstTotal.total_ing,2)}}</ion-text
+          >
+        </ion-item>
+        <ion-item>
+          <ion-text slot="start">Egresos</ion-text>
+          <ion-text slot="end"
+            >$ {{func.numberFormat(rstTotal.total_egr,2)}}</ion-text
+          >
+        </ion-item>
+        <ion-grid>
+          <ion-row>
+            <ion-col>
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="secondary"
+                size="large"
+                [mode]="'ios'"
+                (click)="save()"
+              >
+                Guardar
+              </ion-button>
+            </ion-col>
+            <ion-col>
+              <ion-button
+                expand="block"
+                fill="outline"
+                color="danger"
+                size="large"
+                [mode]="'ios'"
+                (click)="back()"
+              >
+                Regresar
+              </ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </ion-list>
+      } @else {
+      <div class="center">
+        <br /><br /><br /><br /><br /><ion-icon
+          name="cart-outline"
+          class="t60"
+        ></ion-icon>
+        <br />
+        <h1>No hay Productos</h1>
+      </div>
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <ion-button
+              expand="block"
+              fill="outline"
+              color="danger"
+              size="large"
+              [mode]="'ios'"
+              (click)="back()"
+            >
               Regresar
             </ion-button>
-          </ion-item>
-        </ion-list>
-      } @else {
-        <div class="center">
-          <br /><br /><br /><br /><br /><ion-icon
-            name="cart-outline"
-            class="t60"
-          ></ion-icon>
-          <br />
-          <h1>No hay Productos</h1>
-        </div>
-        <ion-button color="danger" (click)="back()">
-          Regresar
-        </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
       }
     </ion-segment-content>
   </ion-segment-view>
 </ion-content>
-
 
 <ion-fab horizontal="end" vertical="top">
   <ion-fab-button color="secondary">
@@ -342,5 +409,3 @@
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
-
-
