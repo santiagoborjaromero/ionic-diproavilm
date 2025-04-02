@@ -1,12 +1,124 @@
 <ion-header [translucent]="true" [mode]="'ios'">
-  <ion-toolbar>
+  <ion-toolbar color="secondary">
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Kardex</ion-title>
   </ion-toolbar>
+  <ion-toolbar color="secondary" *ngIf="showProducts">
+    <ion-searchbar
+      [mode]="'ios'"
+      placeholder="Buscar"
+      (keyup)="find($event)"
+      [(ngModel)]="buscar"
+    ></ion-searchbar>
+  </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" *ngIf="showProducts">
+  @if(lstProd && lstProd.length>0){
+  <ion-item-sliding *ngFor="let i of lstProd">
+    @defer (on viewport) {
+    <div>
+      <ion-item>
+        <ion-avatar>
+          @if(i.deleted_at===null){
+          <img alt="producto" src="/assets/images/producto1.svg" />
+          }@else {
+          <img alt="producto" src="/assets/images/eliminado.svg" />
+          }
+        </ion-avatar>
+
+        <ion-label>
+          <strong>{{i.name}}</strong><br />
+          <small
+            ><strong
+              >{{func.numberFormat(i.stock,2)}} {{i.presentation}} - Costo:
+              {{i.cost}}</strong
+            ></small
+          >
+        </ion-label>
+      </ion-item>
+
+      <ion-item-options side="end" class="item-options">
+        <ion-item-option color="clear">
+          <ion-button
+            (click)="kardex(i.idproduct)"
+            shape="round"
+            color="warning"
+          >
+            Mirar movimientos
+          </ion-button>
+        </ion-item-option>
+      </ion-item-options>
+    </div>
+    } @loading {
+    <ion-item>Cargando</ion-item>
+    } @placeholder {
+    <ion-item>Cargando</ion-item>
+    }
+  </ion-item-sliding>
+  }@else {
+  <ion-item lines="none">
+    <i>No se encontraron elementos</i>
+  </ion-item>
+  }
+  <ion-list *ngIf="lstProd && lstProd.length>0"> </ion-list>
+</ion-content>
+
+<ion-content [fullscreen]="true" *ngIf="!showProducts" class="ion-padding">
+  <ion-list>
+    <ion-item lines="none">
+      <ion-button
+        fill="clear"
+        color="medium"
+        slot="start"
+        (click)="retornar()"
+      >
+        <ion-icon name="chevron-back-outline"></ion-icon> Regresar al listado de Productos
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-text>
+        <br>
+        {{rstProd.productcode}} | {{rstProd.barcode}} <br>
+        <strong class="t16">{{rstProd.name}} </strong>
+        <br>
+        Costo: {{func.numberFormat(rstProd.cost,2)}} <br>
+        Stock: {{func.numberFormat(rstProd.stock,4)}} 
+        <br>
+        <br>
+      </ion-text>
+    </ion-item>
   
+  @if(lstKardex && lstKardex.length>0){
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">Fecha</ion-col>
+      <ion-col size="2" class="right">I/E</ion-col>
+      <ion-col size="2" class="right">Ing</ion-col>
+      <ion-col size="2" class="right">Egr</ion-col>
+      <ion-col size="2" class="right">Saldo</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let i of lstKardex">
+      @defer (on viewport) {
+          <ion-col size="4">{{i.fecha}}</ion-col>
+          <ion-col size="2" class="right">{{i.asiento}}</ion-col>
+          <ion-col size="2" class="right">{{i.ing_cant}}</ion-col>
+          <ion-col size="2" class="right">{{i.egr_cant}}</ion-col>
+          <ion-col size="2" class="right">{{i.sal_cant}}</ion-col>
+
+      } @loading {
+      <ion-item>Cargando</ion-item>
+      } @placeholder {
+      <ion-item>Cargando</ion-item>
+      }
+    </ion-row>
+  </ion-grid>
+}@else {
+  <ion-item lines="none">
+    <i>No se encontraron elementos</i>
+  </ion-item>
+}
+</ion-list>
 </ion-content>
