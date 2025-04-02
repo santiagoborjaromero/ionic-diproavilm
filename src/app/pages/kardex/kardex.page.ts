@@ -39,7 +39,8 @@ export class KardexPage implements OnInit {
   public lstKardexOriginal:Array<any> = [];
 
   public showProducts: boolean = true;
-
+  public showProductsCost: boolean = false;
+  public showProductsStock: boolean = false;
 
   constructor() { }
 
@@ -132,7 +133,7 @@ export class KardexPage implements OnInit {
     this.loading.present();
   }
 
-  kardex = async (id:any) => {
+  kardex = async (id:any, via=0) => {
 
     this.lstProd.forEach((e:any)=>{
       if (e.idproduct == id){
@@ -140,7 +141,17 @@ export class KardexPage implements OnInit {
       }
     });
 
+
     this.showProducts = false;
+
+    if (via == 0){
+      this.showProductsStock = true;
+      this.showProductsCost = false;
+    } else{
+      this.showProductsCost = true;
+      this.showProductsStock = false;
+    }
+
     this.showLoading("Espere un momento");
     this.svc.apiRest("POST", `kardex&id=${id}`, null).subscribe({
       next: (resp:any)=>{
@@ -173,9 +184,10 @@ export class KardexPage implements OnInit {
 
   retornar(){
     this.showProducts = true;
+    this.showProductsStock = false;
+    this.showProductsCost = false;
     this.lstKardexOriginal = [];
     this.lstKardex = [];
-
   }
 
 

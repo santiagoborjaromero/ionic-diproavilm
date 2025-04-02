@@ -16,6 +16,9 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" *ngIf="showProducts">
+  <!-- <ion-refresher slot="fixed" (ionRefresh)="getProductos()">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher> -->
   @if(lstProd && lstProd.length>0){
   <ion-item-sliding *ngFor="let i of lstProd">
     @defer (on viewport) {
@@ -43,11 +46,20 @@
       <ion-item-options side="end" class="item-options">
         <ion-item-option color="clear">
           <ion-button
-            (click)="kardex(i.idproduct)"
+            (click)="kardex(i.idproduct,0)"
             shape="round"
             color="warning"
           >
-            Mirar movimientos
+            Por Stock
+          </ion-button>
+        </ion-item-option>
+        <ion-item-option color="clear">
+          <ion-button
+            (click)="kardex(i.idproduct,1)"
+            shape="round"
+            color="success"
+          >
+            Por Costo
           </ion-button>
         </ion-item-option>
       </ion-item-options>
@@ -66,26 +78,32 @@
   <ion-list *ngIf="lstProd && lstProd.length>0"> </ion-list>
 </ion-content>
 
-<ion-content [fullscreen]="true" *ngIf="!showProducts" class="ion-padding">
+<ion-content [fullscreen]="true" *ngIf="showProductsStock" class="ion-padding">
   <ion-list>
     <ion-item lines="none">
       <ion-button
         fill="clear"
         color="medium"
-        slot="start"
         (click)="retornar()"
       >
-        <ion-icon name="chevron-back-outline"></ion-icon> Regresar al listado de Productos
+        <ion-icon name="chevron-back-outline"></ion-icon> Regresar
       </ion-button>
     </ion-item>
+    <ion-item>
+      <ion-text>
+        <h1>Kardex de productos</h1>
+        <h6>Por stock</h6>
+      </ion-text>
+    </ion-item>
+
     <ion-item>
       <ion-text>
         <br>
         {{rstProd.productcode}} | {{rstProd.barcode}} <br>
         <strong class="t16">{{rstProd.name}} </strong>
         <br>
-        Costo: {{func.numberFormat(rstProd.cost,2)}} <br>
-        Stock: {{func.numberFormat(rstProd.stock,4)}} 
+        Costo: {{func.numberFormat(rstProd.cost,4)}} <br>
+        Stock: {{func.numberFormat(rstProd.stock,2)}} 
         <br>
         <br>
       </ion-text>
@@ -95,7 +113,7 @@
   <ion-grid>
     <ion-row>
       <ion-col size="4">Fecha</ion-col>
-      <ion-col size="2" class="right">I/E</ion-col>
+      <ion-col size="2">Asiento</ion-col>
       <ion-col size="2" class="right">Ing</ion-col>
       <ion-col size="2" class="right">Egr</ion-col>
       <ion-col size="2" class="right">Saldo</ion-col>
@@ -103,7 +121,7 @@
     <ion-row *ngFor="let i of lstKardex">
       @defer (on viewport) {
           <ion-col size="4">{{i.fecha}}</ion-col>
-          <ion-col size="2" class="right">{{i.asiento}}</ion-col>
+          <ion-col size="2">{{i.asiento}}</ion-col>
           <ion-col size="2" class="right">{{i.ing_cant}}</ion-col>
           <ion-col size="2" class="right">{{i.egr_cant}}</ion-col>
           <ion-col size="2" class="right">{{i.sal_cant}}</ion-col>
@@ -122,3 +140,69 @@
 }
 </ion-list>
 </ion-content>
+
+
+<ion-content [fullscreen]="true" *ngIf="showProductsCost" class="ion-padding">
+  <ion-list>
+    <ion-item lines="none">
+      <ion-button
+        fill="clear"
+        color="medium"
+        (click)="retornar()"
+      >
+        <ion-icon name="chevron-back-outline"></ion-icon> Regresar
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-text>
+        <h1>Kardex de productos</h1>
+        <h6>Por stock</h6>
+      </ion-text>
+    </ion-item>
+
+    <ion-item>
+      <ion-text>
+        <br>
+        {{rstProd.productcode}} | {{rstProd.barcode}} <br>
+        <strong class="t16">{{rstProd.name}} </strong>
+        <br>
+        Costo: {{func.numberFormat(rstProd.cost,4)}} <br>
+        Stock: {{func.numberFormat(rstProd.stock,2)}} 
+        <br>
+        <br>
+      </ion-text>
+    </ion-item>
+  
+  @if(lstKardex && lstKardex.length>0){
+  <ion-grid>
+    <ion-row>
+      <ion-col size="4">Fecha</ion-col>
+      <ion-col size="2">I/E</ion-col>
+      <ion-col size="2" class="right">Ing</ion-col>
+      <ion-col size="2" class="right">Egr</ion-col>
+      <ion-col size="2" class="right">Saldo</ion-col>
+    </ion-row>
+    <ion-row *ngFor="let i of lstKardex">
+      @defer (on viewport) {
+          <ion-col size="4">{{i.fecha}}</ion-col>
+          <ion-col size="2">{{i.asiento}}</ion-col>
+          <ion-col size="2" class="right">{{func.numberFormat(i.ing_costo,4)}}</ion-col>
+          <ion-col size="2" class="right">{{func.numberFormat(i.egr_costo,4)}}</ion-col>
+          <ion-col size="2" class="right">{{func.numberFormat(i.sal_costo,4)}}</ion-col>
+
+      } @loading {
+      <ion-item>Cargando</ion-item>
+      } @placeholder {
+      <ion-item>Cargando</ion-item>
+      }
+    </ion-row>
+  </ion-grid>
+}@else {
+  <ion-item lines="none">
+    <i>No se encontraron elementos</i>
+  </ion-item>
+}
+</ion-list>
+</ion-content>
+
+
