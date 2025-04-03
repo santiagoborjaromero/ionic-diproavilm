@@ -120,12 +120,12 @@ export class UsuariosPage implements OnInit {
     this.userID = id;
   }
   new(){
-    console.log("new");
+    // console.log("new");
     this.userID = "-1";
     this.svc.goRoute(`/user/${this.userID}`)
   }
   edit(id:any){
-    console.log("edit");
+    // console.log("edit");
     this.userID = id;
     this.svc.goRoute(`/user/${this.userID}`)
   }

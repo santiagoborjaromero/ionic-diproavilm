@@ -54,8 +54,6 @@ export class ProfilePage implements OnInit {
     this.nombre_usuario = this.user.fullname;
     this.rol_usuario = this.user.role[0].name;
 
-    console.log(this.user)
-
     this.scope = this.user.role[0].scope.split("");
 
     if (this.scope.includes("R")) this.scopeR = true;

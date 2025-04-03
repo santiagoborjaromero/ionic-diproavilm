@@ -159,7 +159,7 @@ export class ChangepassPage implements OnInit {
   bloquearusername = async () => {
     await this.svc.apiRest("POST", "bloquearUsuario", {username: this.username, app:"movil"}, true).subscribe({
       next: (resp)=>{
-        console.log(resp)
+        // console.log(resp)
         this.svc.showToast("error","username se encuentra bloqueado" );
         this.regresar();
       },
