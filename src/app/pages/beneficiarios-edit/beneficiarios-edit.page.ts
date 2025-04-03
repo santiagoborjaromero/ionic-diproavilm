@@ -4,6 +4,9 @@ import { LoadingController } from '@ionic/angular';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
+import { verificarCedula, verificarRuc } from 'udv-ec';
+
+
 
 @Component({
   selector: 'app-beneficiarios-edit',
@@ -48,6 +51,7 @@ export class BeneficiariosEditPage implements OnInit {
   public creditquota:number = 0;
   public creditdays:number = 0;
   public account:string = "";
+  public validacion_cedula:string = "";
 
   public lstTypes: Array<any> = [];
   public lstIdentificationType: Array<any> = [];
@@ -307,6 +311,34 @@ export class BeneficiariosEditPage implements OnInit {
   back(){
     this.svc.goRoute("beneficiarios")
   }
+
+
+  validarIdentificacion(event:any){
+    if (this.identificationtype == "2"){
+      this.validacion_cedula = verificarCedula(this.identificationnumber) ? "Cédula Válida" : "Cédula Inválida";
+    } if(this.identificationtype == "1"){
+      this.validacion_cedula = verificarRuc(this.identificationnumber) ? "RUC Válido" : "RUC Inválido";
+    }
+  }
+
+  // verifyCedula = async () => {
+  //   await this.svc.apiRest("POST", "vcedula", {ci_persona: this.identificationnumber}).subscribe({
+  //     next: (resp)=>{
+  //       if (resp.status){
+  //         this.mensaje = "Cedula verificada";
+  //         this.error_clave = false;
+  //       } else{
+  //         this.mensaje = resp.message;
+  //         this.service.showToast("error", resp.message)
+  //         this.error_clave = true;
+  //       }
+  //     },
+  //     error: (error)=>{
+  //       console.log("ERROR", error)
+  //       this.service.showToast("error", error)
+  //     }
+  //   })
+  // }
 
 
 }
