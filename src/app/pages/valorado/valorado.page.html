@@ -1,0 +1,87 @@
+<ion-header [translucent]="true" [mode]="'ios'">
+  <ion-toolbar color="secondary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inventario Valorado</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <h1><strong>Valor Inventario actual</strong></h1>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="secondary">$ {{func.numberFormat(acumcosto,2)}}</ion-card-title>
+      <ion-card-subtitle><ion-icon name="stats-chart-outline"></ion-icon> Costo</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Total general por costo
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="success">$ {{func.numberFormat(acumventa,2)}}</ion-card-title>
+      <ion-card-subtitle><ion-icon name="stats-chart-outline"></ion-icon> Precio</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      Total general por precio de venta
+    </ion-card-content>
+  </ion-card>
+
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="medium">Categoria</ion-card-title>
+      <ion-card-subtitle><ion-icon name="stats-chart-outline"></ion-icon> Totales</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid>
+        <ion-row  class="grid-header">
+          <ion-col size="4" >Categoria</ion-col>
+          <ion-col size="4" class="right">Costo</ion-col>
+          <ion-col size="4" class="right">Venta</ion-col>
+        </ion-row>
+        <div *ngFor="let item of lstCategoria">
+          <ion-row  class="grid-row-header">
+            <ion-col size="12" color="dark">{{item.category}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" ></ion-col>
+            <ion-col size="4" class="right text-secondary">{{func.numberFormat(item.totalcost,2)}}</ion-col>
+            <ion-col size="4" class="right text-success">{{func.numberFormat(item.totalventa,2)}}</ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title color="medium">Línea de Productos</ion-card-title>
+      <ion-card-subtitle><ion-icon name="stats-chart-outline"></ion-icon> Totales</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid  [fixed]="true">
+        <ion-row class="grid-header">
+          <ion-col size="4" >Línea</ion-col>
+          <ion-col size="4" class="right">Costo</ion-col>
+          <ion-col size="4" class="right">Venta</ion-col>
+        </ion-row>
+        <div *ngFor="let item of lstLinea">
+          <ion-row  class="grid-row-header">
+            <ion-col size="12" >{{item.line}}</ion-col>
+          </ion-row>
+          <ion-row>
+            <ion-col size="4" ></ion-col>
+            <ion-col size="4" class="right text-secondary">{{func.numberFormat(item.totalcost,2)}}</ion-col>
+            <ion-col size="4" class="right text-success">{{func.numberFormat(item.totalventa,2)}}</ion-col>
+          </ion-row>
+        </div>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+
+
+</ion-content>

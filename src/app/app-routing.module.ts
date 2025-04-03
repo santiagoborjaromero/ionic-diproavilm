@@ -96,6 +96,10 @@ const routes: Routes = [
     path: 'productos',
     loadChildren: () => import('./share/productos/productos.module').then( m => m.ProductosPageModule)
   },
+  {
+    path: 'lst_invvalorado',
+    loadChildren: () => import('./pages/valorado/valorado.module').then( m => m.ValoradoPageModule)
+  },
 ];
 
 @NgModule({
