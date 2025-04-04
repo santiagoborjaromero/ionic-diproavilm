@@ -50,7 +50,7 @@
           labelPlacement="stacked"
           placeholder="Tipo de Identificacion"
           [(ngModel)]="identificationtype"
-          (ionChange)="validarIdentificacion($event)"
+          (ionChange)="validarIdentificacion()"
         >
           @for (item of lstIdentificationType; track $index) {
           <ion-select-option value="{{item.ididentificationtype}}"
@@ -64,13 +64,14 @@
           label="Número de Indetificación (*)"
           labelPlacement="stacked"
           [(ngModel)]="identificationnumber"
-          placeholder="Ingrese el Número de Indetificación"
-          (keyup)="validarIdentificacion($event)"
+          placeholder="Ingrese el Número de Identificación"
+          (keyup)="validarIdentificacion()"
+          (ionBlur)="verifyCedula()"
         ></ion-input>
       </ion-item>
       <ion-item color="clear">
-        <ion-text color="{{validacion_cedula == 'Cédula Válida' || validacion_cedula == 'RUC Válido' ? 'success' : 'danger'}}">
-          {{validacion_cedula}}
+        <ion-text color="{{validacion_cedula == 'Identificación verificada' || validacion_cedula == 'Cédula Válida' || validacion_cedula == 'RUC Válido' ? 'success' : 'danger'}}">
+          <strong>{{validacion_cedula}}</strong>
         </ion-text>
       </ion-item>
       <ion-item color="clear">

@@ -229,6 +229,12 @@ export class BeneficiariosEditPage implements OnInit {
     let error = false;
     let msgError = "";
 
+    this.verifyCedula();
+
+    if (!error && this.name == ''){
+      error = true;
+      msgError = "Deben ingresar el nombre del beneficiario";
+    }
     if (!error && this.type == ''){
       error = true;
       msgError = "Debe seleccionar el tipo de beneficiario";
@@ -240,6 +246,10 @@ export class BeneficiariosEditPage implements OnInit {
     if (!error && this.identificationnumber == ''){
       error = true;
       msgError = "Debe ingresar el numero de identificación";
+    }
+    if (!error && !["Identificación verificada","Cédula Válida", "RUC Válido"].includes(this.validacion_cedula)){
+      error = true;
+      msgError = "Deben ingresar el numero de identificacion válido";
     }
     if (!error && this.idcountry == ''){
       error = true;
@@ -253,14 +263,9 @@ export class BeneficiariosEditPage implements OnInit {
       error = true;
       msgError = "Debe seleccionar la Ciudad";
     }
-    if (!error && this.name == ''){
-      error = true;
-      msgError = "Deben ingresar el nombre del beneficiario";
-    }
-    
     if (error){
       this.error_clave = true;
-      this.svc.showAlert(this.Titulo, msgError, "error");
+      this.svc.showAlert(this.Titulo , msgError, "error");
       return;
     }
 
@@ -313,7 +318,7 @@ export class BeneficiariosEditPage implements OnInit {
   }
 
 
-  validarIdentificacion(event:any){
+  validarIdentificacion(){
     if (this.identificationtype == "2"){
       this.validacion_cedula = verificarCedula(this.identificationnumber) ? "Cédula Válida" : "Cédula Inválida";
     } if(this.identificationtype == "1"){
@@ -321,24 +326,24 @@ export class BeneficiariosEditPage implements OnInit {
     }
   }
 
-  // verifyCedula = async () => {
-  //   await this.svc.apiRest("POST", "vcedula", {ci_persona: this.identificationnumber}).subscribe({
-  //     next: (resp)=>{
-  //       if (resp.status){
-  //         this.mensaje = "Cedula verificada";
-  //         this.error_clave = false;
-  //       } else{
-  //         this.mensaje = resp.message;
-  //         this.service.showToast("error", resp.message)
-  //         this.error_clave = true;
-  //       }
-  //     },
-  //     error: (error)=>{
-  //       console.log("ERROR", error)
-  //       this.service.showToast("error", error)
-  //     }
-  //   })
-  // }
+  verifyCedula = async () => {
+    if (this.beneID==-1){
+      if (["Cédula Válida", "RUC Válido"].includes(this.validacion_cedula)){
+        await this.svc.apiRest("GET", "videntidad", this.identificationnumber).subscribe({
+          next: (resp)=>{
+            // console.log(resp)
+            if (resp){
+              this.validacion_cedula = resp.message;
+            }
+          },
+          error: (error)=>{
+            console.log("ERROR", error)
+            this.svc.showAlert(this.Titulo , error, "error");
+          }
+        })
+      }
+    }
+  }
 
 
 }
