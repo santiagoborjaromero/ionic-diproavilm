@@ -6,7 +6,6 @@ import { Functions } from 'src/app/core/helpers/functions.helper';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
-import { ProductosPage } from 'src/app/share/productos/productos.page';
 
 @Component({
   selector: 'app-movs-edit',
@@ -265,13 +264,6 @@ export class MovsEditPage implements OnInit {
 
   setNumeroDocumento(numero: any) {
     return this.prefix + (numero + 1).toString().padStart(9, "0");
-  }
-
-  selectBeneficiario = async () => {
-    const modal = await this.modalCtrl.create({
-      component: ProductosPage
-    })
-    return await modal.present();
   }
 
   addProduct = (id: any, operador: string) => {
