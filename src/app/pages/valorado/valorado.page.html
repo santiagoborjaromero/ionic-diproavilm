@@ -8,8 +8,13 @@
 </ion-header>
 
 
-<ion-content [fullscreen]="true" class="ion-padding">
-  <h1><strong>Valor Inventario actual</strong></h1>
+<ion-content [fullscreen]="true" >
+
+  <ion-item color="light">
+    <ion-icon name="reader-outline" class="circulos"></ion-icon>
+    <h1>Inventario valorado</h1>
+  </ion-item>
+
   <ion-card>
     <ion-card-header>
       <ion-card-title color="secondary">$ {{func.numberFormat(acumcosto,2)}}</ion-card-title>

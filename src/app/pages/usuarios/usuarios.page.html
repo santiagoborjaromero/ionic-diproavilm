@@ -18,16 +18,22 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <!-- Numero de Usuarios {{lstUsers.length}} -->
+
+  <ion-item color="light">
+    <ion-icon name="people-outline" class="circulos"></ion-icon>
+    <h1>Usuarios</h1>
+  </ion-item>
 
   @if(lstUsers && lstUsers.length>0){
   <ion-item-sliding *ngFor="let i of lstUsers">
     @defer (on viewport) {
       <div>
-
         <ion-item>
           <ion-avatar>
             @if(i.deleted_at===null){
-              <img alt="user" src="/assets/images/user2.svg" />
+              <!-- <img alt="user" src="/assets/images/user2.svg" /> -->
+              <ion-icon name="person-outline" class="t30" color="secondary"></ion-icon>
             }@else {
               <img alt="user" src="/assets/images/eliminado.svg"/>
             }
@@ -35,11 +41,25 @@
     
           @if(i.status == 1){
             <ion-label>
-              <strong>{{i.fullname}}</strong><br />
-              <small><strong>{{i.rolename}}</strong></small><br />
-              @if(i.scope.includes("R")){ <ion-badge color="success" class="mr-1">R</ion-badge> }
-              @if(i.scope.includes("W")){ <ion-badge color="warning" class="mr-1">W</ion-badge> }
-              @if(i.scope.includes("D")){ <ion-badge color="danger"  class="mr-1">D</ion-badge> }
+              <strong>{{i.fullname.toUpperCase()}}</strong><br />
+              <small>USUARIO: <strong>{{i.username}}</strong></small><br />
+              <!-- <small>ROL: <strong>{{i.rolename}}</strong></small><br /> -->
+              <ion-chip [outline]="true">{{i.rolename}}</ion-chip>
+              @if(i.scope.includes("R")){ 
+                <ion-chip color="secondary" [outline]="true">R</ion-chip>
+                <!-- <ion-button size="small" color="success">R</ion-button>  -->
+                <!-- <ion-badge color="success" class="mr-1">R</ion-badge>  -->
+              }
+              @if(i.scope.includes("W")){ 
+                <ion-chip color="success" [outline]="true">W</ion-chip>
+                <!-- <ion-button size="small" color="warning">W</ion-button> -->
+                <!-- <ion-badge color="warning" class="mr-1">W</ion-badge>  -->
+              }
+              @if(i.scope.includes("D")){ 
+                <ion-chip color="danger" [outline]="true">D</ion-chip>
+                <!-- <ion-button size="small" color="danger" >D</ion-button> -->
+                <!-- <ion-badge color="danger"  class="mr-1">D</ion-badge>  -->
+              }
             </ion-label>
             <ion-badge color="secondary" class="mr-1">Activo</ion-badge> 
           } @else {
@@ -53,9 +73,6 @@
               <ion-badge color="medium" class="mr-1">Inactivo</ion-badge> 
             }
           }
-          <!-- <div class="metadata-end-wrapper" slot="end">
-            <ion-icon color="medium" name="chevron-forward"></ion-icon>
-          </div> -->
         </ion-item>
     
         <ion-item-options side="start" *ngIf="i.deleted_at===null">
@@ -87,7 +104,6 @@
             </ion-button>
     
             <ion-button *ngIf="i.deleted_at!==null && this.scopeW" (click)="recuperar(i.iduser)" shape="round" color="warning">
-              <!-- <ion-icon name="return-up-back-outline"></ion-icon> -->
               Recuperar
             </ion-button>
           </ion-item-option>
@@ -97,7 +113,7 @@
       <ion-item>Cargando</ion-item>
     } @placeholder {
       <ion-item>Cargando</ion-item>
-      }
+    }
 
   </ion-item-sliding>
   }@else {

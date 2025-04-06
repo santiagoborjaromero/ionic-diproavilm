@@ -88,6 +88,7 @@ export class VerificacionPage implements OnInit {
 
     await this.svc.apiRest("POST", "codigoauth", frmData).subscribe({
       next: (resp) => {
+        
         if (resp.status == "ok") {
           clearInterval(this.timer);
           this.sess.set("verificado", true);
@@ -110,6 +111,7 @@ export class VerificacionPage implements OnInit {
         }
       },
       error: (err) => {
+        console.log(err)
         this.svc.showAlert(err, "", "error", [
           {
             text: 'Aceptar',

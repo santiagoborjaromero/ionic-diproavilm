@@ -134,7 +134,7 @@ export class MovsEditPage implements OnInit {
     // console.log(this.idtransaction)
     await this.svc.apiRest("GET", "transaccionOne", this.idtransaction).subscribe({
       next: (resp) => {
-        // this.loading.dismiss();
+        // try{this.loading.dismiss();}catch(ex){}
         // console.log(resp)
         if (resp.status == "ok") {
           // this.rstTransaccion = resp.message[0];
@@ -145,7 +145,7 @@ export class MovsEditPage implements OnInit {
         }
       },
       error: (error) => {
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }

@@ -19,6 +19,10 @@
   <!-- <ion-refresher slot="fixed" (ionRefresh)="getProductos()">
     <ion-refresher-content></ion-refresher-content>
   </ion-refresher> -->
+  <ion-item color="light">
+    <ion-icon name="layers-outline" class="circulos"></ion-icon>
+    <h1>Kardex de Productos</h1>
+  </ion-item>
   @if(lstProd && lstProd.length>0){
   <ion-item-sliding *ngFor="let i of lstProd">
     @defer (on viewport) {
@@ -26,20 +30,18 @@
       <ion-item>
         <ion-avatar>
           @if(i.deleted_at===null){
-          <img alt="producto" src="/assets/images/producto1.svg" />
+          <ion-icon name="layers-outline" class="t30" color="secondary"></ion-icon>
           }@else {
           <img alt="producto" src="/assets/images/eliminado.svg" />
           }
         </ion-avatar>
 
         <ion-label>
-          <strong>{{i.name}}</strong><br />
-          <small
-            ><strong
-              >{{func.numberFormat(i.stock,2)}} {{i.presentation}} - Costo:
-              {{i.cost}}</strong
-            ></small
-          >
+          <span>{{i.name}}</span><br />
+          <small>
+            {{func.numberFormat(i.stock,2)}} {{i.presentation}} - <strong color="success">Costo: $</strong>
+              {{i.cost}}
+          </small>
         </ion-label>
       </ion-item>
 
@@ -206,3 +208,14 @@
 </ion-content>
 
 
+
+<ion-fab horizontal="end" vertical="top">
+  <ion-fab-button color="secondary">
+    <ion-icon name="ellipsis-vertical-outline"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="bottom">
+    <ion-fab-button color="warning" (click)="getProductos()">
+      <ion-icon name="repeat"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>

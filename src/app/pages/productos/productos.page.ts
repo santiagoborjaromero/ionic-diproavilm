@@ -77,7 +77,7 @@ export class ProductosPage implements OnInit {
     this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "productos", null).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status == "ok"){
           this.lstProdOriginal = resp.message;
           this.pagination();
@@ -89,7 +89,7 @@ export class ProductosPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });
@@ -147,7 +147,7 @@ export class ProductosPage implements OnInit {
     this.showLoading("Eliminando, espere un momento");
     await this.svc.apiRest("DELETE", "deleteProducto", id).subscribe({
       next: (resp)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -156,7 +156,7 @@ export class ProductosPage implements OnInit {
         }
       },
       error: (error)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -183,7 +183,7 @@ export class ProductosPage implements OnInit {
     this.showLoading("Recuperando, espere un momento")
     await this.svc.apiRest("POST", `recuperarProducto&id=${id}`, null).subscribe({
       next: (resp)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -192,7 +192,7 @@ export class ProductosPage implements OnInit {
         }
       },
       error: (error)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -200,7 +200,7 @@ export class ProductosPage implements OnInit {
   }
 
 
-  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+  async showLoading(texto: string = "Espere un momento", time: number = 2000) {
     let params:any = await this.svc.showLoading(texto,time);
     this.loading = await this.loadingCtrl.create(params)
     this.loading.present();

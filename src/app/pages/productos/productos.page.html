@@ -16,6 +16,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-item color="light">
+    <ion-icon name="cube-outline" class="circulos"></ion-icon>
+    <h1>Productos</h1>
+  </ion-item>
   @if(lstProd && lstProd.length>0){
   <ion-item-sliding *ngFor="let i of lstProd">
     @defer (on viewport) {
@@ -23,7 +27,8 @@
         <ion-item>
           <ion-avatar>
             @if(i.deleted_at===null){
-              <img alt="producto" src="/assets/images/producto1.svg"/>
+              <!-- <img alt="producto" src="/assets/images/producto1.svg"/> -->
+              <ion-icon name="cube-outline" class="t30" color="secondary"></ion-icon>
             }@else {
               <img alt="producto" src="/assets/images/eliminado.svg"/>
             }
@@ -31,9 +36,10 @@
 
           @if(i.deleted_at===null){
             <ion-label>
-              <strong>{{i.name}}</strong><br />
+              <span>{{i.name}}</span><br />
               <small><strong>{{i.description}}</strong></small><br />
-              <ion-badge color="secondary" class="mr-1">{{i.category}}</ion-badge>
+              <!-- <ion-badge color="secondary" class="mr-1">{{i.category}}</ion-badge> -->
+              <ion-chip color="secondary" [outline]="false">{{i.category}}</ion-chip>
               <br>
               <small><strong>{{func.numberFormat(i.stock,2)}} {{i.presentation}} - ${{i.price}}</strong></small>
             </ion-label>

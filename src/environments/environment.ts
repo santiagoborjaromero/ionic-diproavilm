@@ -4,8 +4,7 @@
 
 export const environment = {
   production: false,
-  apUrl: "https://api.diproavilm.com/?ruta="
-  // apUrl: "http://192.168.1.169/apidiproavilm/?ruta="
+  apUrl: "http://localhost/apidiproavilm/?ruta="
 };
 
 /*

@@ -281,3 +281,17 @@ ion-button{
 .text-success{
     color: #167235;
 }
+
+.circulos{
+    width: 100px;
+    border-radius: 50%;
+    // border: 1px solid #747474;
+    padding: 10px;
+    margin: 10px;
+    font-size: 90px;
+    color: #929292;
+    background-color: #fdfdfd;
+    box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
+    -webkit-box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
+    -moz-box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
+}

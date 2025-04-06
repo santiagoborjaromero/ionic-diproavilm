@@ -33,14 +33,16 @@ export class GeneralService {
       headers: head,
     }
 
+    if(environment.debug) console.log("Begin " + method + "/" + ruta)
+
     if (["POST", "PUT"].includes(method)){
       body = {
         data: this.encrypt.convertResponse(JSON.stringify(body))
       };
-      // console.log(JSON.stringify(body))
+      if(environment.debug) console.log(JSON.stringify(body))
     }
 
-    // console.log("Begin " + method + "/" + ruta)
+    let url_aux = "";
 
     switch (method) {
       case "POST":
@@ -48,10 +50,10 @@ export class GeneralService {
       case "PUT":
         return this.http.put(`${this.base_url}${ruta}`, body, options);
       case "GET":
-        // console.log(`${this.base_url}${ruta}&id=${body}`)
-        // console.log(options)
-        return this.http.get(`${this.base_url}${ruta}&id=${body}`, options);
+        if (body) url_aux = `&id=${body}`;
+        return this.http.get(`${this.base_url}${ruta}${url_aux}`, options);
       case "DELETE":
+        if (body) url_aux = `&id=${body}`;
         return this.http.delete(`${this.base_url}${ruta}&id=${body}`, options);
     }
 
@@ -98,7 +100,7 @@ export class GeneralService {
     // this.navCtrl.navigateForward(ruta);
   }
 
-  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+  async showLoading(texto: string = "Espere un momento", time: number = 2000) {
     let params:any = {};
     params["message"] = texto;
     if (time>0) params["duration"] = time;

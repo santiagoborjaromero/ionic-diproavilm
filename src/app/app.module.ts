@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { RouteReuseStrategy } from '@angular/router';
+import { RouteReuseStrategy, RouterModule } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
@@ -17,7 +17,7 @@ import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
     IonicModule.forRoot(), 
     AppRoutingModule, 
     BaseChartDirective,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [
     provideCharts(withDefaultRegisterables()),

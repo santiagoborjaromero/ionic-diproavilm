@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Sessions } from '../helpers/session.helper';
 import { Encryption } from '../helpers/encryption.helper';
+import { environment } from 'src/environments/environment.prod';
 
 
 @Injectable()
@@ -25,8 +26,10 @@ export class Transmission implements HttpInterceptor {
       map((event)=>{
         if (event instanceof HttpResponse){
           let message = event.body.message;
+          if(environment.debug) console.log(message)
           let convert = this.encr.convertRequest(message);
           event.body.message = convert;
+          if(environment.debug) console.log(event.body)
         }
         if (event instanceof HttpRequest){
           console.log("REQUEST", event)

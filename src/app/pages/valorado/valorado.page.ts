@@ -74,7 +74,7 @@ export class ValoradoPage implements OnInit {
     this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "productos", null).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status == "ok"){
           resp.message.forEach((e:any)=>{
             if (!e.deleted_at && e.status==1){
@@ -93,7 +93,7 @@ export class ValoradoPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });

@@ -117,7 +117,7 @@ export class MovsPage implements OnInit {
     this.lstMovs = [];
     this.svc.apiRest("POST", "transaccionesFiltro", params).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         
         if (resp.status == "ok"){
 
@@ -134,7 +134,7 @@ export class MovsPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });
@@ -189,7 +189,7 @@ export class MovsPage implements OnInit {
     this.showLoading("Eliminando, espere un momento");
     await this.svc.apiRest("POST", "anularTransaction&id="+id, null).subscribe({
       next: (resp)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -198,7 +198,7 @@ export class MovsPage implements OnInit {
         }
       },
       error: (error)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }
@@ -225,7 +225,7 @@ export class MovsPage implements OnInit {
     this.showLoading("Recuperando, espere un momento");
     await this.svc.apiRest("POST", `recuperarTransaccion&id=${id}`, null).subscribe({
       next: (resp)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status=="ok"){
           this.svc.showToast("info", resp.message)
           this.getData(true);
@@ -234,7 +234,7 @@ export class MovsPage implements OnInit {
         }
       },
       error: (error)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         console.log("ERROR", error)
         this.svc.showToast("error", error)
       }

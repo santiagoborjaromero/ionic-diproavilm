@@ -17,6 +17,10 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" mode="ios">
+  <ion-item color="light">
+    <ion-icon name="receipt-outline" class="circulos"></ion-icon>
+    <h1>Movimientos</h1>
+  </ion-item>
   <ion-segment color="tertiary" value="dia" [mode]="'ios'" (click)="getData(true)" [(ngModel)]="segment">
     <ion-segment-button value="dia">
       <ion-label>Dia</ion-label>
@@ -38,7 +42,8 @@
           <ion-item>
             <ion-avatar>
               @if(i.status==1){
-                <img alt="Movimiento" src="/assets/images/movs.svg"/>
+                <!-- <img alt="Movimiento" src="/assets/images/movs.svg"/> -->
+                <ion-icon name="receipt-outline" class="t30" color="secondary"></ion-icon>
               }@else {
                 <img alt="Movimiento" src="/assets/images/eliminado.svg"/>
               }

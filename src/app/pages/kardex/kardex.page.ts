@@ -81,7 +81,7 @@ export class KardexPage implements OnInit {
     this.showLoading("Espere un momento");
     this.svc.apiRest("GET", "productos", null).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status == "ok"){
           resp.message.forEach((e:any)=>{
             if (!e.deleted_at){
@@ -98,7 +98,7 @@ export class KardexPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });
@@ -155,7 +155,7 @@ export class KardexPage implements OnInit {
     this.showLoading("Espere un momento");
     this.svc.apiRest("POST", `kardex&id=${id}`, null).subscribe({
       next: (resp:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
 
         // console.log(resp)
         if (resp.status == "ok"){
@@ -174,7 +174,7 @@ export class KardexPage implements OnInit {
         }
       },
       error: (error:any)=>{
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(error, "", "error", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
       }
     });

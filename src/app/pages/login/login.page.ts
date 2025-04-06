@@ -87,7 +87,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
 
     await this.svc.apiRest("POST", "login", frmData, true).subscribe({
       next: (resp) => {
-        this.loading.dismiss();
+        try{this.loading.dismiss();}catch(ex){}
         if (resp.status == "ok") {
           let user = resp.message[0];
           this.sess.set("user", user);
@@ -136,7 +136,8 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
         }
       },
       error: (err) => {
-        this.loading.dismiss();
+        console.log("Error",err)
+        try{this.loading.dismiss();}catch(ex){}
         this.svc.showAlert(err, "", "error", [
           {
             text: 'Aceptar',
@@ -175,7 +176,7 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
   }
 
 
-  async showLoading(texto: string = "Espere un momento", time: number = 0) {
+  async showLoading(texto: string = "Espere un momento", time: number = 2000) {
     let params:any = await this.svc.showLoading(texto,time);
     this.loading = await this.loadingCtrl.create(params)
     this.loading.present();

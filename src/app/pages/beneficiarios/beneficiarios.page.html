@@ -17,6 +17,11 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+  <ion-item color="light">
+      <ion-icon name="briefcase-outline" class="circulos"></ion-icon>
+      <h1>Beneficiarios</h1>
+  </ion-item>
+  
   @if(lstBene && lstBene.length>0){
   <ion-item-sliding *ngFor="let i of lstBene; trackBy: trackById">
     @defer (on viewport; prefetch on idle) {
@@ -24,7 +29,8 @@
         <ion-item>
           <ion-avatar>
             @if(i.deleted_at===null){
-              <img alt="beneficiario" src="/assets/images/beneficiario.svg"/>
+              <!-- <img alt="beneficiario" src="/assets/images/beneficiario.svg"/> -->
+              <ion-icon name="briefcase-outline" class="t30" color="secondary"></ion-icon>
             }@else {
               <img alt="beneficiario" src="/assets/images/eliminado.svg"/>
             }
@@ -34,10 +40,23 @@
             <ion-label>
               <strong>{{i.nombre}}</strong><br />
               <small><strong>{{i.identification}} {{i.nombrecomercial}}</strong></small><br />
-              @if(i.type == "C"){ <ion-badge color="success" class="mr-1">Cliente</ion-badge> }
-              @if(i.type == "P"){ <ion-badge color="warning" class="mr-1">Proveedor</ion-badge> }
-              @if(i.type == "A"){ <ion-badge color="danger"  class="mr-1">Cliente y Proveedor</ion-badge> }
-              @if(i.type == "E"){ <ion-badge color="danger"  class="mr-1">Diproavilm</ion-badge> }
+
+              @if(i.type == "C"){ 
+                <ion-chip color="success" [outline]="false">Cliente</ion-chip>
+                <!-- <ion-badge color="success" class="mr-1">Cliente</ion-badge>  -->
+              }
+              @if(i.type == "P"){ 
+                <ion-chip color="warning" [outline]="false">Proveedor</ion-chip>
+                <!-- <ion-badge color="warning" class="mr-1">Proveedor</ion-badge>  -->
+              }
+              @if(i.type == "A"){ 
+                <ion-chip color="danger" [outline]="false">Cliente y Proveedor</ion-chip>
+                <!-- <ion-badge color="danger"  class="mr-1">Cliente y Proveedor</ion-badge>  -->
+              }
+              @if(i.type == "E"){ 
+                <ion-chip color="danger" [outline]="false">Diproavilm</ion-chip>
+                <!-- <ion-badge color="danger"  class="mr-1">Diproavilm</ion-badge>  -->
+              }
               <br>
               <small><strong>{{i.provincia}} - {{i.ciudad}}</strong></small>
             </ion-label>
