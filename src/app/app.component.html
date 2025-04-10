@@ -30,10 +30,10 @@
       </ion-content>
       <ion-footer>
         <ion-toolbar class="center footer-menu">
-            <span class="user-circle t20 bg-primary" slot="start">
+            <span class="user-circle t20 bg-primary" slot="start" (click)="goLink('profile')">
               {{primerasLetras}}
             </span>
-            <div class="pull-left"> 
+            <div class="pull-left" (click)="goLink('profile')"> 
               <strong>
                 {{usuario}}
               </strong>
