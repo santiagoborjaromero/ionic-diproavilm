@@ -57,7 +57,6 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       error = true;
     }
 
-
     if (!error && this.password == "") {
       errMsg = "Debe llenar la contraseña";
       error = true;
@@ -83,11 +82,12 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
       app: "movil"
     };
 
-    this.showLoading("Verificando Usuario")
+    this.showLoading("Verificando Usuario",1000)
 
     await this.svc.apiRest("POST", "login", frmData, true).subscribe({
       next: (resp) => {
         try{this.loading.dismiss();}catch(ex){}
+
         if (resp.status == "ok") {
           let user = resp.message[0];
           this.sess.set("user", user);
@@ -99,14 +99,30 @@ export class LoginPage implements OnInit, OnDestroy, AfterViewInit {
           this.times_error++;
           switch(resp.message){
             case "establecer clave":
-              this.svc.showToast("error", "Debe establecer una contraseña.")
+              this.svc.showAlert("Debe establecer una contraseña.", "", "info", [
+                {
+                  text: 'Aceptar',
+                  role: 'cancel',
+                  data: {
+                    action: 'cancel',
+                  },
+                },
+              ]);
               setTimeout(() => {
                 this.restablecerClave();
               }, 2000)
               return; 
               break;
             case "password expirado":
-              this.svc.showToast("error", "Su contraseña ha expirado, debe cambiar la contraseña.")
+              this.svc.showAlert("Su contraseña ha expirado, debe cambiar la contraseña.", "", "error", [
+                {
+                  text: 'Aceptar',
+                  role: 'cancel',
+                  data: {
+                    action: 'cancel',
+                  },
+                },
+              ]);
               setTimeout(() => {
                 this.changeClave();
               }, 2000)
