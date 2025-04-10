@@ -51,10 +51,15 @@ html, body{
     align-content: center;
 }
 
+.pull-left{
+    text-align: start;
+    align-items: start;
+    align-content: start;
+}
 .pull-right{
     text-align: end;
     align-items: end;
-    align-content: end;
+    align-content: center;
 }
 
 .icon{
@@ -239,6 +244,15 @@ ion-button{
     --ion-color-danger: #000000;
 }
 
+.alert-warning{
+    --background: #e7c076;
+    --color: #000;
+    --backdrop-opacity: 0.6;
+    --button-background-selected: #ffffff;
+    --button-color: #000000;
+    --ion-color-danger: #000000;
+}
+
 .alert-error{
     --background: #f7d1cf;
     --color: #000;
@@ -249,6 +263,10 @@ ion-button{
     --button-background-selected: #e9e2de;
     --button-color: #000000;
     --ion-color-danger: #000000;
+}
+
+.alert-button-confirm{
+    color: #000;
 }
 
 
@@ -294,4 +312,32 @@ ion-button{
     box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
     -webkit-box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
     -moz-box-shadow: 2px -1px 8px -3px rgba(0,0,0,0.34) inset;
+}
+
+.bg-primary     { background-color: #0c3f79; color: #ffffff;}
+.bg-secondary   { background-color: #356a96; color: #ffffff;}
+.bg-info        { background-color: #960883; color: #ffffff;}
+.bg-success     { background-color: #17995c; color: #ffffff;}
+.bg-danger      { background-color: #b4360f; color: #ffffff;}
+.bg-warning     { background-color: #c7590f; color: #ffffff;}
+
+.user-circle{
+    min-width: 48px;
+    min-height: 48px;
+    border-radius: 50%;
+    padding: 10px;
+    margin: 10px;
+    // font-size: 20px;
+    // background-color: #d34317;
+    // color: #ffffff;
+    font-weight: 600;
+    align-content: center;
+    text-align: center;
+}
+
+
+.mayusculas{
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 500;
 }
