@@ -2,7 +2,7 @@
   <ion-split-pane contentId="main-content">
     <ion-menu contentId="main-content" type="overlay">
       <ion-header>
-        <ion-toolbar color="primary">
+        <ion-toolbar color="secondary">
           <ion-title>{{nombre}}</ion-title>
         </ion-toolbar>
       </ion-header>
@@ -30,13 +30,50 @@
       </ion-content>
       <ion-footer>
         <ion-toolbar class="center footer-menu">
-          <ion-button shape="round" color="danger" (click)="logout()">
-            <ion-icon slot="icon-only" name="power"></ion-icon>
-          </ion-button>
-          <ion-button shape="round"  color="medium" (click)="goLink('profile')">
-            <!-- <ion-icon slot="icon-only" name="settings-outline" color="light"></ion-icon> -->
-            <ion-icon slot="icon-only" name="person-outline" color="light"></ion-icon>
-          </ion-button>
+            <span class="user-circle t20" slot="start">
+              {{primerasLetras}}
+            </span>
+            <div class="pull-left"> 
+              <strong>
+                {{usuario}}
+              </strong>
+              <br>
+              <small class="mayusculas">
+                {{rol}}
+              </small>
+            </div>
+            <ion-button slot="end" shape="round" color="danger" (click)="logout()">
+              <ion-icon slot="icon-only" name="power"></ion-icon>
+            </ion-button>
+          <!-- <ion-grid>
+            <ion-row (click)="goLink('profile')">
+              <ion-col size="3"  class="pull-right">
+                <span class="user-circle">
+                  {{primerasLetras}}
+                </span>
+              </ion-col>
+              <ion-col size="6" class="pull-left">
+                <ion-text>
+                  <strong>
+                    {{usuario}}
+                  </strong>
+                  <br>
+                  <small>
+                    {{rol}}
+                  </small>
+                </ion-text>
+              </ion-col>
+              <ion-col>
+                <ion-button shape="round" color="danger" (click)="logout()">
+                  <ion-icon slot="icon-only" name="power"></ion-icon>
+                </ion-button>
+                <ion-button shape="round"  color="medium" (click)="goLink('profile')">
+                  <ion-icon slot="icon-only" name="person-outline" color="light"></ion-icon>
+                </ion-button>
+
+              </ion-col>
+            </ion-row>
+          </ion-grid> -->
         </ion-toolbar>
       </ion-footer>
     </ion-menu>

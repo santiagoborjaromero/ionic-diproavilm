@@ -32,10 +32,23 @@ export class AppComponent {
   
   public nombre: string = "Opciones"
 
+  public usuario: string ="";
+  public rol: string ="";
+  public primerasLetras: string ="";
+  
+
   constructor() {}
 
   ngOnInit(): void {
-    
+
+    this.user = this.sess.get("user");
+    console.log(this.user)
+    this.usuario = this.user.fullname;
+    this.rol = this.user.role[0].name;
+
+    let palabras = this.usuario.split(" ");
+    this.primerasLetras = (palabras.map(palabra => palabra.charAt(0))).join("");
+
     this.menuSvc.menuItems$.subscribe(items => {
       if (items.length != this.lstMenu.length){
         this.lstMenu = items;
