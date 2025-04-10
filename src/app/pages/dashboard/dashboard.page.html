@@ -1,5 +1,5 @@
 <ion-tabs>
-  <ion-tab tab="egresos" class="scroll">
+  <ion-tab tab="movimientos" class="scroll">
     <ion-header [translucent]="true">
       <ion-toolbar color="secondary" [mode]="'ios'">
         <ion-buttons slot="start">
@@ -9,43 +9,45 @@
       </ion-toolbar>
     </ion-header>
     <ion-grid>
-      <ion-row>
+      <!-- <ion-row>
         <ion-col class="center">
           <h2>
-            Movimiento de egresos por cantidad y valor total del año en curso
+            Movimientos de productos por cantidad y valor total del año en curso
           </h2>
         </ion-col>
-      </ion-row>
+      </ion-row> -->
+
       <ion-row>
         <ion-col>
           <ion-card>
-            <ion-card-header>
-              <ion-card-title class="t30">
-                {{func.numberFormat(egresoStock,2)}}
-              </ion-card-title>
-              <ion-card-subtitle color="secondary t20"
-                ><strong>Stock Egresos</strong></ion-card-subtitle
-              >
-            </ion-card-header>
             <ion-card-content>
-              Suma Anual de productos por cantidad egresada.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title class="t30">
-                {{func.numberFormat(egresoTotal,2)}}
-              </ion-card-title>
-              <ion-card-subtitle color="secondary t20"
-                ><strong>Valor Total Egresos</strong></ion-card-subtitle
-              >
-            </ion-card-header>
-            <ion-card-content>
-              Suma Anual de productos por valor total egresado.
+              <ion-grid>
+                <ion-row>
+                  <ion-col class="text-primary bold">
+                    Total de operaciones en el almacén por cantidad y valor.
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span class="t30 text-primary">{{func.numberFormat(ingresoStock,2)}}</span><br>
+                    <span class="t12">CANTIDAD INGRESOS</span>
+                  </ion-col>
+                  <ion-col class="pull-right">
+                    <span class="t30 text-primary">{{func.numberFormat(ingresoTotal,2)}}</span><br>
+                    <span class="t12">VALOR INGRESOS</span>
+                  </ion-col>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <span class="t30 text-warning">{{func.numberFormat(ventasStock,2)}}</span><br>
+                    <span class="t12">CANTIDAD EGRESOS</span>
+                  </ion-col>
+                  <ion-col class="pull-right">
+                    <span class="t30 text-warning">{{func.numberFormat(ventasTotal,2)}}</span><br>
+                    <span class="t12">VALOR EGRESOS</span>
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
             </ion-card-content>
           </ion-card>
         </ion-col>
@@ -61,60 +63,6 @@
             [options]="lineChartOptionsCantidadIngresosPorAnio"
             [legend]="true"
           ></canvas>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </ion-tab>
-
-  <ion-tab tab="ingresos" class="scroll">
-    <ion-toolbar color="secondary" [mode]="'ios'">
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Dashboard - Ingresos</ion-title>
-    </ion-toolbar>
-    <ion-grid>
-      <ion-row>
-        <ion-col class="center">
-          <h2>
-            Movimiento de ingresos por cantidad y valor total del año en curso
-          </h2>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title class="t30"
-                >{{func.numberFormat(ventasStock,2)}}</ion-card-title
-              >
-              <ion-card-subtitle color="secondary t20"
-                ><strong>Stock Ventas</strong></ion-card-subtitle
-              >
-            </ion-card-header>
-            <ion-card-content>
-              <!-- {{func.numberFormat(porcStock,1)}}% de Stock Egresos.<br> -->
-              Suma Anual de productos por cantidad de ventas.
-            </ion-card-content>
-          </ion-card>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col>
-          <ion-card>
-            <ion-card-header>
-              <ion-card-title class="t30"
-                >{{func.numberFormat(ventasTotal,2)}}</ion-card-title
-              >
-              <ion-card-subtitle color="secondary t20"
-                ><strong>Valor Total Ventas</strong></ion-card-subtitle
-              >
-            </ion-card-header>
-            <ion-card-content>
-              <!-- {{func.numberFormat(porcTotal,1)}}% de Valor Total Egresos.<br> -->
-              Suma Anual de productos por total ventas
-            </ion-card-content>
-          </ion-card>
         </ion-col>
       </ion-row>
 
@@ -143,7 +91,7 @@
     <ion-grid>
       <ion-row>
         <ion-col class="center">
-          <h2>Movimientos por Tipo de Comprobante</h2>
+          <h2>Movimientos por Tipo de Comprobantes</h2>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -157,33 +105,22 @@
           ></canvas>
         </ion-col>
       </ion-row>
+      <ion-row class="bg-secondary">
+        <ion-col size="6">Comprobantes</ion-col>
+        <ion-col size="3" class="pull-right">
+          <ion-label>Ingresos</ion-label>
+        </ion-col>
+        <ion-col size="3" class="pull-right">
+          <ion-label>Egresos</ion-label>
+        </ion-col>
+      </ion-row>
       <ion-row *ngFor="let item of tipoComprobantes">
-        <ion-col class="center">
-          <ion-list>
-            <ion-item-group>
-              <ion-item-divider [mode]="'ios'" color="secondary">
-                <ion-label> {{item.tipo}} </ion-label>
-              </ion-item-divider>
-              <ion-item>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      <ion-label
-                        >${{func.numberFormat(item.ingreso,2)}}</ion-label
-                      >
-                      <small>Ingreso</small>
-                    </ion-col>
-                    <ion-col class="pull-right">
-                      <ion-label
-                        >${{func.numberFormat(item.egreso,2)}}</ion-label
-                      >
-                      <small>Egreso</small>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </ion-item>
-            </ion-item-group>
-          </ion-list>
+        <ion-col size="6">{{item.tipo}}</ion-col>
+        <ion-col size="3" class="pull-right">
+          <ion-label>${{func.numberFormat(item.ingreso,2)}}</ion-label>
+        </ion-col>
+        <ion-col size="3" class="pull-right">
+          <ion-label>${{func.numberFormat(item.egreso,2)}}</ion-label>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -377,13 +314,9 @@
   </ion-tab>
 
   <ion-tab-bar slot="bottom"  [mode]="'ios'">
-    <ion-tab-button tab="egresos">
-      <ion-icon name="trending-down-outline"></ion-icon>
-      Egresos
-    </ion-tab-button>
-    <ion-tab-button tab="ingresos">
+    <ion-tab-button tab="movimientos">
       <ion-icon name="trending-up-outline"></ion-icon>
-      Ingresos
+      Movimientos
     </ion-tab-button>
     <ion-tab-button tab="comprobante">
       <ion-icon name="document-text-outline"></ion-icon>

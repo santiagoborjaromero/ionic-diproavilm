@@ -57,6 +57,8 @@ export class DashboardPage implements OnInit {
   ]
   public egresoStock: number = 0;
   public egresoTotal: number = 0;
+  public ingresoStock: number = 0;
+  public ingresoTotal: number = 0;
   public porcStock: number = 0;
   public porcTotal: number = 0;
   public ventasStock: number = 0;
@@ -370,11 +372,12 @@ export class DashboardPage implements OnInit {
 
     this.trimestres.data_ingreso = [trim1ing, trim2ing, trim3ing, trim4ing];
     this.trimestres.data_ingreso_total = [trim1ingtot, trim2ingtot, trim3ingtot, trim4ingtot];
+
     this.trimestres.data_egreso = [trim1egr, trim2egr, trim3egr, trim4egr];
     this.trimestres.data_egreso_total = [trim1egrtot, trim2egrtot, trim3egrtot, trim4egrtot];
 
-    this.egresoStock = trim1ing + trim2ing + trim3ing + trim4ing;
-    this.egresoTotal = trim1ingtot + trim2ingtot + trim3ingtot + trim4ingtot;
+    this.ingresoStock = trim1ing + trim2ing + trim3ing + trim4ing;
+    this.ingresoTotal = trim1ingtot + trim2ingtot + trim3ingtot + trim4ingtot;
 
     this.porcStock = (this.ventasStock / this.egresoStock) * 100;
     this.porcTotal = (this.ventasTotal / this.egresoTotal) * 100;
