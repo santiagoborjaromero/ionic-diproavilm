@@ -150,6 +150,7 @@ export class MovsPage implements OnInit {
           e.beneficiary_name.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
           e.numberdocument.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
           e.type.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
+          e.date.toLowerCase().indexOf(this.buscar.toLowerCase())>-1 ||
           e.total.toString().toLowerCase().indexOf(this.buscar.toLowerCase())>-1 
         ){
           this.lstMovs.push(e)

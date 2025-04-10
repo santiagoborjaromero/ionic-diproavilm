@@ -465,6 +465,10 @@ export class MovsEditPage implements OnInit {
     let lstSave:any = [];
     let subtotal = 0;
     this.lstCart.forEach((e:any)=>{
+      if (e.entry == "E" && e.stock < e.qty){
+        this.svc.showAlert("Las cantidades de salida no puede exeder el stock de cada producto", "", "warning", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
+        return
+      }
       let tt = (e.qty * parseFloat(e.price));
       lstSave.push({
         idproduct: e.idproduct,
@@ -517,6 +521,15 @@ export class MovsEditPage implements OnInit {
 
   baja(){
     this.content.scrollToBottom(500);
+  }
+
+  validarEntrada(obj:any){
+    if (obj.entry == "E"){
+      if (obj.stock < obj.qty){
+        obj.qty = 0;
+        this.svc.showAlert("La cantidad no puede exeder del stock actual", "", "warning", [{text: 'Aceptar',role: 'cancel',data: {action: 'cancel',},},]);
+      }
+    }
   }
 
 
