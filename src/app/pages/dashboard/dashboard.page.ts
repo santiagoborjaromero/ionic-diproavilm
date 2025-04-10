@@ -136,9 +136,8 @@ export class DashboardPage implements OnInit {
 
   getData = async () => {
     let params = {
-      fecha_ini: "2024-01-01",
-      // fecha_fin: moment().format("YYYY-MM-DD"),
-      fecha_fin: "2024-12-31",
+      fecha_ini: "2025-01-01",
+      fecha_fin: moment().format("YYYY-MM-DD"),
       app: "movil"
     }
 
