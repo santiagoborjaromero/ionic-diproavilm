@@ -42,7 +42,7 @@ export class AppComponent {
   ngOnInit(): void {
 
     this.user = this.sess.get("user");
-    console.log(this.user)
+    // console.log(this.user)
     this.usuario = this.user.fullname;
     this.rol = this.user.role[0].name;
 

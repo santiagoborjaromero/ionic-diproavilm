@@ -74,6 +74,10 @@
               <ion-button *ngIf="i.status == 1 && this.scopeD"  (click)="del(i.idtransaction)" shape="round" color="danger">
                 <ion-icon slot="icon-only" name="trash"></ion-icon>
               </ion-button>
+              <ion-button 
+                (click)="getMov(i)" shape="round" color="light" class="t18" >
+                <ion-icon slot="icon-only" name="print-outline"></ion-icon>
+              </ion-button>
       
               <ion-button *ngIf="i.status == 0 && this.scopeW" (click)="recuperar(i.idtransaction)" shape="round" color="warning">
                 Recuperar

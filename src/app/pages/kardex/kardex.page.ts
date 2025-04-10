@@ -4,6 +4,8 @@ import { Functions } from 'src/app/core/helpers/functions.helper';
 import { Sessions } from 'src/app/core/helpers/session.helper';
 import { GeneralService } from 'src/app/core/services/general.service';
 import { MenuService } from 'src/app/core/services/menu.service';
+import jsPDF from 'jspdf';
+import autoTable from 'jspdf-autotable'
 
 @Component({
   selector: 'app-kardex',
@@ -181,7 +183,6 @@ export class KardexPage implements OnInit {
 
   }
 
-
   retornar(){
     this.showProducts = true;
     this.showProductsStock = false;
@@ -190,6 +191,96 @@ export class KardexPage implements OnInit {
     this.lstKardex = [];
   }
 
+  exportar(que:number=1){
+    var doc = new jsPDF({
+      orientation: "p",
+      format: 'A4',
+      unit: 'mm'
+    })
+
+    autoTable(doc, {
+      body: [
+        [
+          {
+            content: 'Kardex de Productos',
+            styles: {
+              halign: 'left',
+              fontSize: 20,
+              textColor: '#FF0000'
+            }
+          },
+          {
+            content: que == 1 ? `Por Stock` : 'Por Costo',
+            styles: {
+              halign: 'left',
+              fontSize: 15,
+            }
+          }
+        ],
+        [
+          {
+            content: `\n\n${this.rstProd.productcode}`
+            + `\n${this.rstProd.barcode}`
+            + `\n${this.rstProd.name}`
+            + `\nCosto: ${this.func.numberFormat(this.rstProd.cost,4)}`
+            + `\nStock: ${this.func.numberFormat(this.rstProd.stock,4)}`,
+            styles: {
+              halign: 'left'
+            }
+          },
+        ],
+      ],
+      theme: 'plain',
+    });
+
+    
+    let itm: Array<any> =[];
+    this.lstKardex.forEach((e:any)=>{
+      itm.push({
+        Fecha: e.fecha,
+        Asiento: e.asiento,
+        Ingreso: this.func.numberFormat(e.ing_costo,4),
+        Egreso: this.func.numberFormat(e.egr_costo,4),
+        Saldo: this.func.numberFormat(e.sal_costo,4),
+      })
+    })
+
+    let records = this.transformarDatosPDF(itm);
+
+    autoTable(doc, {
+        head: [records[0]],
+        body: records.slice(1),
+        theme: 'striped',
+        headStyles:{
+          fillColor: '#dadada',
+          textColor: '#000'
+        },
+        styles:{
+          textColor: '#000'
+        }
+    });
+
+    doc.save(`kardex_${this.rstProd.productcode}.pdf`);
+
+  }
+
+
+  transformarDatosPDF(array:any = []){
+
+    const data = [];
+    let cabecera = Object.keys(array[0]);
+    data.push(cabecera);
+
+    let temp = [];
+    for (var i = 0; i < array.length; i++) {
+        temp = [];
+        for (var index in array[i]) {
+            temp.push(array[i][index] == null ? '' : array[i][index]);
+        }
+        data.push(temp)
+    }
+    return data;
+}
 
 
 }

@@ -90,6 +90,10 @@
       >
         <ion-icon name="chevron-back-outline"></ion-icon> Regresar
       </ion-button>
+      <ion-button (click)="exportar(1)" fill="clear" slot="end" color="secondary">
+        <ion-icon name="print-outline"></ion-icon>
+        Exportar PDF
+      </ion-button>
     </ion-item>
     <ion-item>
       <ion-text>
@@ -154,11 +158,17 @@
       >
         <ion-icon name="chevron-back-outline"></ion-icon> Regresar
       </ion-button>
+      <ion-button (click)="exportar(2)" fill="clear" slot="end" color="secondary">
+        <ion-icon name="print-outline"></ion-icon>
+        Exportar PDF
+      </ion-button>
+      
     </ion-item>
+    
     <ion-item>
       <ion-text>
         <h1>Kardex de productos</h1>
-        <h6>Por stock</h6>
+        <h6>Por costo</h6>
       </ion-text>
     </ion-item>
 
