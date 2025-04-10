@@ -30,14 +30,18 @@
     @defer (on viewport) {
       <div>
         <ion-item>
-          <ion-avatar>
+          <!-- <ion-avatar> -->
+            <span class="user-circle t20 bg-{{i.color}}">
+              {{ i.siglas }}
+            </span>
+          <!-- </ion-avatar> -->
+          <!-- <ion-avatar>
             @if(i.deleted_at===null){
-              <!-- <img alt="user" src="/assets/images/user2.svg" /> -->
               <ion-icon name="person-outline" class="t30" color="secondary"></ion-icon>
             }@else {
               <img alt="user" src="/assets/images/eliminado.svg"/>
             }
-          </ion-avatar>
+          </ion-avatar> -->
     
           @if(i.status == 1){
             <ion-label>

@@ -29,9 +29,18 @@ export class UsuariosPage implements OnInit {
   public scope: Array<any>=[];
   public loading: any;
 
-  public scopeR:boolean=false;;
-  public scopeW:boolean=false;;
-  public scopeD:boolean=false;;
+  public scopeR:boolean=false;
+  public scopeW:boolean=false;
+  public scopeD:boolean=false;
+
+  public colores: Array<any> = [
+    'primary',
+    'secondary',
+    'info',
+    'success',
+    'danger',
+    'warning',
+  ]
 
   constructor() { }
 
@@ -84,8 +93,21 @@ export class UsuariosPage implements OnInit {
         // console.log("Llego", resp);
         try{this.loading.dismiss();}catch(ex){}
         if (resp.status == "ok"){
-          // console.log("Entro", resp);
-          this.lstUsersOriginal = resp.message;
+          
+          this.lstUsersOriginal = [];
+          let palabras:any;
+          let idxColor = -1;
+          resp.message.forEach((u:any)=>{
+
+            idxColor++;
+            if (idxColor>4) idxColor=0;
+            palabras = u.fullname.split(" ");
+            u["siglas"] = (palabras.map((palabra:any) => palabra.charAt(0))).join("");
+            u["color"] = this.colores[idxColor];
+            this.lstUsersOriginal.push(u);
+          })
+
+
           this.pagination();
           setTimeout(()=>{
             this.pagination(0,this.lstUsersOriginal.length)
