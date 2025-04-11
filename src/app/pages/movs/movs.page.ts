@@ -115,7 +115,7 @@ export class MovsPage implements OnInit {
         break;
     }
 
-    console.log(params)
+    // console.log(params)
 
     this.lstMovsOriginal = [];
     this.lstMovs = [];
