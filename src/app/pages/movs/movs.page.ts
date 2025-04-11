@@ -101,20 +101,21 @@ export class MovsPage implements OnInit {
         break;
       case "trim":
         params = {
-          fecha_ini: moment().format("YYYY-") + ((parseInt(moment().format("M")) - 2) > 0 ? (parseInt(moment().format("M")) - 2) : '1') + "-0" + 1,
+          fecha_ini: moment().format("YYYY-01-01"), 
+          // fecha_ini: moment().format("YYYY-") + ((parseInt(moment().format("MM")) - 2) > 0 ? (parseInt(moment().format("MM")) - 2) : '1') + "-0" + 1,
           fecha_fin: moment().format("YYYY-MM-DD"),
         }
         break;
       case "anio":
         params = {
           // fecha_ini: moment().format("Y-") + "1-1",
-          fecha_ini: "2024-01-01",
+          fecha_ini: moment().format("YYYY-01-01"),
           fecha_fin: moment().format("YYYY-MM-DD"),
         }
         break;
     }
 
-    // console.log(params)
+    console.log(params)
 
     this.lstMovsOriginal = [];
     this.lstMovs = [];
