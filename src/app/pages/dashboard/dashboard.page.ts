@@ -137,6 +137,19 @@ export class DashboardPage implements OnInit {
   }
 
   getData = async () => {
+
+    this.trimestres = [];
+    this.ingresoStock = 0;
+    this.ingresoTotal = 0;
+    this.ventasStock = 0;
+    this.ventasTotal = 0;
+    this.tipoComprobantes = [];
+    this.Top5Prod_Limitado = [];
+    this.Top5Clie_Limitado = [];
+    this.Top5Ciu_Limitado = [];
+    this.CategoriaProd = [];
+    this.LineaProd = [];
+
     let params = {
       fecha_ini: "2025-01-01",
       fecha_fin: moment().format("YYYY-MM-DD"),
